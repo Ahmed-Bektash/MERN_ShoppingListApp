@@ -1,12 +1,12 @@
 # MERN_ShoppingListApp
 This is a repo for my first MERN stack app which is a shopping list for my home shopping needs.
 
-The following technologies are used:
-  React --> for the front end
-  Node --> for the backend
-  Express --> for the server
-  Mongo --> as the data base
-  Mongoose --> as the ORM for mongo
+The following technologies are used: &nbsp;
+  React --> for the front end &nbsp;
+  Node --> for the backend &nbsp;
+  Express --> for the server &nbsp;
+  Mongo --> as the data base &nbsp;
+  Mongoose --> as the ORM for mongo &nbsp;
   
 and MVC method was used for this project
   
