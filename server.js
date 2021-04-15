@@ -16,7 +16,7 @@ app.use(express.json());
 2- create a keys.js file
 3- create a mongodb account
 4- create a project
-5- create a cluster
+5- create a cluster 
 6- create a database which will force you to create a collection which will force you to create a user.
 7- copy the db connection string URI from the connect modal that will open
 8- replace password with user password that you created for the DB

@@ -1,14 +1,11 @@
 import React, {useEffect, createContext,useReducer} from 'react'
 import reducer from './reducer'
-import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
  export const Context = createContext();
 
  const initialState = {
-     ItemsArray:[
-     {id:uuidv4(), name: "milk", NotFound: false,amount:1},
-     {id:uuidv4(), name: "eggs", NotFound: false,amount:1},
-     {id:uuidv4(), name: "juice", NotFound: false,amount:1}],
+     ItemsArray:[],
      loading:false,
  }
 
@@ -31,10 +28,16 @@ export const Provider = ({children}) =>{
     const [state,dispatch] = useReducer(reducer,initialState); //looks for reducer function and initial state
     
     const ClearCart = ()=>{
-        dispatch({type:'CLEAR_CART'});
+        axios.delete(`/api/items`).then(res =>{
+            console.log("success");
+            dispatch({type:'CLEAR_CART'});
+        })
+        // dispatch({type:'CLEAR_CART'});
     }
     const removeItem = (id)=>{
-        dispatch({type:'REMOVE_ITEM', payload:id});
+        axios.delete(`/api/items/${id}`).then(res =>{
+            dispatch({type:'REMOVE_ITEM', payload:id});
+        })
     }
     const increase = (id)=>{
         dispatch({type:'INCREASE', payload:id});
@@ -45,20 +48,66 @@ export const Provider = ({children}) =>{
     const ToggleNotFound = (id)=>{
         dispatch({type:'NOT_FOUND', payload:id});
     }
+
     const AddItem = (name)=>{
-        dispatch({type:'ADD_ITEM', payload:name});
+        // console.log(name);
+        // console.log(typeof name);
+        axios.post('/api/items',{name:name}).then(res =>{
+        // console.log(res.data,'from dispatcher');
+        dispatch({type:'ADD_ITEM', payload:res.data});
+        });
+
+        /**************************METHOD 2******************************/
+        //works.
+
+        // axios({
+        //     method: 'post',
+        //     url: '/api/items',
+        //     data: {
+        //       name:name
+        //     }
+        //   });
+        //   dispatch({type:'ADD_ITEM', payload:{name}});
+
+        /**************************METHOD 3******************************/
+            //does not work, needs debugging
+
+        // const response = await fetch('/api/items', {
+        //     method: 'POST', // *GET is default anyway
+        //     mode: 'cors', // no-cors, *cors, same-origin
+        //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        //     credentials: 'same-origin', // include, *same-origin, omit
+        //     headers: {
+        //       'Content-Type': 'String'
+        //     },
+        //     body: `${name}`
+        // });
+        //    const resname = await response.json();
+        //    console.log(resname,'from dispatcher');
+        //    dispatch({type:'ADD_ITEM', payload:resname}); 
+
+      
+        
     }
-//    const fetchData = async()=>{
-//       let data = [{id:1,name:'milk',NotFound:false,amount:1}]
-//        dispatch({type:'LOADING'});
-//        const response = await fetch(data);
-//        //const cartArray = await response.json();
-//        dispatch({type:'DISPLAY',payload:data});
-//    }
-//    useEffect(()=>{
-//     fetchData();
-//    },[]);
-    // value={{ItemsArray, setItemsArray,total,setTotal,calculatetotal}}
+
+   const fetchData = async()=>{
+     
+       dispatch({type:'LOADING'});
+       const response = await fetch('/api/items', {
+        method: 'GET', // *GET is default anyway
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json'
+        }});
+       const cartArray = await response.json();
+       dispatch({type:'DISPLAY',payload:cartArray});
+   }
+   useEffect(()=>{
+    fetchData();
+   },[]);
+    
     return(
         <Context.Provider value={{...state,ClearCart,removeItem,increase,decrease,ToggleNotFound,AddItem}}>
             {children}

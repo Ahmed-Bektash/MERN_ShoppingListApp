@@ -1,5 +1,5 @@
 import React, {useState,useContext} from 'react';
-import {ListGroupItem,Container, Button,Form,FormGroup,Label,Input} from 'reactstrap';
+import {ListGroupItem,Container, Button,Form,Input} from 'reactstrap';
 import {Context} from './DataProvider'
 
 function ListItem ({id,name,NotFound,amount}){

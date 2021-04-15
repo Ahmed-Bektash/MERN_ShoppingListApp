@@ -6,7 +6,7 @@ import {ListItem} from './ListItem';
 import Modal from './modal';
 
 function ShoppingList (){
-    const {ItemsArray,ClearCart,AddItem} = useContext(Context);
+    const {ItemsArray,ClearCart} = useContext(Context);
    // console.log(ItemsArray);
    if(ItemsArray.length ===0){
     return(
@@ -60,10 +60,10 @@ function ShoppingList (){
 
             <ListGroup>
                 <TransitionGroup className="shopping-list">
-                    {ItemsArray.map(({id,name,NotFound,amount})=>( //destructure to avoid list.id and list.name later
+                    {ItemsArray.map(({_id,name,NotFound,amount})=>( //destructure to avoid list.id and list.name later
                        
-                       <CSSTransition key={id} timeout={400} classNames="fade">
-                            <ListItem id={id} name={name} NotFound= {NotFound} amount={amount}/>
+                       <CSSTransition key={_id} timeout={300} classNames="fade">
+                            <ListItem id={_id} name={name} NotFound= {NotFound} amount={amount}/>
                         </CSSTransition>
 
                     ))}

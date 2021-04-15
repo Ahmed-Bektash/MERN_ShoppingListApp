@@ -7,6 +7,14 @@ const ItemSchema = new Schema({
         type:String,
         required: true
     },
+    NotFound:{
+        type:Boolean,
+        required:false
+    },
+    amount:{
+        type:Number,
+        required: false
+    },
     date:{
         type: Date, //capital D
         default: Date.now //current date of creation

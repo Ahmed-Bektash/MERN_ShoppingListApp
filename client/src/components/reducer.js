@@ -1,5 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios';
+
 
 const  reducer= (state,action)=>{
 
@@ -7,7 +6,7 @@ const  reducer= (state,action)=>{
         return ({...state,ItemsArray:[]});
     }
     if(action.type === 'REMOVE_ITEM'){
-        return ({...state,ItemsArray:state.ItemsArray.filter((item) => item.id !== action.payload)});
+        return ({...state,ItemsArray:state.ItemsArray.filter((item) => item._id !== action.payload)});
     }
   //can be added to one function with a trigger but i prefer to keep it separate for now
     if(action.type === 'INCREASE'){
@@ -42,7 +41,7 @@ const  reducer= (state,action)=>{
     if(action.type === 'ADD_ITEM'){
         let newArray = state.ItemsArray
             if(action.payload!==''){
-                newArray = [...newArray,{id:uuidv4(),name:action.payload,NotFound: false, amount:1}];
+                newArray = [...newArray,{_id:action.payload._id,name:action.payload.name,NotFound: action.payload.NotFound, amount:action.payload.amount}];
                 return {...state, ItemsArray:newArray}
             }else{
            //     console.log("please enter an item");

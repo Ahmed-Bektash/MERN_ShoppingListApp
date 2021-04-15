@@ -23,24 +23,43 @@ router.get('/',(req,res)=>{
 //@desc     Create an item
 //@access   Public (private if there is auth)
 router.post('/',(req,res)=>{
-
+    // console.log(req.body,' from server');
    //create a variable that you will create in the database
    const newItem = new Item({
-       name:req.body.name       //In this case we want the name because that is what we defined in our schema. The body parser allows access to req.body
-   }); //instance of your model
-
-   newItem.save()       //saves it in the DB
+       name: req.body.name,       // you can put back ticks because you should enforce a string to match model if you have used the fetch api,In this case we want the name because that is what we defined in our schema. The body parser allows access to req.body
+       NotFound:false,
+       amount:1
+    }); 
+    //instance of your model
+    // console.log(newItem.name);
+     newItem.save()       //saves it in the DB
     .then(item=>res.json(item)) //it's a promise that when resolved will return the item you saved, you now want to pass it to res in order to process with react later
     .catch(err=> console.log(err));
     //test using PostMan
-});
+}); 
 
 //@route    DELETE api/items/:id
 //@desc     delete an item
 //@access   Public (private if there is auth)
 router.delete('/:id',(req,res)=>{
-
+    console.log(req);
     Item.findByIdAndRemove(req.params.id)
+    .then(()=>res.json({success:true}))
+    .catch(err =>res.status(404).json({success:false}));
+
+                        /*ANOTHER WAY*/ 
+//    Item.findById(req.params.id) //test with FindByIDAndDelete/remove
+//    .then(item=>item.remove().then(()=>res.json({success:true}))) // FindbyID returns a promise and remove returns a promise, you can then add a success flag
+//     .catch(err =>res.status(404).json({success:false})); //you need catch here in case the ID was not found and then set the status
+//      //test using PostMan
+ });
+
+ //@route    DELETE api/items/
+//@desc     delete all items
+//@access   Public (private if there is auth)
+router.delete('/',(req,res)=>{
+    console.log(req);
+    Item. deleteMany({}) //you can also use remove but it is being deprecated
     .then(()=>res.json({success:true}))
     .catch(err =>res.status(404).json({success:false}));
 
