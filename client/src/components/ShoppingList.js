@@ -64,10 +64,10 @@ function ShoppingList (){
                        
                        <CSSTransition key={_id} timeout={300} classNames="fade">
                             <ListItem id={_id} name={name} NotFound= {NotFound} amount={amount}/>
-                        </CSSTransition>
+                        </CSSTransition> 
 
                     ))}
-                    </TransitionGroup>
+                    </TransitionGroup> 
             </ListGroup>
             
             <Button 
