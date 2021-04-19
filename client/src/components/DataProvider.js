@@ -29,24 +29,34 @@ export const Provider = ({children}) =>{
     
     const ClearCart = ()=>{
         axios.delete(`/api/items`).then(res =>{
-            console.log("success");
+            // console.log("success");
             dispatch({type:'CLEAR_CART'});
         })
         // dispatch({type:'CLEAR_CART'});
     }
     const removeItem = (id)=>{
-        axios.delete(`/api/items/${id}`).then(res =>{
-            dispatch({type:'REMOVE_ITEM', payload:id});
+        axios.delete(`/api/items/${id}`).then(res =>{ 
+            dispatch({type:'REMOVE_ITEM', payload:id}); 
         })
     }
     const increase = (id)=>{
-        dispatch({type:'INCREASE', payload:id});
+        axios.put(`/api/items/${id}`,{'action':'INC'}).then(res =>{
+          
+            dispatch({type:'INCREASE', payload:id});
+        })
     }
-    const decrease = (id)=>{
-        dispatch({type:'DECREASE', payload:id});
+    const decrease = (id)=>{ 
+        axios.put(`/api/items/${id}`,{'action':'DEC'}).then(res =>{
+          
+            dispatch({type:'DECREASE', payload:id});
+        })
     }
-    const ToggleNotFound = (id)=>{
-        dispatch({type:'NOT_FOUND', payload:id});
+    const ToggleNotFound = (id,NotFound)=>{
+        
+        axios.put(`/api/items/${id}`,{NotFound,'action':'NA'}).then(res =>{ 
+            // console.log(NotFound)
+            dispatch({type:'NOT_FOUND', payload:id}); 
+        })
     }
 
     const AddItem = (name)=>{

@@ -34,7 +34,7 @@ return(
                 <Nav className="ml-auto" navbar>
                     <NavItem>
                     {/* later make it github */}
-                        <NavLink href="https://youtube.com" target='_'> youtube link</NavLink> 
+                        <NavLink href="https://github.com/Ahmed-Bektash/MERN_ShoppingListApp" target='_'> Project on GitHub</NavLink> 
                     </NavItem>
                    
                 </Nav>

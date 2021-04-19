@@ -66,7 +66,7 @@ return(
         //  let newArray = ItemsArray.filter(item=>item.id!=id);
         //  setItemsArray(newArray);
         // }}
-        onClick={()=>ToggleNotFound(id)}
+        onClick={()=>ToggleNotFound(id,NotFound)}
         >
         N/A
         </Button>

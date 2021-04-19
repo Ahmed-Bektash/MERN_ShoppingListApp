@@ -20,9 +20,10 @@ import {Context} from './DataProvider'
     function SubmitHandler(e){
          e.preventDefault(); 
      //Add the item to the shopping list usting context
-     AddItem(ItemName); //Item name is from change handler
+    
     
      if(ItemName){ 
+        AddItem(ItemName); //Item name is from change handler
     //  //close the modal
       toggle();
     //resetname to start over next time modal is opened  

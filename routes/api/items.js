@@ -42,7 +42,7 @@ router.post('/',(req,res)=>{
 //@desc     delete an item
 //@access   Public (private if there is auth)
 router.delete('/:id',(req,res)=>{
-    console.log(req);
+    // console.log(req);
     Item.findByIdAndRemove(req.params.id)
     .then(()=>res.json({success:true}))
     .catch(err =>res.status(404).json({success:false}));
@@ -58,7 +58,7 @@ router.delete('/:id',(req,res)=>{
 //@desc     delete all items
 //@access   Public (private if there is auth)
 router.delete('/',(req,res)=>{
-    console.log(req);
+    // console.log(req);
     Item. deleteMany({}) //you can also use remove but it is being deprecated
     .then(()=>res.json({success:true}))
     .catch(err =>res.status(404).json({success:false}));
@@ -71,14 +71,56 @@ router.delete('/',(req,res)=>{
  });
 
  //@route    PUT api/items
-//@desc     update an item
+//@desc     update an items status or amount
 //@access   Public (private if there is auth)
 router.put('/:id',(req,res)=>{
+    let oldAmount;
+                        /*********************INCREASE*******************/
+    if(req.body.action === 'INC'){
+        console.log('increase request');
+        
+        Item.findOne({_id:req.params.id},function(err,item){
+            if(err){
+                res.status(404).send('item not found'); 
+            }else{
+                 oldAmount = item.amount;
+                 Item.findOneAndUpdate({_id:req.params.id},{amount:oldAmount+1},{upsert:true})
+                   .then(()=>res.json({success:true}))
+                   .catch(err =>res.json({success:false}));
+                 
+            }
+        })
+                            /*********************DECREASE*******************/
+    }else if (req.body.action === 'DEC'){
+        console.log('decrease request');
+        Item.findOne({_id:req.params.id},function(err,item){
+            if(err){
+                res.status(404).send('item not found'); 
+            }else{
+                 oldAmount = item.amount;
+                 if(oldAmount>1){
+                     Item.findOneAndUpdate({_id:req.params.id},{amount:oldAmount-1},{upsert:true})
+                       .then(()=>res.json({success:true}))
+                       .catch(err =>res.json({success:false}));                     
+                 }else{
+                     //do nothing
+                     res.json({success:true});
+                    //  console.log('nothing to do');
+                 }
+            }
+        })    
+                            /*********************NOT AVAILABLE*******************/
+    }else if (req.body.action === 'NA'){ 
+        console.log('Not available request');
+        Item.findOneAndUpdate({_id:req.params.id},{NotFound:!req.body.NotFound},{upsert:true})
+          .then(()=>res.json({success:true}))
+          .catch(err =>res.json({success:false}));
+    }else {
+        //do nothing
+        res.status(400).json({success:false}); //bad request
+    }
 
-    newItemName = req.body.name;
-  Item.findByIdAndUpdate(req.params.id,{name:newItemName})
-  .then(()=>res.json({success:true, newItem:newItemName}))
-  .catch(err =>res.json({success:false}));
+  
   
   
      //test using PostMan

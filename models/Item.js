@@ -9,7 +9,7 @@ const ItemSchema = new Schema({
     },
     NotFound:{
         type:Boolean,
-        required:false
+        required: false
     },
     amount:{
         type:Number,
