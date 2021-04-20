@@ -59,6 +59,14 @@ export const Provider = ({children}) =>{
         })
     }
 
+    const setStatus = (id,status)=>{
+        
+        axios.put(`/api/items/${id}`,{status,'action':'DONE'}).then(res =>{ 
+            // console.log(NotFound)
+            dispatch({type:'DONE', payload:id}); 
+        })
+    }
+
     const AddItem = (name)=>{
         // console.log(name);
         // console.log(typeof name);
@@ -119,7 +127,7 @@ export const Provider = ({children}) =>{
    },[]);
     
     return(
-        <Context.Provider value={{...state,ClearCart,removeItem,increase,decrease,ToggleNotFound,AddItem}}>
+        <Context.Provider value={{...state,ClearCart,removeItem,increase,decrease,ToggleNotFound,AddItem,setStatus}}>
             {children}
         </Context.Provider>
     )

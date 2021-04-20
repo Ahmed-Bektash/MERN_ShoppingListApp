@@ -115,7 +115,15 @@ router.put('/:id',(req,res)=>{
         Item.findOneAndUpdate({_id:req.params.id},{NotFound:!req.body.NotFound},{upsert:true})
           .then(()=>res.json({success:true}))
           .catch(err =>res.json({success:false}));
-    }else {
+    }
+                            /*********************STATUS*******************/
+    else if (req.body.action === 'DONE'){ 
+        console.log('toggle done request');
+        Item.findOneAndUpdate({_id:req.params.id},{status:!req.body.status},{upsert:true})
+          .then(()=>res.json({success:true}))
+          .catch(err =>res.json({success:false}));
+    }
+    else {
         //do nothing
         res.status(400).json({success:false}); //bad request
     }

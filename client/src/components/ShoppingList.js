@@ -60,14 +60,14 @@ function ShoppingList (){
 
             <ListGroup>
                 <TransitionGroup className="shopping-list">
-                    {ItemsArray.map(({_id,name,NotFound,amount})=>( //destructure to avoid list.id and list.name later
+                    {ItemsArray.map(({_id,name,NotFound,amount,status})=>( //destructure to avoid list.id and list.name later
                        
                        <CSSTransition key={_id} timeout={300} classNames="fade">
-                            <ListItem id={_id} name={name} NotFound= {NotFound} amount={amount}/>
+                            <ListItem id={_id} name={name} NotFound= {NotFound} amount={amount} status={status}/>
                         </CSSTransition> 
 
-                    ))}
-                    </TransitionGroup> 
+                    ))} 
+                    </TransitionGroup>    
             </ListGroup>
             
             <Button 

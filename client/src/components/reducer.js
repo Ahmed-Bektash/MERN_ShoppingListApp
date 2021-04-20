@@ -37,6 +37,16 @@ const  reducer= (state,action)=>{
         })
         return {...state,ItemsArray:tempCartItems}
     }
+
+    if(action.type === 'DONE'){
+        let tempCartItems= state.ItemsArray.map((item)=>{
+            if(item._id ===action.payload){
+                return {...item,status:!item.status}
+            }
+            return item;
+        })
+        return {...state,ItemsArray:tempCartItems}
+    }
     
     if(action.type === 'ADD_ITEM'){
         let newArray = state.ItemsArray

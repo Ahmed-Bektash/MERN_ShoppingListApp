@@ -1,21 +1,21 @@
-import React, {useState,useContext} from 'react';
+import React, {useContext} from 'react';
 import {ListGroupItem,Container, Button,Form,Input} from 'reactstrap';
 import {Context} from './DataProvider'
 
-function ListItem ({id,name,NotFound,amount}){
-    const {removeItem,increase,decrease,ToggleNotFound} = useContext(Context);
-    const [done,setDone] = useState(false);
+function ListItem ({id,name,NotFound,amount,status}){
+    const {removeItem,increase,decrease,ToggleNotFound,setStatus} = useContext(Context);
+    // const [done,setDone] = useState(false);
 
     function SubmitHandler(){
-        setDone(!done);
+       setStatus(id,status);
         if(NotFound){
-            ToggleNotFound(id);
+            ToggleNotFound(id,NotFound);
         }
         
    }
    function setColor(){
        let color= '';
-       if(done){
+       if(status){
            color=  'gray';
        }else if(NotFound){
            color = 'red';
@@ -26,7 +26,7 @@ function ListItem ({id,name,NotFound,amount}){
    }
 
 return(
-    <ListGroupItem style ={{display:'flex' ,alignItems:'center',justifyContent:'space-around',backgroundColor:`${done? 'lightGray':'white'}`}}>
+    <ListGroupItem style ={{display:'flex' ,alignItems:'center',justifyContent:'space-around',backgroundColor:`${status? 'lightGray':'white'}`}}>
          <Button 
         className="remove-btn"
         color ="danger"
@@ -50,7 +50,7 @@ return(
              Done?
            
         </Form>
-        <Container style ={{display:'flex', justifyContent:'center', color: `${setColor()}`,textDecoration:`${done? 'line-through':'none'}`}} >
+        <Container style ={{display:'flex', justifyContent:'center', color: `${setColor()}`,textDecoration:`${status? 'line-through':'none'}`}} >
             {name}
         </Container>
 

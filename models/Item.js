@@ -15,6 +15,10 @@ const ItemSchema = new Schema({
         type:Number,
         required: false
     },
+    status:{
+        type:Boolean,
+        require:false
+    },
     date:{
         type: Date, //capital D
         default: Date.now //current date of creation

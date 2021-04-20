@@ -1,5 +1,6 @@
 const express = require('express');
 const mongooese = require('mongoose');
+const path = require('path');
 
 //requiring the routes: it's kept in a separate folder to be clean.
 const items = require('./routes/api/items');
@@ -36,6 +37,14 @@ mongooese.connect(db ,{
 
     //middleware for all apis to make sure all routes with this url will go to a routing handler.
 app.use('/api/items',items);
+
+//serve the static assets here if we are in production (there is a post build script that will serve them)
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static('client/build'));
+    app.get('*', (req,res)=>{
+        res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+    });
+}
 
     //set up ports and server init
 const port = process.env.PORT || 5000;  
