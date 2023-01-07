@@ -1,6 +1,7 @@
 const express = require('express');
 const mongooese = require('mongoose');
 const path = require('path');
+require('dotenv').config()
 
 //requiring the routes: it's kept in a separate folder to be clean.
 const items = require('./routes/api/items');
@@ -24,7 +25,8 @@ app.use(express.json());
 9- here you can connect the keys file (which exports the URI)
 10-connect to mongo using the mongoose with your URI
 */
-const db = require('./config/keys').mongoURI;
+// const db = require('./config/keys').mongoURI;
+const db = process.env.MONGO_URI;
 
 mongooese.connect(db ,{
     useNewUrlParser: true,
@@ -47,6 +49,8 @@ if(process.env.NODE_ENV === 'production'){
 }
 
     //set up ports and server init
-const port = process.env.PORT || 5000;  
+const port = process.env.PORT || 5000;
 
 app.listen(port,()=>console.log(`server started on port ${port}`)); 
+
+//publish on https://dashboard.render.com/

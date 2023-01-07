@@ -1,89 +1,72 @@
 import React, {useContext} from 'react';
-import {Container, ListGroup, Button} from 'reactstrap';
-import {CSSTransition, TransitionGroup} from 'react-transition-group';
-import {Context} from './DataProvider';
+// import {Container, ListGroup, Button} from 'reactstrap';
+// import {CSSTransition, TransitionGroup} from 'react-transition-group';
+import {Context} from '../logic/DataProvider';
 import {ListItem} from './ListItem';
 import Modal from './modal';
+import { useTheme } from '@mui/material/styles';
+import { Box, Container } from '@mui/material';
+import ShoppingListTable from './Table';
+
+
+function createData(name, amount) {
+    return { name, amount };
+  }
+  
+  const rows = [
+    createData('Frozen yoghurt', 1),
+    createData('Ice cream sandwich',2),
+    createData('Eclair', 3),
+    createData('Cupcake', 4),
+    createData('Gingerbread', 500),
+  ];
 
 function ShoppingList (){
     const {ItemsArray,ClearCart} = useContext(Context);
+    const theme = useTheme();
+
    // console.log(ItemsArray);
-   if(ItemsArray.length ===0){
-    return(
-       <Container style ={{display:'flex',justifyContent:'center', alignItems:'center',flexDirection:'column',marginTop:'10rem'}}>
-       <section>
-       <header >
-            <h1> The cart is empty</h1>
-        </header>
-        </section>
+//    if(ItemsArray.length ===0){
+//     return(
+//        <Container style ={{display:'flex',justifyContent:'center', alignItems:'center',flexDirection:'column',marginTop:'10rem'}}>
+//        <section>
+//        <header >
+//             <h1> The cart is empty</h1>
+//         </header>
+//         </section>
      
-     {/* <Button 
-     color = "dark" 
-     style={{marginTop:'2rem',marginLeft:'45%'}}
-     onClick={()=>{
-         const name = prompt('enter item'); //temporary
-         AddItem(name);
-     }}
-     >
-         Add Item
-     </Button> */}
-     <Modal />
-     </Container>
-    );
-}
+//      {/* <Button 
+//      color = "dark" 
+//      style={{marginTop:'2rem',marginLeft:'45%'}}
+//      onClick={()=>{
+//          const name = prompt('enter item'); //temporary
+//          AddItem(name);
+//      }}
+//      >
+//          Add Item
+//      </Button> */}
+//      <Modal />
+//      </Container>
+//     );
+// }
 
     return(
         
-        <Container>
+        <Box>
 
-            {/* <Button 
-            color = "dark" 
-            style={{marginBottom:'2rem'}}
-            onClick={()=>{
-                const name = prompt('enter item'); //temporary
-                AddItem(name);
-                /***********************************************OLD WAY *********************
-                // let newArray = ItemsArray.map((item)=>{
-                //     return item;
-                // });
-                // if(name){
-                //     newArray = [...newArray,{id:uuidv4(),name:name}];
-                //     setItemsArray(newArray);
-                //     console.log(ItemsArray);
-                // }
-            //}}
-           // >Add Item</Button>
-             */}
-             <Container style={{marginBottom:'2rem',display:'flex',justifyContent:'center', alignItems:'center',flexDirection:'column'}} >
-             <Modal />
-             </Container>
-
-            <ListGroup>
-                <TransitionGroup className="shopping-list">
-                    {ItemsArray.map(({_id,name,NotFound,amount,status})=>( //destructure to avoid list.id and list.name later
-                       
-                       <CSSTransition key={_id} timeout={300} classNames="fade">
-                            <ListItem id={_id} name={name} NotFound= {NotFound} amount={amount} status={status}/>
-                        </CSSTransition> 
-
-                    ))} 
-                    </TransitionGroup>    
-            </ListGroup>
+            <Container>
+            {/* <Modal /> */}
+            </Container>
             
-            <Button 
-                className="remove-btn"
-                style={{marginTop:'2rem',marginBottom:'2rem'}}
-                color ="danger"
-                size="md"
-                block
-                onClick ={ClearCart}
-                >
-                &times; CLEAR ALL
-            </Button>
-        </Container>
-    );
+            <Container sx={{mt:4}}>
+                <ShoppingListTable rows={rows} />
+            </Container>
+        
+        </Box>
+       
+        );
+        
 
-
-}
-
+    }
+    
 export default ShoppingList;

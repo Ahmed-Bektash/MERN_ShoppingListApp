@@ -1,7 +1,7 @@
 # About the react portion of this project  
   
 This react project used the following:  
---> Reactstrap  
+--> MUI 
 --> context API  
 --> use reducer hook  
 --> use state hook  

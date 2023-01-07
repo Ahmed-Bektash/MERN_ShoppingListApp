@@ -1,3 +1,3 @@
 module.exports = {
-    mongoURI: 'Your mongo URI'
-}
+    mongoURI: 'mongodb+srv://ABektash:Mern_ShoppingListApp@shoppinglistcluster.m3brk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+} 
