@@ -1,20 +1,37 @@
-import React, {useEffect, createContext,useReducer} from 'react'
+import React, {useEffect, createContext,useReducer,useState} from 'react'
 import reducer from './reducer'
 import axios from 'axios';
+import useWindowDimensions from './utils'
+import Cookies from 'js-cookie';
 
  export const Context = createContext();
 
  const initialState = {
      ItemsArray:[],
      loading:false,
+     isMobile:false,
+     darkMode:false,
+     userLoggedIn:true, //later get it from cookies,
+    // userInfo: Cookies.get('userInfo')
+    //   ? JSON.parse(Cookies.get('userInfo'))
+    //   : null,
+    // feature_Config:{ // This is used to enable/disable some features entirely
+
+    // }
  }
 
+//  function createData(id,name,amount,notFound,found) {
+//     return { id,name,amount,notFound,found };
+//   }
 export const Provider = ({children}) =>{
+
     // const [ItemsArray, setItemsArray] = useState([
-    //     {id:uuidv4(), name: "milk", IsComplete: false},
-    //     {id: uuidv4(), name: "eggs", IsComplete: false},
-    //     {id:uuidv4(), name: "juice", IsComplete: false}
-    // ]);
+    //     createData(1,'Frozen yoghurt', 10,false,false),
+    //     createData(2,'Ice cream sandwich',20,false,false),
+    //     createData(3,'Eclair', 30,false,false),
+    //     createData(4,'Cupcake', 40,false,false),
+    //     createData(5,'Gingerbread', 500,false,false),
+    //   ]);
  // const [total,setTotal] = useState(0);
     
     // function calculatetotal(){
@@ -26,7 +43,14 @@ export const Provider = ({children}) =>{
     //    }
     
     const [state,dispatch] = useReducer(reducer,initialState); //looks for reducer function and initial state
-    
+    const {WindowWidth} = useWindowDimensions();
+
+    const isMobile = (WindowWidth <= 700 ? true : false);
+
+    const ToggleDarkMode = (isDarkModeRequested)=>{
+        dispatch({type:'DARK',payload:isDarkModeRequested});
+    }
+
     const ClearCart = ()=>{
         axios.delete(`/api/items`).then(res =>{
             // console.log("success");
@@ -40,6 +64,7 @@ export const Provider = ({children}) =>{
         })
     }
     const increase = (id)=>{
+
         axios.put(`/api/items/${id}`,{'action':'INC'}).then(res =>{
           
             dispatch({type:'INCREASE', payload:id});
@@ -60,9 +85,8 @@ export const Provider = ({children}) =>{
     }
 
     const setStatus = (id,status)=>{
-        
+
         axios.put(`/api/items/${id}`,{status,'action':'DONE'}).then(res =>{ 
-            // console.log(NotFound)
             dispatch({type:'DONE', payload:id}); 
         })
     }
@@ -122,12 +146,17 @@ export const Provider = ({children}) =>{
        const cartArray = await response.json();
        dispatch({type:'DISPLAY',payload:cartArray});
    }
+
+
    useEffect(()=>{
+    const client_cookies= Cookies.get();
+    dispatch({type: 'DARK',payload:client_cookies['darkMode'] === 'ON'? true : false});
     fetchData();
+
    },[]);
     
     return(
-        <Context.Provider value={{...state,ClearCart,removeItem,increase,decrease,ToggleNotFound,AddItem,setStatus}}>
+        <Context.Provider value={{...state,isMobile,ClearCart,removeItem,increase,decrease,ToggleNotFound,AddItem,setStatus,ToggleDarkMode}}>
             {children}
         </Context.Provider>
     )

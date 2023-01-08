@@ -1,26 +1,22 @@
 import React, {useContext} from 'react';
-// import {Container, ListGroup, Button} from 'reactstrap';
-// import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import {Context} from '../logic/DataProvider';
-import {ListItem} from './ListItem';
 import Modal from './modal';
 import { useTheme } from '@mui/material/styles';
 import { Box, Container } from '@mui/material';
 import ShoppingListTable from './Table';
 
 
-function createData(name, amount) {
-    return { name, amount };
+function createData(id,name,amount,notFound,found) {
+    return { id,name,amount,notFound,found };
   }
   
   const rows = [
-    createData('Frozen yoghurt', 1),
-    createData('Ice cream sandwich',2),
-    createData('Eclair', 3),
-    createData('Cupcake', 4),
-    createData('Gingerbread', 500),
+    createData(1,'Frozen yoghurt', 10,false,false),
+    createData(2,'Ice cream sandwich',20,false,false),
+    createData(3,'Eclair', 30,false,false),
+    createData(4,'Cupcake', 40,false,false),
+    createData(5,'Gingerbread', 500,false,false),
   ];
-
 function ShoppingList (){
     const {ItemsArray,ClearCart} = useContext(Context);
     const theme = useTheme();
@@ -52,17 +48,15 @@ function ShoppingList (){
 
     return(
         
-        <Box>
-
-            <Container>
-            {/* <Modal /> */}
-            </Container>
-            
-            <Container sx={{mt:4}}>
-                <ShoppingListTable rows={rows} />
-            </Container>
+    <Box>
+        <Container sx={{mt:4}}>
+            <Modal />
+        </Container>
         
-        </Box>
+        <Container sx={{mt:2}}>
+            <ShoppingListTable rows={rows} />
+        </Container> 
+    </Box>
        
         );
         

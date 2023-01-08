@@ -2,10 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import {Provider} from './logic/DataProvider'
+import Layout, {theme} from './Theme.js'
 ReactDOM.render(
   
     <Provider>
-    <App />
+      <Layout>
+        <App />
+      </Layout>
     </Provider>,
   document.getElementById('root')
 );

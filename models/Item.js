@@ -15,7 +15,7 @@ const ItemSchema = new Schema({
         type:Number,
         required: false
     },
-    status:{
+    found:{
         type:Boolean,
         require:false
     },

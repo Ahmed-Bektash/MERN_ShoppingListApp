@@ -11,7 +11,7 @@ const  reducer= (state,action)=>{
   //can be added to one function with a trigger but i prefer to keep it separate for now
     if(action.type === 'INCREASE'){
         let tempCartItems= state.ItemsArray.map((item)=>{
-            if(item._id ===action.payload){
+            if(item._id === action.payload){
                 return {...item,amount:item.amount + 1}
             }
             return item;
@@ -20,7 +20,7 @@ const  reducer= (state,action)=>{
     }
     if(action.type === 'DECREASE'){
         let tempCartItems= state.ItemsArray.map((item)=>{
-            if((item._id ===action.payload) && (item.amount>1)){
+            if((item._id === action.payload) && (item.amount>1)){
                 return {...item,amount:item.amount - 1}
             }
             return item;
@@ -30,7 +30,7 @@ const  reducer= (state,action)=>{
     }
     if(action.type === 'NOT_FOUND'){
         let tempCartItems= state.ItemsArray.map((item)=>{
-            if(item._id ===action.payload){
+            if(item._id === action.payload){
                 return {...item,NotFound:!item.NotFound}
             }
             return item;
@@ -40,8 +40,8 @@ const  reducer= (state,action)=>{
 
     if(action.type === 'DONE'){
         let tempCartItems= state.ItemsArray.map((item)=>{
-            if(item._id ===action.payload){
-                return {...item,status:!item.status}
+            if(item._id === action.payload){
+                return {...item,found:!item.found}
             }
             return item;
         })
@@ -58,11 +58,15 @@ const  reducer= (state,action)=>{
                 return {...state}
             }
     }
-    if(action.type ==='LOADING'){
+    if(action.type === 'LOADING'){
         return {...state,loading:true}
     }
-    if(action.type ==='DISPLAY'){
+    if(action.type === 'DISPLAY'){
         return {...state,ItemsArray:action.payload,loading:false}
+    }
+
+    if(action.type === 'DARK'){
+        return {...state,darkMode:action.payload}
     }
 
 

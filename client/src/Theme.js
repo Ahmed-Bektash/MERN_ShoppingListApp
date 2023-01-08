@@ -1,4 +1,11 @@
-import { createTheme } from '@mui/material/styles';
+import React, { useContext } from 'react';
+import {
+  createTheme,
+  CssBaseline,
+  ThemeProvider,
+} from '@mui/material';
+import {Context} from './logic/DataProvider'
+
 
 export const colourPalette={
                             LIGHT_BCKRND : '#EAEAEA',
@@ -8,9 +15,16 @@ export const colourPalette={
                             ERROR:'#ff1744'
                             }
 
- export const theme = createTheme({
+
+export default function Layout({children}) {
+
+  const {darkMode} = useContext(Context);
+
+  //https://mui.com/system/the-sx-prop/
+  //https://mui.com/system/styled/
+const theme = createTheme({
           palette: {
-            mode:'light',
+            mode:darkMode?'dark':'light',
             primary: {
               main: colourPalette.CHARCOAL,
               dark:colourPalette.DARK_BCKRND,
@@ -37,8 +51,32 @@ export const colourPalette={
               fontWeight:400,
               margin: '1rem 0'
             }
+          },
+          //https://mui.com/customization/theme-components/#global-style-overrides
+          components: {
+            MuiLink: {
+              defaultProps: {
+                underline: 'hover',
+              }
+            },
+            MuiDrawer:{
+              styleOverrides:{
+                paper:{
+                  backgroundColor:colourPalette.CHARCOAL
+                }
+              }
+            }
           }
           // status:{
           //   danger:red[200]
           // }
+          
         });
+        
+        return <>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                {children}
+            </ThemeProvider>
+        </>;
+}

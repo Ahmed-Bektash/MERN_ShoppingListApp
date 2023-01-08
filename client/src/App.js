@@ -3,11 +3,9 @@ import './App.css';
 import ShoppingList from './components/ShoppingList'
 import { Context } from './logic/DataProvider';
 import NavBar from './components/Navbar';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import {theme} from './Theme.js'
 import Typography from '@mui/material/Typography';
-
-
+import GitHubIcon from '@mui/icons-material/GitHub';
+import { Box } from '@mui/material';
 
 function App() {
   const {loading}  = useContext(Context)
@@ -19,14 +17,12 @@ function App() {
   
   return (
     <>
-    <ThemeProvider theme={theme}>
         <NavBar/>
         <ShoppingList />
-        <Typography variant="body2" component="div" sx={{ mt: 2, textAlign:'center', color:'black'}}>
-            Developed by A.B @githublink icon
+        <Typography variant="body2" component="div" sx={{ mt: 2, textAlign:'center', color:'inherit'}}>
+            Developed by A.B <GitHubIcon/>
         </Typography>
-    </ThemeProvider>
-    </>
+         </>
   );
 }
 

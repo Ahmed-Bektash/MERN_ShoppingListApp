@@ -1,0 +1,5 @@
+[OK] build logic for isMobile in context
+[OK] build the logic for darkmode
+[OK] connect cookies
+[] adjust font in theme
+[] connect logic to backend

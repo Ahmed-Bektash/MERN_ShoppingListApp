@@ -42,7 +42,7 @@ router.post('/',(req,res)=>{
 //@desc     delete an item
 //@access   Public (private if there is auth)
 router.delete('/:id',(req,res)=>{
-    // console.log(req);
+    // console.log("delete");
     Item.findByIdAndRemove(req.params.id)
     .then(()=>res.json({success:true}))
     .catch(err =>res.status(404).json({success:false}));

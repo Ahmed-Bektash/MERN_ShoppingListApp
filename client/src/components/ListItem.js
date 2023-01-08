@@ -1,110 +1,149 @@
-import React, {useContext} from 'react';
-// import {ListGroupItem,Container, Button,Form,Input} from 'reactstrap';
+import React, {useState,useContext} from 'react';
 import {Context} from '../logic/DataProvider'
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import { useTheme } from '@emotion/react';
+import IconButton from '@mui/material/IconButton';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import DeleteIcon from '@mui/icons-material/Delete';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { Typography } from '@mui/material';
 
-function ListItem ({id,name,NotFound,amount,status}){
+
+function ListItem(props) {
+    const { row } = props;
+    const [open, setOpen] = React.useState(false);
+    const theme = useTheme();
     const {removeItem,increase,decrease,ToggleNotFound,setStatus} = useContext(Context);
-    // const [done,setDone] = useState(false);
 
-    function SubmitHandler(){
-       setStatus(id,status);
-        if(NotFound){
-            ToggleNotFound(id,NotFound);
+    const rowItems= {
+        id:row.id,
+        name:row.name,
+        amount:row.amount,
+        notFound:row.notFound,
+        found: row.found
+    }
+
+
+    function foundHandler(){
+       setStatus(rowItems.id,rowItems.found);
+        if(rowItems.notFound){
+            ToggleNotFound(rowItems.id,rowItems.notFound);
         }
         
    }
    function setColor(){
        let color= '';
-       if(status){
-           color=  'gray';
-       }else if(NotFound){
-           color = 'red';
+       if(rowItems.found){
+           color=  theme.palette.secondary.main;
+       }else if(rowItems.notFound){
+           color = theme.palette.error.main;
        }else{
-           color = 'black';
+           color = 'inherit';
        }
        return color;
    }
 
-return(
-    <h3>hi</h3>
-//     <ListGroupItem style ={{display:'flex' ,alignItems:'center',justifyContent:'space-around',backgroundColor:`${status? 'lightGray':'white'}`}}>
-//          <Button 
-//         className="remove-btn"
-//         color ="danger"
-//         style={{marginLeft:'0.5rem'}}
-//         size="sm"
-//         /******  old way was to fildter here, new way is to usereducer and filter using context api ****/
-//         //onClick ={()=>{
-//         //  let newArray = ItemsArray.filter(item=>item.id!=id);
-//         //  setItemsArray(newArray);
-//         // }}
-//         onClick={()=>removeItem(id)}
-//         >
-//         &times;
-//         </Button>
-//         <Form
-//         style={{marginLeft:'2rem'}}
-//         >
-//              <Input
-//              type="checkbox"
-//              onChange = {SubmitHandler} />
-//              Done?
-           
-//         </Form>
-//         <Container style ={{display:'flex', justifyContent:'center', color: `${setColor()}`,textDecoration:`${status? 'line-through':'none'}`}} >
-//             {name}
-//         </Container>
 
-//       <Container style ={{display:'flex', justifyContent:'space-around'}}>
-        
-//       <Button 
-//         className="NA-btn"
-//         style ={{marginRight:'1rem'}}
-//         color ="primary"
-//         size="sm"
-//         /******  old way was to filter here, new way is to usereducer and filter using context api ****/
-//         //onClick ={()=>{
-//         //  let newArray = ItemsArray.filter(item=>item.id!=id);
-//         //  setItemsArray(newArray);
-//         // }}
-//         onClick={()=>ToggleNotFound(id,NotFound)}
-//         >
-//         N/A
-//         </Button>
+    return(
+        <React.Fragment>
 
-//         <Button 
-//         className="add-btn"
-//         color ="success"
-//         style ={{marginRight:'0.5rem'}}
-//         size="sm"
-//         /******  old way was to fildter here, new way is to usereducer and filter using context api ****/
-//         //onClick ={()=>{
-//         //  let newArray = ItemsArray.filter(item=>item.id!=id);
-//         //  setItemsArray(newArray);
-//         // }}
-//         onClick={()=>increase(id)}
-//         >
-//         +
-//         </Button>
-//         <span style ={{alignSelf:'center',marginRight:'0.5rem'}}> {amount} </span>
-//         <Button 
-//         className="subtract-btn"
-//         color ="warning"
-//         size="sm"
-//         style ={{color:'white'}}
-//         /******  old way was to fildter here, new way is to usereducer and filter using context api ****/
-//         //onClick ={()=>{
-//         //  let newArray = ItemsArray.filter(item=>item.id!=id);
-//         //  setItemsArray(newArray);
-//         // }}
-//         onClick={()=>decrease(id)}
-//         >
-//         -
-//         </Button>
-//         </Container>
-//         </ListGroupItem> 
- );
+                <TableRow 
+                hover
+                sx={{ 
+                    '&:last-child td, &:last-child th': { border: 0 },
+                    height:'4rem'    
+                }}
+                >
+                    <TableCell>
+                        <IconButton
+                            aria-label="expand row"
+                            size="small"
+                            onClick={() => setOpen(!open)}
+                        >
+                            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                        </IconButton>
+                    </TableCell>
+                    
+                    <TableCell component="th" scope="row" padding="none">
+                        <Typography variant="body2" component="div" color={setColor()}>
+                            {row.name}
+                        </Typography>
+                    </TableCell>
+                        
+                    
+                    <TableCell padding="none" align='center'>
+                        <Typography variant="body2" component="div" color={setColor()}>
+                            {row.amount}    
+                        </Typography>
+                    </TableCell>
+                           
+                </TableRow>
+                
+                <TableRow>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                <Box sx={{ margin: 1 }}>
+                <Table size="small" aria-label="controls">
+                <TableHead>
+                  <TableRow>
+                    <TableCell padding='none'>Found</TableCell>
+                    <TableCell padding='none'>Dec</TableCell>
+                    <TableCell padding='none'>Inc</TableCell>
+                    <TableCell padding='none'>N/A</TableCell>
+                    <TableCell padding='none'>Del</TableCell>
+                  </TableRow>
+                </TableHead>
+                    <TableBody>
+                        <TableRow>
+                        
+                        <TableCell padding="none">
+                        < IconButton onClick={() => foundHandler()}>
+                            <CheckCircleIcon sx={{color:theme.palette.secondary.main}}  />  
+                        </IconButton>
+                        </TableCell>    
 
+                        <TableCell padding="none">
+                            < IconButton onClick={()=>decrease(rowItems.id)}>
+                                <RemoveCircleOutlineIcon/>
+                            </IconButton>
+                        </TableCell>
+                        
+                        <TableCell padding="none">
+                            < IconButton onClick={()=>increase(rowItems.id)}>
+                                <AddCircleOutlineIcon/>
+                            </IconButton>
+                        </TableCell>
+
+                        <TableCell padding="none">
+                            <IconButton  onClick={()=>ToggleNotFound(rowItems.id,rowItems.notFound)}>
+                                <ErrorOutlineIcon sx={{color:theme.palette.error.main}} />
+                            </IconButton>
+                        </TableCell>
+
+                        <TableCell padding="none">
+                            <IconButton onClick={()=>removeItem(rowItems.id)}>
+                                <DeleteIcon />
+                            </IconButton>
+                        </TableCell> 
+                        </TableRow>
+                    </TableBody>
+                </Table>
+                </Box>
+                </Collapse>
+                </TableCell>
+                </TableRow>
+                </React.Fragment>
+    )
 }
 
 export {ListItem};
