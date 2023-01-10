@@ -28,7 +28,7 @@ router.post('/',(req,res)=>{
    const newItem = new Item({
        name: req.body.name,       // you can put back ticks because you should enforce a string to match model if you have used the fetch api,In this case we want the name because that is what we defined in our schema. The body parser allows access to req.body
        NotFound:false,
-       amount:1
+       amount:req.body.amount?req.body.amount:1
     }); 
     //instance of your model
     // console.log(newItem.name);

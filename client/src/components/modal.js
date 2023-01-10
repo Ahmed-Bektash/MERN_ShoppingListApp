@@ -8,38 +8,13 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Grid from '@mui/material/Grid';
+import ShoppingItemForm from './ShoppingItemForm';
 
  function CartModal(){
-    const {AddItem} = useContext(Context);
+    const {darkMode,isMobile,AddItem} = useContext(Context);
     const [IsModalOpen,SetIsModalOpen] = useState(false);
-    const [ItemName,SetName] = useState("");
-    const [ModalError,SetModalError] = useState(false);
     function toggle(){
         SetIsModalOpen(!IsModalOpen);
-    }
-    function ChangeHandler(e){
-        SetModalError(false);
-       e.target.name = e.target.value;
-       SetName(e.target.name);
-       
-    }
-
-    function SubmitHandler(e){
-        e.preventDefault(); 
-        //Add the item to the shopping list usting context
-    
-    
-        if(ItemName){ 
-            AddItem(ItemName); //Item name is from change handler
-            //  //close the modal
-            toggle();
-            //resetname to start over next time modal is opened  
-            SetName("");
-        }else{
-            SetModalError(true);
-        }
-        
-
     }
 
     const Modalstyle = {
@@ -47,12 +22,15 @@ import Grid from '@mui/material/Grid';
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
+        width: isMobile?'90%':'40%',
+        bgcolor: darkMode?'primary.main':'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
+        border:'none',
+        borderRadius:'6px'
       };
+
 return(
        <>
             <Button onClick={toggle} variant='outlined' sx={{backgroundColor:theme=>theme.palette.secondary.main}}>
@@ -73,47 +51,12 @@ return(
                 >
                 <Fade in={IsModalOpen}>
                 <Box sx={Modalstyle}>
-                    <Typography id="transition-modal-title" variant="h6" component="h2">
-                    Text in a modal
-                    </Typography>
-                    <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                    </Typography>
+                    <Typography variant='h2'> What would you like to buy? </Typography>
+                    <ShoppingItemForm CloseModal={toggle} AddItem={AddItem} />
                 </Box>
                 </Fade>
             </Modal>
         </>
-    //  <Modal
-    //  isOpen = {IsModalOpen}
-    //  toggle = {toggle}
-    //  >
-    //     <ModalHeader toggle = {toggle}>Add item to shopping List</ModalHeader>
-    //     <ModalBody>
-    //         <Form onSubmit = {SubmitHandler}>
-    //             <FormGroup>
-    //                 <Label for="item">What do you want to buy?</Label>
-    //                 <Input
-    //                 type= "text"
-    //                 name = "" //will be updated with change handler to match input
-    //                 id = "item"
-    //                 placeholder = "add item here"
-    //                 onChange = {ChangeHandler}
-    //                 style = {{borderBlockStyle:'double' ,borderColor: `${ModalError? 'red':'gray'}`}}
-    //                 >
-    //                 </Input>
-    //                 <Button
-    //                 color ="dark"
-    //                 style ={{marginTop: '2rem'}}
-    //                 block
-    //                 >
-    //                     save
-    //                 </Button>
-    //             </FormGroup>
-    //         </Form>
-    //     </ModalBody>
-
-    //  </Modal>
-
     );
 
 }

@@ -1,5 +1,7 @@
 [OK] build logic for isMobile in context
 [OK] build the logic for darkmode
 [OK] connect cookies
+[OK] connect logic to backend
+[OK] extend darkmode time
+[] add shopping list title to the DB
 [] adjust font in theme
-[] connect logic to backend

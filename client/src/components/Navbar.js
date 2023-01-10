@@ -23,7 +23,7 @@ export default function NavBar() {
   const handleDarkMode=()=>{
     ToggleDarkMode(darkMode ? false : true)
     const newDarkModeState = !darkMode; //because it has no yet been set at this moment
-    const expire_time = 1; //min
+    const expire_time = 10080; //in min --> one week: 10080 min
     const expireBy = new Date(new Date().getTime()+expire_time*60*1000);
     Cookies.set('darkMode',newDarkModeState?'ON':'OFF',{secure:process.env.NODE_ENV==='production',expires:expireBy});
   }

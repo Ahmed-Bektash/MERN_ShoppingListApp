@@ -6,8 +6,6 @@ import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@emotion/react';
-import {Context} from '../logic/DataProvider'
 
 import { ListItem } from './ListItem';
 import { ShoppingListHead } from './TableHead';
@@ -101,16 +99,13 @@ export default function ShoppingListTable(props) {
     const {rows} = props;
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('item');
-    const {isMobile} = React.useContext(Context);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
       };
-    
-    const tableWidth = isMobile? "100%":"80%";
-  
+      
     return (
     <Box sx={{width:"100%"}}>
     <Paper sx={{mb:2}}>

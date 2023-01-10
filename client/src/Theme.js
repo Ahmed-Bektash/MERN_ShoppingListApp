@@ -12,8 +12,9 @@ export const colourPalette={
                             DARK_BCKRND:'#AEAEAE',
                             CHARCOAL : '#302E2F',
                             TEAL:'#0A9279',
-                            ERROR:'#ff1744'
-                            }
+                            ERROR:'#ff1744',
+                            NOT_FOUND: '#aaaaaa'
+                          }
 
 
 export default function Layout({children}) {
@@ -34,7 +35,7 @@ const theme = createTheme({
             secondary: {
               main: colourPalette.TEAL,
               dark:colourPalette.TEAL,
-              light: colourPalette.TEAL
+              light: colourPalette.NOT_FOUND
             },
             error: {
               main: colourPalette.ERROR,

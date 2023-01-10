@@ -9,7 +9,6 @@ import Cookies from 'js-cookie';
  const initialState = {
      ItemsArray:[],
      loading:false,
-     isMobile:false,
      darkMode:false,
      userLoggedIn:true, //later get it from cookies,
     // userInfo: Cookies.get('userInfo')
@@ -46,6 +45,7 @@ export const Provider = ({children}) =>{
     const {WindowWidth} = useWindowDimensions();
 
     const isMobile = (WindowWidth <= 700 ? true : false);
+    
 
     const ToggleDarkMode = (isDarkModeRequested)=>{
         dispatch({type:'DARK',payload:isDarkModeRequested});
@@ -64,7 +64,6 @@ export const Provider = ({children}) =>{
         })
     }
     const increase = (id)=>{
-
         axios.put(`/api/items/${id}`,{'action':'INC'}).then(res =>{
           
             dispatch({type:'INCREASE', payload:id});
@@ -91,10 +90,9 @@ export const Provider = ({children}) =>{
         })
     }
 
-    const AddItem = (name)=>{
-        // console.log(name);
-        // console.log(typeof name);
-        axios.post('/api/items',{name:name}).then(res =>{
+    const AddItem = (name,amount)=>{
+        
+        axios.post('/api/items',{name:name,amount:amount}).then(res =>{
         // console.log(res.data,'from dispatcher');
         dispatch({type:'ADD_ITEM', payload:res.data});
         });

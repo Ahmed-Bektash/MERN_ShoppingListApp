@@ -26,10 +26,10 @@ function ListItem(props) {
     const {removeItem,increase,decrease,ToggleNotFound,setStatus} = useContext(Context);
 
     const rowItems= {
-        id:row.id,
+        id: row._id,
         name:row.name,
         amount:row.amount,
-        notFound:row.notFound,
+        notFound:row.NotFound,
         found: row.found
     }
 
@@ -46,7 +46,7 @@ function ListItem(props) {
        if(rowItems.found){
            color=  theme.palette.secondary.main;
        }else if(rowItems.notFound){
-           color = theme.palette.error.main;
+           color = theme.palette.secondary.light;
        }else{
            color = 'inherit';
        }
@@ -56,12 +56,13 @@ function ListItem(props) {
 
     return(
         <React.Fragment>
-
                 <TableRow 
-                hover
+                hover={setColor() == 'inherit'}
                 sx={{ 
                     '&:last-child td, &:last-child th': { border: 0 },
-                    height:'4rem'    
+                    height:'4rem',
+                    backgroundColor:setColor()
+                       
                 }}
                 >
                     <TableCell>
@@ -75,14 +76,14 @@ function ListItem(props) {
                     </TableCell>
                     
                     <TableCell component="th" scope="row" padding="none">
-                        <Typography variant="body2" component="div" color={setColor()}>
+                        <Typography variant="body2" component="div">
                             {row.name}
                         </Typography>
                     </TableCell>
                         
                     
                     <TableCell padding="none" align='center'>
-                        <Typography variant="body2" component="div" color={setColor()}>
+                        <Typography variant="body2" component="div">
                             {row.amount}    
                         </Typography>
                     </TableCell>
