@@ -41,7 +41,7 @@ const SelectWrapper = (props) => {
 };
 
 //implementation:
-{/* <SelectWrapper label='your label' options={array of options} value={initial value} name='your name'/> */}
+//<SelectWrapper label='your label' options={array of options} value={initial value} name='your name'/> 
 
 
 SelectWrapper.propTypes = {

@@ -1,4 +1,4 @@
-import React, {useEffect, createContext,useReducer,useState} from 'react'
+import React, {useEffect, createContext,useReducer} from 'react'
 import reducer from './reducer'
 import axios from 'axios';
 import useWindowDimensions from './utils'

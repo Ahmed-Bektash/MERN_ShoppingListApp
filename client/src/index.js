@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import {Provider} from './logic/DataProvider'
-import Layout, {theme} from './Theme.js'
+import Layout from './Theme.js'
 ReactDOM.render(
   
     <Provider>

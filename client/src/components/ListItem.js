@@ -1,4 +1,4 @@
-import React, {useState,useContext} from 'react';
+import React, {useContext} from 'react';
 import {Context} from '../logic/DataProvider'
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
@@ -57,7 +57,7 @@ function ListItem(props) {
     return(
         <React.Fragment>
                 <TableRow 
-                hover={setColor() == 'inherit'}
+                hover={setColor() === 'inherit'}
                 sx={{ 
                     '&:last-child td, &:last-child th': { border: 0 },
                     height:'4rem',

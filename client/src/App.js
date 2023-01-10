@@ -5,15 +5,14 @@ import { Context } from './logic/DataProvider';
 import NavBar from './components/Navbar';
 import Typography from '@mui/material/Typography';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { Box } from '@mui/material';
 
 function App() {
   const {loading}  = useContext(Context)
-  // if(loading){
-  //   return(
-  //     <div style ={{display:'flex',justifyContent:'center', alignItems:'center',marginTop:'10rem'}}><h1>Loading items please wait...</h1></div>
-  //   )
-  // }
+  if(loading){
+    return(
+      <div style ={{display:'flex',justifyContent:'center', alignItems:'center',marginTop:'10rem'}}><h1>Loading items please wait...</h1></div>
+    )
+  }
   
   return (
     <>

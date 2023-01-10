@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import {Context} from '../logic/DataProvider';
 import Modal from './modal';
-import { useTheme } from '@mui/material/styles';
 import { Box, Container, Typography } from '@mui/material';
 import ShoppingListTable from './Table';
 

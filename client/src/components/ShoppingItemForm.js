@@ -1,12 +1,10 @@
-import React,{useContext} from 'react';
-import Box from '@mui/material/Box';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import {Formik,Form} from 'formik';
 import * as Yup from 'yup';
 import TextFieldWrapper from './Forms/FormTextField';
-import {Context} from '../logic/DataProvider'
 
 
 
@@ -17,7 +15,7 @@ function ShoppingItemForm(props) {
     const initialValues={
         name:"",
         amount:1
-      }
+      } 
 
       const validation = Yup.object({
         name: Yup.string().required('Required'),

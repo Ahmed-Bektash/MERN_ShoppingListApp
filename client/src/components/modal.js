@@ -7,7 +7,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import Grid from '@mui/material/Grid';
 import ShoppingItemForm from './ShoppingItemForm';
 
  function CartModal(){
@@ -24,7 +23,6 @@ import ShoppingItemForm from './ShoppingItemForm';
         transform: 'translate(-50%, -50%)',
         width: isMobile?'90%':'40%',
         bgcolor: darkMode?'primary.main':'background.paper',
-        border: '2px solid #000',
         boxShadow: 24,
         p: 4,
         border:'none',
