@@ -18,7 +18,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Typography } from '@mui/material';
 
-
 function ListItem(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
@@ -57,14 +56,13 @@ function ListItem(props) {
     return(
         <React.Fragment>
                 <TableRow 
-                hover={setColor() === 'inherit'}
-                sx={{ 
-                    '&:last-child td, &:last-child th': { border: 0 },
-                    height:'4rem',
-                    backgroundColor:setColor()
-                       
-                }}
-                >
+                    hover={setColor() === 'inherit'}
+                    sx={{ 
+                        '&:last-child td, &:last-child th': { border: 0 },
+                        height:'4rem',
+                        backgroundColor:setColor(),
+                    }}
+                    >
                     <TableCell>
                         <IconButton
                             aria-label="expand row"
@@ -87,63 +85,62 @@ function ListItem(props) {
                             {row.amount}    
                         </Typography>
                     </TableCell>
-                           
+                            
                 </TableRow>
                 
-                <TableRow>
+            <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                <Collapse in={open} timeout="auto" unmountOnExit>
-                <Box sx={{ margin: 1 }}>
-                <Table size="small" aria-label="controls">
-                <TableHead>
-                  <TableRow>
-                    <TableCell padding='none'>Found</TableCell>
-                    <TableCell padding='none'>Dec</TableCell>
-                    <TableCell padding='none'>Inc</TableCell>
-                    <TableCell padding='none'>N/A</TableCell>
-                    <TableCell padding='none'>Del</TableCell>
-                  </TableRow>
-                </TableHead>
-                    <TableBody>
-                        <TableRow>
-                        
-                        <TableCell padding="none">
-                        < IconButton onClick={() => foundHandler()}>
-                            <CheckCircleIcon sx={{color:theme.palette.secondary.main}}  />  
-                        </IconButton>
-                        </TableCell>    
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Box sx={{ margin: 1 }}>
+                            <Table size="small" aria-label="controls">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell padding='none'>Found</TableCell>
+                                        <TableCell padding='none'>Dec</TableCell>
+                                        <TableCell padding='none'>Inc</TableCell>
+                                        <TableCell padding='none'>N/A</TableCell>
+                                        <TableCell padding='none'>Del</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell padding="none">
+                                        < IconButton onClick={() => foundHandler()}>
+                                            <CheckCircleIcon sx={{color:theme.palette.secondary.main}}  />  
+                                        </IconButton>
+                                        </TableCell>    
 
-                        <TableCell padding="none">
-                            < IconButton onClick={()=>decrease(rowItems.id)}>
-                                <RemoveCircleOutlineIcon/>
-                            </IconButton>
-                        </TableCell>
-                        
-                        <TableCell padding="none">
-                            < IconButton onClick={()=>increase(rowItems.id)}>
-                                <AddCircleOutlineIcon/>
-                            </IconButton>
-                        </TableCell>
+                                        <TableCell padding="none">
+                                            < IconButton onClick={()=>decrease(rowItems.id)}>
+                                                <RemoveCircleOutlineIcon/>
+                                            </IconButton>
+                                        </TableCell>
+                                        
+                                        <TableCell padding="none">
+                                            < IconButton onClick={()=>increase(rowItems.id)}>
+                                                <AddCircleOutlineIcon/>
+                                            </IconButton>
+                                        </TableCell>
 
-                        <TableCell padding="none">
-                            <IconButton  onClick={()=>ToggleNotFound(rowItems.id,rowItems.notFound)}>
-                                <ErrorOutlineIcon sx={{color:theme.palette.error.main}} />
-                            </IconButton>
-                        </TableCell>
+                                        <TableCell padding="none">
+                                            <IconButton  onClick={()=>ToggleNotFound(rowItems.id,rowItems.notFound)}>
+                                                <ErrorOutlineIcon sx={{color:theme.palette.error.main}} />
+                                            </IconButton>
+                                        </TableCell>
 
-                        <TableCell padding="none">
-                            <IconButton onClick={()=>removeItem(rowItems.id)}>
-                                <DeleteIcon />
-                            </IconButton>
-                        </TableCell> 
-                        </TableRow>
-                    </TableBody>
-                </Table>
-                </Box>
-                </Collapse>
+                                        <TableCell padding="none">
+                                            <IconButton onClick={()=>removeItem(rowItems.id)}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </TableCell> 
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </Box>
+                    </Collapse>
                 </TableCell>
-                </TableRow>
-                </React.Fragment>
+            </TableRow>
+        </React.Fragment>
     )
 }
 

@@ -6,10 +6,6 @@ import {Formik,Form} from 'formik';
 import * as Yup from 'yup';
 import TextFieldWrapper from './Forms/FormTextField';
 
-
-
-
-
 function ShoppingItemForm(props) {
     const {AddItem,CloseModal} = props
     const initialValues={

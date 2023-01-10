@@ -41,7 +41,7 @@ function ShoppingList (){
             </Container>}
             
             <Container sx={{mt:2}}>
-                <ShoppingListTable rows={ItemsArray} />
+                <ShoppingListTable rows={ItemsArray} title="Title of shopping list"/>
             </Container>
 
             {isMobile && <Container sx={{mt:4}}>

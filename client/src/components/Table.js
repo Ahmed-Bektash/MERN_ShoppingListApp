@@ -96,7 +96,7 @@ const headCells = [
   
 
 export default function ShoppingListTable(props) {
-    const {rows} = props;
+    const {rows,title} = props;
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('item');
 
@@ -116,7 +116,7 @@ export default function ShoppingListTable(props) {
           component="div"
           padding={"1rem"}
         >
-          Title of shopping list
+          {title}
         </Typography>
 
         <TableContainer>
@@ -129,7 +129,7 @@ export default function ShoppingListTable(props) {
             onRequestSort={handleRequestSort}
             />
             <TableBody>
-            {stableSort(rows,order, orderBy).map((row) => (
+            {stableSort(rows,order,orderBy).map((row) => (
                 <ListItem key={row.name} row={row}/>  
             ))}
             </TableBody>
