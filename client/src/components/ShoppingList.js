@@ -2,7 +2,7 @@ import React, {useContext,useEffect,useState} from 'react';
 import {Context} from '../logic/DataProvider';
 import Modal from './modal';
 import { Box, Button, Container, Typography } from '@mui/material';
-import ShoppingListTable from './Table';
+import ShoppingListTable from './ShoppingListTable';
 
 //The following rows are for DEV testing only
 // function createData(id,name,amount,notAvailable,found) {
