@@ -19,8 +19,8 @@ import Cookies from 'js-cookie';
     // }
  }
 
-//  function createData(id,name,amount,notFound,found) {
-//     return { id,name,amount,notFound,found };
+//  function createData(id,name,amount,notAvailable,found) {
+//     return { id,name,amount,notAvailable,found };
 //   }
 export const Provider = ({children}) =>{
 
@@ -75,17 +75,17 @@ export const Provider = ({children}) =>{
             dispatch({type:'DECREASE', payload:id});
         })
     }
-    const ToggleNotFound = (id,NotFound)=>{
+    const toggleNotAvailable = (id,notAvailable)=>{
         
-        axios.put(`/api/items/${id}`,{NotFound,'action':'NA'}).then(res =>{ 
-            // console.log(NotFound)
+        axios.put(`/api/items/${id}`,{notAvailable,'action':'NA'}).then(res =>{ 
+            // console.log(notAvailable)
             dispatch({type:'NOT_FOUND', payload:id}); 
         })
     }
 
-    const setStatus = (id,status)=>{
+    const toggleFound = (id,found)=>{
 
-        axios.put(`/api/items/${id}`,{status,'action':'DONE'}).then(res =>{ 
+        axios.put(`/api/items/${id}`,{found,'action':'DONE'}).then(res =>{ 
             dispatch({type:'DONE', payload:id}); 
         })
     }
@@ -143,6 +143,7 @@ export const Provider = ({children}) =>{
         }});
        const cartArray = await response.json();
        dispatch({type:'DISPLAY',payload:cartArray});
+
    }
 
 
@@ -154,7 +155,7 @@ export const Provider = ({children}) =>{
    },[]);
     
     return(
-        <Context.Provider value={{...state,isMobile,ClearCart,removeItem,increase,decrease,ToggleNotFound,AddItem,setStatus,ToggleDarkMode}}>
+        <Context.Provider value={{...state,isMobile,ClearCart,removeItem,increase,decrease,toggleNotAvailable,AddItem,toggleFound,ToggleDarkMode}}>
             {children}
         </Context.Provider>
     )

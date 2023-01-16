@@ -24,7 +24,7 @@ function ShoppingItemForm(props) {
         validationSchema={validation}
         onSubmit={(values, actions) => {
            // console.log(values)
-          alert(JSON.stringify(values, null, 2));
+          // alert(JSON.stringify(values, null, 2));
           actions.setSubmitting(false);
           const newItem = {
            name:values.name,
@@ -48,7 +48,7 @@ function ShoppingItemForm(props) {
           {/* https://stackoverflow.com/questions/61089182/how-to-properly-use-usefield-hook-from-formik-in-typescript */}
 
             <Grid item xs={12} sx={{mb: 3 }}>
-             <TextFieldWrapper label="Item name" value="" name={'name'} />
+             <TextFieldWrapper label="Item name" value="" name={'name'} autoFocus={true}/>
             </Grid>
 
             <Grid item xs={12} sx={{mb: 3 }}>
@@ -57,7 +57,7 @@ function ShoppingItemForm(props) {
 
           <Button type='submit' fullWidth variant="contained" sx={{backgroundColor:theme=>theme.palette.secondary.main,mt:3,mb:2}}>
            <Typography variant='button'>
-             Submit
+             Save
            </Typography>
          </Button>
         </Form>

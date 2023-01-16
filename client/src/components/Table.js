@@ -1,13 +1,10 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
-import { ListItem } from './ListItem';
+import List from '@mui/material/List';
+import { ShoppingListItem } from './ListItem';
 import { ShoppingListHead } from './TableHead';
 
 function descendingComparator(a, b, orderBy) {
@@ -57,42 +54,6 @@ const headCells = [
     },
     
   ];
-
-//   const iconControls = [
-//     {
-//         id: 'found',
-//         label: 'Found',
-//         sortable:false,
-//         width: 'auto',
-      
-//       },
-//       {
-//         id: 'decrease',
-//         label: '-',
-//         sortable:false,
-//         width: 'auto',
-      
-//       },
-//       {
-//         id: 'increase',
-//         label: '+',
-//         sortable:false,
-//         width: 'auto',
-//       },
-//       {
-//         id: 'notFound',
-//         label: 'N/A',
-//         sortable:false,
-//         width: 'auto',
-//       },
-//       {
-//         id: 'Delete',
-//         label: 'Del',
-//         sortable:false,
-//         width: 'auto',
-//       }
-
-//   ]
   
 
 export default function ShoppingListTable(props) {
@@ -105,39 +66,36 @@ export default function ShoppingListTable(props) {
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
       };
-      
+  
     return (
-    <Box sx={{width:"100%"}}>
-    <Paper sx={{mb:2}}>
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-          padding={"1rem"}
-        >
-          {title}
-        </Typography>
+      <Box sx={{width:"90%"}}>
+        <Paper sx={{mb:2}}>
+          <Typography
+            sx={{ flex: '1 1 100%' }}
+            variant="h6"
+            id="tableTitle"
+            component="div"
+            padding={"1rem"}
+          >
+            {title}
+          </Typography>
 
-        <TableContainer>
-        <Table  sx={{ maxWidth: '100%' }} aria-label="simple table">
-            
-            <ShoppingListHead
-            headTitles={headCells}
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
+          <ShoppingListHead
+                headTitles={headCells}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
             />
-            <TableBody>
-            {stableSort(rows,order,orderBy).map((row) => (
-                <ListItem key={row.name} row={row}/>  
-            ))}
-            </TableBody>
-        </Table>
-        </TableContainer>
+
+          <List>
+              {stableSort(rows,order,orderBy).map((row) => (
+                <ShoppingListItem key={row.name} row={row} />
+              ))}
+          </List>  
+
         </Paper>
-        </Box>
-        );
+      </Box>
+      );
     }
     
 ShoppingListTable.propTypes = {

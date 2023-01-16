@@ -28,14 +28,14 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 
-function createData(name, increase, amount, decrease,found,notFound) {
+function createData(name, increase, amount, decrease,found,notAvailable) {
   return {
     name,
     increase,
     amount,
     decrease,
     found,
-    notFound
+    notAvailable
   };
 }
 
@@ -124,7 +124,7 @@ const headCells = [
   },
 
   {
-    id: 'notFound',
+    id: 'notAvailable',
     label: 'N/A',
     sortable:false,
     width: '10%',

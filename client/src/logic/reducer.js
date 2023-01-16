@@ -31,7 +31,7 @@ const  reducer= (state,action)=>{
     if(action.type === 'NOT_FOUND'){
         let tempCartItems= state.ItemsArray.map((item)=>{
             if(item._id === action.payload){
-                return {...item,NotFound:!item.NotFound}
+                return {...item,notAvailable:!item.notAvailable}
             }
             return item;
         })
@@ -51,7 +51,7 @@ const  reducer= (state,action)=>{
     if(action.type === 'ADD_ITEM'){
         let newArray = state.ItemsArray
             if(action.payload!==''){
-                newArray = [...newArray,{_id:action.payload._id,name:action.payload.name,NotFound: action.payload.NotFound, amount:action.payload.amount}];
+                newArray = [...newArray,{_id:action.payload._id,name:action.payload.name,notAvailable: action.payload.notAvailable, amount:action.payload.amount}];
                 return {...state, ItemsArray:newArray}
             }else{
            //     console.log("please enter an item");

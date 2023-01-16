@@ -7,7 +7,7 @@ const ItemSchema = new Schema({
         type:String,
         required: true
     },
-    NotFound:{
+    notAvailable:{
         type:Boolean,
         required: false
     },

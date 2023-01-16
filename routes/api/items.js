@@ -27,7 +27,8 @@ router.post('/',(req,res)=>{
    //create a variable that you will create in the database
    const newItem = new Item({
        name: req.body.name,       // you can put back ticks because you should enforce a string to match model if you have used the fetch api,In this case we want the name because that is what we defined in our schema. The body parser allows access to req.body
-       NotFound:false,
+       found:false,
+       notAvailable:false,
        amount:req.body.amount?req.body.amount:1
     }); 
     //instance of your model
@@ -112,14 +113,14 @@ router.put('/:id',(req,res)=>{
                             /*********************NOT AVAILABLE*******************/
     }else if (req.body.action === 'NA'){ 
         console.log('Not available request');
-        Item.findOneAndUpdate({_id:req.params.id},{NotFound:!req.body.NotFound},{upsert:true})
+        Item.findOneAndUpdate({_id:req.params.id},{notAvailable:!req.body.notAvailable},{upsert:true})
           .then(()=>res.json({success:true}))
           .catch(err =>res.json({success:false}));
     }
                             /*********************STATUS*******************/
     else if (req.body.action === 'DONE'){ 
         console.log('toggle done request');
-        Item.findOneAndUpdate({_id:req.params.id},{status:!req.body.status},{upsert:true})
+        Item.findOneAndUpdate({_id:req.params.id},{found:!req.body.found},{upsert:true})
           .then(()=>res.json({success:true}))
           .catch(err =>res.json({success:false}));
     }

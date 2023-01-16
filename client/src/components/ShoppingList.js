@@ -1,12 +1,12 @@
-import React, {useContext} from 'react';
+import React, {useContext,useEffect,useState} from 'react';
 import {Context} from '../logic/DataProvider';
 import Modal from './modal';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 import ShoppingListTable from './Table';
 
 //The following rows are for DEV testing only
-// function createData(id,name,amount,notFound,found) {
-//     return { id,name,amount,notFound,found };
+// function createData(id,name,amount,notAvailable,found) {
+//     return { id,name,amount,notAvailable,found };
 //   }
   
 //   const rows = [
@@ -19,6 +19,36 @@ import ShoppingListTable from './Table';
 
 function ShoppingList (){
     const {ItemsArray,isMobile,ClearCart} = useContext(Context);
+    const [foundArray,setFoundArray] = useState([]);
+    const [mainCart,setMainCart] = useState([]);
+    
+    const HandleDoneItemView = (id)=>{
+        const doneItem = ItemsArray.find(element => element._id === id);
+        const res = ItemsArray.filter(element => element._id !== id);
+        foundArray.push(doneItem);
+        setMainCart(res);
+    }
+
+    useEffect(() => {
+        console.log(ItemsArray)
+        setFoundArray(()=>[]);
+        setMainCart(()=>[]);
+        ItemsArray.forEach(element => {
+            if(element.found === true)
+            {
+                //add it to found array
+                setFoundArray(arr=>[...arr,element]);
+            }
+            else
+            {
+                //add it to main
+                setMainCart(arr=>[...arr,element])
+            }
+            
+        });
+     
+    }, [ItemsArray])
+    
 
     if(ItemsArray.length ===0){
         return (
@@ -38,16 +68,31 @@ function ShoppingList (){
             <Box>
             { !isMobile && <Container sx={{mt:4}}>
                 <Modal />
+                <Button onClick={ClearCart} variant='outlined' sx={{backgroundColor:theme=>theme.palette.error.main,ml:'1rem'}}>
+                    <Typography variant='button' sx={{color:'primary.light'}}>
+                        Clear Cart
+                    </Typography>
+                </Button>
             </Container>}
             
             <Container sx={{mt:2}}>
-                <ShoppingListTable rows={ItemsArray} title="Title of shopping list"/>
+                <ShoppingListTable rows={mainCart} title="Title of shopping list"/>
             </Container>
 
-            {isMobile && <Container sx={{mt:4}}>
+            {isMobile && <Container sx={{mt:2}}>
                 <Modal />
+                <Button onClick={ClearCart} variant='outlined' sx={{backgroundColor:theme=>theme.palette.error.main,ml:'1rem'}}>
+                    <Typography variant='button' sx={{color:'primary.light'}}>
+                        Clear Cart
+                    </Typography>
+                </Button>
             </Container>} 
+
+            <Container sx={{mt:10}}>
+                <ShoppingListTable rows={foundArray} title="Found List"/>
+            </Container>
         </Box>
+        
         
         );
         

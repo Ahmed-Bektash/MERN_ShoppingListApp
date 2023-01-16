@@ -33,7 +33,7 @@ return(
        <>
             <Button onClick={toggle} variant='outlined' sx={{backgroundColor:theme=>theme.palette.secondary.main}}>
                 <Typography variant='button' sx={{color:'primary.light'}}>
-                Add Item
+                    Add Item
                 </Typography>
             </Button>
             <Modal
