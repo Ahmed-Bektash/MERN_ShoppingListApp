@@ -10,7 +10,6 @@ import { Container, ListItem, Typography } from '@mui/material';
 function DataRow(props) {
     const { row, open, setOpen} = props;
     const theme = useTheme();
-    // const [remove_show,setRemove_show] = React.useState('');
     
     function setColor(){
         let color= '';
@@ -41,11 +40,11 @@ function DataRow(props) {
                 alignItems:"center"
             }}>
 
-                <Typography variant="body2" component="div">
+                <Typography variant="body2" component="div" paddingLeft={'2rem'}>
                     {row.name}
                 </Typography>
                 
-                <Typography variant="body2" component="div">
+                <Typography variant="body2" component="div" paddingRight={'2rem'}>
                     {row.amount}    
                 </Typography>    
 

@@ -1,8 +1,9 @@
 import React, {useContext,useEffect,useState} from 'react';
 import {Context} from '../logic/DataProvider';
-import Modal from './modal';
 import { Box, Button, Container, Typography } from '@mui/material';
 import ShoppingListTable from './ShoppingListTable';
+import ShoppingListControlls from './ShoppingListControlls';
+import ItemModal from './ItemModal';
 
 //The following rows are for DEV testing only
 // function createData(id,name,amount,notAvailable,found) {
@@ -18,7 +19,7 @@ import ShoppingListTable from './ShoppingListTable';
 //   ];
 
 function ShoppingList (){
-    const {ItemsArray,isMobile,ClearCart} = useContext(Context);
+    const {ItemsArray,isMobile} = useContext(Context);
     const [foundArray,setFoundArray] = useState([]);
     const [mainCart,setMainCart] = useState([]);
     
@@ -55,7 +56,7 @@ function ShoppingList (){
             <Box>
                 <Container sx={{mt:4, display:"flex", flexDirection:"column",justifyContent:"center", alignItems:"center"}}>
                     <Typography variant='h2'>The cart is empty</Typography>
-                    <Modal />
+                    <ItemModal />
                 </Container>
             </Box>
         )
@@ -66,26 +67,18 @@ function ShoppingList (){
         return(
             
             <Box>
-            { !isMobile && <Container sx={{mt:4}}>
-                <Modal />
-                <Button onClick={ClearCart} variant='outlined' sx={{backgroundColor:theme=>theme.palette.error.main,ml:'1rem'}}>
-                    <Typography variant='button' sx={{color:'primary.light'}}>
-                        Clear Cart
-                    </Typography>
-                </Button>
+            { !isMobile && 
+            <Container sx={{mt:4}}>
+                <ShoppingListControlls />
             </Container>}
             
             <Container sx={{mt:2}}>
                 <ShoppingListTable rows={mainCart} title="Title of shopping list"/>
             </Container>
 
-            {isMobile && <Container sx={{mt:2}}>
-                <Modal />
-                <Button onClick={ClearCart} variant='outlined' sx={{backgroundColor:theme=>theme.palette.error.main,ml:'1rem'}}>
-                    <Typography variant='button' sx={{color:'primary.light'}}>
-                        Clear Cart
-                    </Typography>
-                </Button>
+            {isMobile && 
+            <Container sx={{mt:2}}>
+                <ShoppingListControlls />
             </Container>} 
 
             <Container sx={{mt:10}}>

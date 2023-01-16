@@ -32,8 +32,8 @@ function ControlsRow(props) {
    }
 
   return (
-    <Collapse in={open} timeout="auto" unmountOnExit>
-        <Box sx={{ margin: 1 }}>
+    <Collapse in={open} timeout="auto" unmountOnExit sx={{width:"100%"}}>
+        <Box sx={{ margin: 1, width:'100%'}}>
             <Table size="small" aria-label="controls">
                 <TableHead>
                     <TableRow>

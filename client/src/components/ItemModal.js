@@ -9,7 +9,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import ShoppingItemForm from './ShoppingItemForm';
 
- function CartModal(){
+ function ItemModal(){
     const {darkMode,isMobile,AddItem} = useContext(Context);
     const [IsModalOpen,SetIsModalOpen] = useState(false);
     function toggle(){
@@ -59,4 +59,4 @@ return(
 
 }
 
-export default CartModal;
+export default ItemModal;

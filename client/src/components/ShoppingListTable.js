@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import { ShoppingListItem } from './ListItem';
-import { ShoppingListHead } from './TableHead';
+import { ShoppingListHead } from './ShoppingListHead';
 
 function descendingComparator(a, b, orderBy) {
     //we only want desc here, so if elment orderBy in object b is < the same in a then a is bigger so return -1 to put it first
@@ -42,7 +42,7 @@ const headCells = [
       id: 'name',
       label: 'Item',
       sortable: true,
-      alignment:'left',
+      alignment:'flex-start',
       width: 'auto'
     },
     {
@@ -80,18 +80,18 @@ export default function ShoppingListTable(props) {
             {title}
           </Typography>
 
-          <ShoppingListHead
+          {(rows.length > 0) && <ShoppingListHead
                 headTitles={headCells}
                 order={order}
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}
-            />
+            />}
 
           <List>
               {stableSort(rows,order,orderBy).map((row) => (
-                <ShoppingListItem key={row.name} row={row} />
+                <ShoppingListItem key={row._id} row={row} />
               ))}
-          </List>  
+          </List>
 
         </Paper>
       </Box>

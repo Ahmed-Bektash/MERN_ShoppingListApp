@@ -19,7 +19,7 @@ function ShoppingListItem(props) {
             </ListItem>
         </Collapse>
 
-        <Divider />
+        {rowShow && <Divider />}
         
         <ListItem>
             <ControlsRow row={row} open={open} setOpen={setOpen} rowShow={rowShow} setRowShow={setRowShow}/>
