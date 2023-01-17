@@ -5,21 +5,18 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
 import DarkMode from '@mui/icons-material/DarkMode';
 import LightMode from '@mui/icons-material/LightMode';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {Context} from '../logic/DataProvider.js'
+import SideBar from './SideBar.js';
+
+
 export default function NavBar() {
   const theme = useTheme();
-  const [IsOpenSideBar, setIsOpenSideBar] = useState(false); //use this for the side bar
-  const {ItemsArray,darkMode,ToggleDarkMode} = useContext(Context);
+  const {ItemsArray,darkMode,ToggleDarkMode,isMobile} = useContext(Context);
   
-  function toggleSideBar(){
-        setIsOpenSideBar(!IsOpenSideBar);
-    }
-
   const handleDarkMode=()=>{
     ToggleDarkMode(darkMode ? false : true)
     const newDarkModeState = !darkMode; //because it has no yet been set at this moment
@@ -36,15 +33,7 @@ export default function NavBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            aria-label="menu"
-            sx={{ mr: 2 ,color:theme.palette.secondary.main}}
-            onClick ={toggleSideBar}
-          >
-            <MenuIcon />
-          </IconButton>
+          <SideBar anchor={isMobile?"bottom":"left"} />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Number of Items = {ItemsArray.length}
           </Typography>

@@ -1,14 +1,14 @@
-const express = require('express');
-const router = express.Router();
+import { Router } from 'express';
+const items = Router();
 
 
 //item model import so that we can edit the database
-const Item = require('../../models/Item');
+import Item from '../../models/Item.js';
 
 //@route    GET api/items
 //@desc     Get all items
 //@access   Public
-router.get('/',(req,res)=>{
+items.get('/',(req,res)=>{
 
     Item.find()     //from the Item model we will find all items (find is an function in mongoose)
     .sort({date: -1}) //-1 is descending and 1 is ascending
@@ -22,7 +22,7 @@ router.get('/',(req,res)=>{
 //@route    POST api/items
 //@desc     Create an item
 //@access   Public (private if there is auth)
-router.post('/',(req,res)=>{
+items.post('/',(req,res)=>{
     // console.log(req.body,' from server');
    //create a variable that you will create in the database
    const newItem = new Item({
@@ -42,7 +42,7 @@ router.post('/',(req,res)=>{
 //@route    DELETE api/items/:id
 //@desc     delete an item
 //@access   Public (private if there is auth)
-router.delete('/:id',(req,res)=>{
+items.delete('/:id',(req,res)=>{
     // console.log("delete");
     Item.findByIdAndRemove(req.params.id)
     .then(()=>res.json({success:true}))
@@ -58,9 +58,9 @@ router.delete('/:id',(req,res)=>{
  //@route    DELETE api/items/
 //@desc     delete all items
 //@access   Public (private if there is auth)
-router.delete('/',(req,res)=>{
+items.delete('/',(req,res)=>{
     // console.log(req);
-    Item. deleteMany({}) //you can also use remove but it is being deprecated
+    Item.deleteMany({}) //you can also use remove but it is being deprecated
     .then(()=>res.json({success:true}))
     .catch(err =>res.status(404).json({success:false}));
 
@@ -74,7 +74,7 @@ router.delete('/',(req,res)=>{
  //@route    PUT api/items
 //@desc     update an items status or amount
 //@access   Public (private if there is auth)
-router.put('/:id',(req,res)=>{
+items.put('/:id',(req,res)=>{
     let oldAmount;
                         /*********************INCREASE*******************/
     if(req.body.action === 'INC'){
@@ -100,7 +100,7 @@ router.put('/:id',(req,res)=>{
             }else{
                  oldAmount = item.amount;
                  if(oldAmount>1){
-                     Item.findOneAndUpdate({_id:req.params.id},{amount:oldAmount-1},{upsert:true})
+                    Item.findOneAndUpdate({_id:req.params.id},{amount:oldAmount-1},{upsert:true})
                        .then(()=>res.json({success:true}))
                        .catch(err =>res.json({success:false}));                     
                  }else{
@@ -135,4 +135,4 @@ router.put('/:id',(req,res)=>{
      //test using PostMan
  });
 
-module.exports = router;
+export default items;

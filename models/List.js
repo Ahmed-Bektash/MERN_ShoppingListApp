@@ -1,23 +1,17 @@
 import { Schema as _Schema, model } from 'mongoose';
 const Schema = _Schema; //capital S
 
+import ItemSchema from './Item.js'
+
 //creating schema basically means what the data should look like when saved.
-const ItemSchema = new Schema({
+const ListSchema = new Schema({
     name:{
         type:String,
         required: true
     },
-    notAvailable:{
-        type:Boolean,
-        required: false
-    },
-    amount:{
-        type:Number,
-        required: false
-    },
-    found:{
-        type:Boolean,
-        require:false
+    items:{
+        type:[ItemSchema],
+        require:true
     },
     date:{
         type: Date, //capital D
@@ -27,5 +21,4 @@ const ItemSchema = new Schema({
 });
 
 //exporting the model and schema
-const Item = model('item',ItemSchema);
-export default Item
+module.exports = List = mongoose.model('list',ListSchema);
