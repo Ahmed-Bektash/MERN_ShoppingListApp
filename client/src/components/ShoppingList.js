@@ -22,16 +22,9 @@ function ShoppingList (){
     const {ItemsArray,isMobile} = useContext(Context);
     const [foundArray,setFoundArray] = useState([]);
     const [mainCart,setMainCart] = useState([]);
-    
-    const HandleDoneItemView = (id)=>{
-        const doneItem = ItemsArray.find(element => element._id === id);
-        const res = ItemsArray.filter(element => element._id !== id);
-        foundArray.push(doneItem);
-        setMainCart(res);
-    }
 
     useEffect(() => {
-        console.log(ItemsArray)
+        // console.log(ItemsArray)
         setFoundArray(()=>[]);
         setMainCart(()=>[]);
         ItemsArray.forEach(element => {
@@ -47,7 +40,7 @@ function ShoppingList (){
             }
             
         });
-     
+
     }, [ItemsArray])
     
 

@@ -49,7 +49,7 @@ return(
                 >
                 <Fade in={IsModalOpen}>
                 <Box sx={Modalstyle}>
-                    <Typography variant='h2'> What would you like to buy? </Typography>
+                    <Typography variant='h2'> What would you like to add? </Typography>
                     <ShoppingItemForm CloseModal={toggle} AddItem={AddItem} />
                 </Box>
                 </Fade>

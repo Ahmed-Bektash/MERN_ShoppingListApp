@@ -11,7 +11,7 @@ function ShoppingListControlls() {
         <ItemModal />
         <Button onClick={ClearCart} variant='outlined' sx={{backgroundColor:theme=>theme.palette.error.main,ml:'1rem'}}>
             <Typography variant='button' sx={{color:'primary.light'}}>
-                Clear Cart
+                Clear List
             </Typography>
         </Button>
     </React.Fragment>

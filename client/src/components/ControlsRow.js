@@ -17,23 +17,14 @@ import { useTheme } from '@emotion/react';
 
 
 function ControlsRow(props) {
-    const {row,open,setOpen,rowShow,setRowShow} = props;
+    const {row} = props;
     const theme = useTheme();
-    const {removeItem,increase,decrease,toggleNotAvailable,toggleFound} = useContext(Context);
+    const {removeItem,increase,decrease,toggleNotAvailable} = useContext(Context);
     
-    function foundHandler(){
-        if(row.notAvailable){
-            toggleNotAvailable(row.id,row.notAvailable);
-        }
-       toggleFound(row.id,row.found);
-       setRowShow(!rowShow)
-    //    setRemove_show(remove_show === 'remove'?'':'remove');
-       setOpen(!open);
-   }
 
   return (
-    <Collapse in={open} timeout="auto" unmountOnExit sx={{width:"100%"}}>
-        <Box sx={{ margin: 1, width:'100%'}}>
+    <Collapse in={row.open} timeout="auto" unmountOnExit sx={{width:"100%"}}>
+        <Box sx={{ margin: 1}}>
             <Table size="small" aria-label="controls">
                 <TableHead>
                     <TableRow>
@@ -47,7 +38,7 @@ function ControlsRow(props) {
                 <TableBody>
                     <TableRow>
                         <TableCell padding="none">
-                        < IconButton onClick={() => foundHandler()}>
+                        < IconButton onClick={() => row.foundHandler()}>
                             <CheckCircleIcon sx={{color:theme.palette.secondary.main}}  />  
                         </IconButton>
                         </TableCell>    

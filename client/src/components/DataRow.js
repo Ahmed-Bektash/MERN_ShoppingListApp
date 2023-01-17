@@ -1,27 +1,11 @@
 import React from 'react'
-import { useTheme } from '@emotion/react';
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
 import IconButton from '@mui/material/IconButton';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Container, ListItem, Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 
 function DataRow(props) {
-    const { row, open, setOpen} = props;
-    const theme = useTheme();
-    
-    function setColor(){
-        let color= '';
-        if(row.found){
-            color=  theme.palette.secondary.main;
-        }else if(row.notAvailable){
-            color = theme.palette.secondary.light;
-        }else{
-            color = 'inherit';
-        }
-        return color;
-    }
+    const { row } = props;
 
   return (
     
@@ -29,9 +13,9 @@ function DataRow(props) {
         <IconButton
             aria-label="expand row"
             size="small"
-            onClick={() => setOpen(!open)}
+            onClick={() => row.setOpen(!row.open)}
             >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {row.open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </IconButton>
 
         <Container sx={{
