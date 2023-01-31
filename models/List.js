@@ -1,7 +1,6 @@
-import { Schema as _Schema, model } from 'mongoose';
+import { Schema as _Schema, model,SchemaTypes } from 'mongoose';
 const Schema = _Schema; //capital S
 
-import ItemSchema from './Item.js'
 
 //creating schema basically means what the data should look like when saved.
 const ListSchema = new Schema({
@@ -9,9 +8,19 @@ const ListSchema = new Schema({
         type:String,
         required: true
     },
-    items:{
-        type:[ItemSchema],
-        require:true
+    items:[{
+        type: SchemaTypes.ObjectId,
+        ref:'item',
+        required:true
+    }],
+    type:{
+        type:String,
+        enum:['shopping','checklist'] //add others when necessary
+    },
+    user:{
+        type:SchemaTypes.ObjectId,
+        ref: 'User',
+        required:true
     },
     date:{
         type: Date, //capital D
@@ -21,4 +30,5 @@ const ListSchema = new Schema({
 });
 
 //exporting the model and schema
-module.exports = List = mongoose.model('list',ListSchema);
+const List = model('List',ListSchema);
+export default List

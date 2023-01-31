@@ -1,7 +1,5 @@
-import { Schema as _Schema, model } from 'mongoose';
+import { Schema as _Schema, model,SchemaTypes } from 'mongoose';
 const Schema = _Schema; //capital S
-
-import ListSchema from './list.js'
 
 //creating schema basically means what the data should look like when saved.
 const UserSchema = new Schema({
@@ -11,16 +9,17 @@ const UserSchema = new Schema({
     },
     email:{
         type:String,
-        require:true,
+        required:true,
         unique:true
     },
     password:{
         type:String,
-        require:true,
-    },
+        required:true,
+    }, 
     role:{
         type:String,
-        enum: ['admin', 'normal','paid']
+        enum: ['admin', 'normal','paid'],
+        default:'normal'
     },
     reset_password_token:{
         type:String
@@ -28,9 +27,10 @@ const UserSchema = new Schema({
     reset_password_expire_time:{
         type:String
     },
-    Lists:{
-        type:[ListSchema]
-    },
+    Lists:[{
+        type:SchemaTypes.ObjectId,
+        ref: 'List',
+    }],
     date:{
         type: Date, //capital D
         default: Date.now //current date of creation
@@ -39,4 +39,5 @@ const UserSchema = new Schema({
 });
 
 //exporting the model and schema
-module.exports = User = mongoose.model('user',UserSchema);
+const User = model('User',UserSchema);
+export default User

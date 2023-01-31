@@ -8,7 +8,7 @@ dotenv.config();
 import { ErrorResponse, ErrorTypes } from './utils/utils.js';
 //requiring the routes: it's kept in a separate folder to be clean.
 import items from './routes/api/items.js';
-// const users = require('./routes/api/users');
+import users from './routes/api/users.js';
 
 //initialize the app
 const app = express();
@@ -52,7 +52,7 @@ async function ConnectDBs(){
 
     //middleware for all apis to make sure all routes with this url will go to a routing handler.
 app.use('/api/items',items);
-// app.use('/api/users',users);
+app.use('/api/users',users);
 
 //serve the static assets here if we are in production (there is a post build script that will serve them)
 if(process.env.NODE_ENV === 'production'){
@@ -72,7 +72,7 @@ app.listen(port, async()=>{
 
 process.on("unhandledRejection",(error)=>{ //this also takes a promise with the error 
     console.log("There is an error",error);
-    server.close(()=>process.exit(1)); //one means error 
+    server.close(()=>process.exit(1)); //1 means error 
   });
 
 app.all('*',(req,res,next)=>{

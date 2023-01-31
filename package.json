@@ -15,10 +15,13 @@
   "author": "Ahmed Bektash",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "concurrently": "^6.0.1",
+    "crypto": "^1.0.1",
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
-    "mongoose": "^6.7.5"
+    "mongoose": "^6.7.5",
+    "nodemailer": "^6.9.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
