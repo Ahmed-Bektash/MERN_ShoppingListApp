@@ -7,19 +7,20 @@ import {Collapse} from '@mui/material';
 import ControlsRow from './ControlsRow';
 import DataRow from './DataRow';
 import {Context} from '../logic/DataProvider'
+import { toggleFound, toggleNotAvailable } from '../logic/Item/ItemProvider';
 
 function ShoppingListItem(props) {
     const {row} = props;
     const [open, setOpen] = React.useState(false);
     const [rowShow, setRowShow] = React.useState(true);
-    const {toggleNotAvailable,toggleFound} = React.useContext(Context);
+    const {ItemDispatch} = React.useContext(Context);
     const theme = useTheme();
     
     function foundHandler(){
         if(row.notAvailable){
-            toggleNotAvailable(row._id,row.notAvailable);
+            toggleNotAvailable(ItemDispatch,row._id,row.notAvailable);
         }
-       toggleFound(row._id,row.found);
+       toggleFound(ItemDispatch,row._id,row.found);
        setRowShow(!rowShow);
        setOpen(!open);
    } 

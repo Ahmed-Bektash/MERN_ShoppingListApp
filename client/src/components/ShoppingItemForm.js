@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import TextFieldWrapper from './Forms/FormTextField';
 
 function ShoppingItemForm(props) {
-    const {AddItem,CloseModal} = props
+    const {AddItem,CloseModal,item_dispatch} = props
     const initialValues={
         name:"",
         amount:1
@@ -33,7 +33,7 @@ function ShoppingItemForm(props) {
 
           if(newItem.name){ 
             //add amount
-            AddItem(newItem.name,newItem.amount); //maybe await this to make it more robust
+            AddItem(item_dispatch,newItem.name,newItem.amount); //maybe await this to make it more robust
             //close the modal
             CloseModal();
             }

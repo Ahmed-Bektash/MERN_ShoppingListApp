@@ -14,12 +14,13 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useTheme } from '@emotion/react';
+import { decreaseItem, increaseItem,toggleNotAvailable, removeItem } from '../logic/Item/ItemProvider';
 
 
 function ControlsRow(props) {
     const {row} = props;
     const theme = useTheme();
-    const {removeItem,increase,decrease,toggleNotAvailable} = useContext(Context);
+    const {ItemDispatch} = useContext(Context);
     
 
   return (
@@ -44,25 +45,25 @@ function ControlsRow(props) {
                         </TableCell>    
 
                         <TableCell padding="none">
-                            < IconButton onClick={()=>decrease(row.id)}>
+                            < IconButton onClick={()=>decreaseItem(ItemDispatch,row.id)}>
                                 <RemoveCircleOutlineIcon/>
                             </IconButton>
                         </TableCell>
                         
                         <TableCell padding="none">
-                            < IconButton onClick={()=>increase(row.id)}>
+                            < IconButton onClick={()=>increaseItem(ItemDispatch,row.id)}>
                                 <AddCircleOutlineIcon/>
                             </IconButton>
                         </TableCell>
 
                         <TableCell padding="none">
-                            <IconButton  onClick={()=>toggleNotAvailable(row.id,row.notAvailable)}>
+                            <IconButton  onClick={()=>toggleNotAvailable(ItemDispatch,row.id,row.notAvailable)}>
                                 <ErrorOutlineIcon sx={{color:theme.palette.error.main}} />
                             </IconButton>
                         </TableCell>
 
                         <TableCell padding="none">
-                            <IconButton onClick={()=>removeItem(row.id)}>
+                            <IconButton onClick={()=>removeItem(ItemDispatch,row.id)}>
                                 <DeleteIcon />
                             </IconButton>
                         </TableCell> 

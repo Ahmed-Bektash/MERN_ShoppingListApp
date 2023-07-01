@@ -1,4 +1,4 @@
-import { Schema as _Schema, model } from 'mongoose';
+import { Schema as _Schema, model,SchemaTypes } from 'mongoose';
 const Schema = _Schema; //capital S
 
 //creating schema basically means what the data should look like when saved.
@@ -18,6 +18,11 @@ const ItemSchema = new Schema({
     found:{
         type:Boolean,
         require:false
+    },
+    list:{
+        type: SchemaTypes.ObjectId,
+        ref:'list',
+        required:false //make true when you add it in the front end
     },
     date:{
         type: Date, //capital D

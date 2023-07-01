@@ -19,13 +19,12 @@ export const colourPalette={
 
 export default function Layout({children}) {
 
-  const {darkMode} = useContext(Context);
-
+  const {GlobalState} = useContext(Context);
   //https://mui.com/system/the-sx-prop/
   //https://mui.com/system/styled/
 const theme = createTheme({
           palette: {
-            mode:darkMode?'dark':'light',
+            mode:GlobalState.darkMode?'dark':'light',
             primary: {
               main: colourPalette.CHARCOAL,
               dark:colourPalette.DARK_BCKRND,

@@ -8,9 +8,10 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import ShoppingItemForm from './ShoppingItemForm';
+import { AddItem } from '../logic/Item/ItemProvider';
 
  function ItemModal(){
-    const {darkMode,isMobile,AddItem} = useContext(Context);
+    const {GlobalState,ItemDispatch} = useContext(Context);
     const [IsModalOpen,SetIsModalOpen] = useState(false);
     function toggle(){
         SetIsModalOpen(!IsModalOpen);
@@ -21,8 +22,8 @@ import ShoppingItemForm from './ShoppingItemForm';
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: isMobile?'90%':'40%',
-        bgcolor: darkMode?'primary.main':'background.paper',
+        width: GlobalState.isMobile?'90%':'40%',
+        bgcolor: GlobalState.darkMode?'primary.main':'background.paper',
         boxShadow: 24,
         p: 4,
         border:'none',
@@ -50,7 +51,7 @@ return(
                 <Fade in={IsModalOpen}>
                 <Box sx={Modalstyle}>
                     <Typography variant='h2'> What would you like to add? </Typography>
-                    <ShoppingItemForm CloseModal={toggle} AddItem={AddItem} />
+                    <ShoppingItemForm CloseModal={toggle} AddItem={AddItem} item_dispatch ={ItemDispatch}/>
                 </Box>
                 </Fade>
             </Modal>

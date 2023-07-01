@@ -1,6 +1,6 @@
 import React, {useContext,useEffect,useState} from 'react';
 import {Context} from '../logic/DataProvider';
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import ShoppingListTable from './ShoppingListTable';
 import ShoppingListControlls from './ShoppingListControlls';
 import ItemModal from './ItemModal';
@@ -19,7 +19,7 @@ import ItemModal from './ItemModal';
 //   ];
 
 function ShoppingList (){
-    const {ItemsArray,isMobile} = useContext(Context);
+    const {ItemState,GlobalState} = useContext(Context);
     const [foundArray,setFoundArray] = useState([]);
     const [mainCart,setMainCart] = useState([]);
 
@@ -27,7 +27,7 @@ function ShoppingList (){
         // console.log(ItemsArray)
         setFoundArray(()=>[]);
         setMainCart(()=>[]);
-        ItemsArray.forEach(element => {
+        ItemState.ItemsArray.forEach(element => {
             if(element.found === true)
             {
                 //add it to found array
@@ -41,10 +41,10 @@ function ShoppingList (){
             
         });
 
-    }, [ItemsArray])
+    }, [ItemState.ItemsArray])
     
 
-    if(ItemsArray.length ===0){
+    if(ItemState.ItemsArray.length ===0){
         return (
             <Box>
                 <Container sx={{mt:4, display:"flex", flexDirection:"column",justifyContent:"center", alignItems:"center"}}>
@@ -60,7 +60,7 @@ function ShoppingList (){
         return(
             
             <Box>
-            { !isMobile && 
+            { !GlobalState.isMobile && 
             <Container sx={{mt:4}}>
                 <ShoppingListControlls />
             </Container>}
@@ -69,7 +69,7 @@ function ShoppingList (){
                 <ShoppingListTable rows={mainCart} title="Title of shopping list"/>
             </Container>
 
-            {isMobile && 
+            {GlobalState.isMobile && 
             <Container sx={{mt:2}}>
                 <ShoppingListControlls />
             </Container>} 

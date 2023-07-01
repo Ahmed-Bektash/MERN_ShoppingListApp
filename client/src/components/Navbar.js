@@ -1,4 +1,4 @@
-import {useState,useContext}from 'react';
+import {useContext}from 'react';
 import Cookies from 'js-cookie';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -9,17 +9,17 @@ import { useTheme } from '@mui/material/styles';
 import DarkMode from '@mui/icons-material/DarkMode';
 import LightMode from '@mui/icons-material/LightMode';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import {Context} from '../logic/DataProvider.js'
+import {Context, ToggleDarkMode} from '../logic/DataProvider.js'
 import SideBar from './SideBar.js';
 
 
 export default function NavBar() {
   const theme = useTheme();
-  const {ItemsArray,darkMode,ToggleDarkMode,isMobile} = useContext(Context);
+  const {ItemState,GlobalState,GlobalDispatch} = useContext(Context);
   
   const handleDarkMode=()=>{
-    ToggleDarkMode(darkMode ? false : true)
-    const newDarkModeState = !darkMode; //because it has no yet been set at this moment
+    ToggleDarkMode(GlobalDispatch,GlobalState.darkMode ? false : true)
+    const newDarkModeState = !GlobalState.darkMode; //because it has no yet been set at this moment
     const expire_time = 10080; //in min --> one week: 10080 min
     const expireBy = new Date(new Date().getTime()+expire_time*60*1000);
     Cookies.set('darkMode',newDarkModeState?'ON':'OFF',{secure:process.env.NODE_ENV==='production',expires:expireBy});
@@ -33,9 +33,9 @@ export default function NavBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <SideBar anchor={isMobile?"bottom":"left"} />
+          <SideBar anchor={GlobalState.isMobile?"bottom":"left"} />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Number of Items = {ItemsArray.length}
+            Number of Items = {ItemState.ItemsArray.length}
           </Typography>
           <IconButton
               aria-label="expand row"
@@ -45,7 +45,7 @@ export default function NavBar() {
             <AccountCircleIcon />
           </IconButton>
           <IconButton onClick={handleDarkMode} color='inherit'>
-              <DarkModeButton IsDarkMode={darkMode}/>
+              <DarkModeButton IsDarkMode={GlobalState.darkMode}/>
           </IconButton>
         </Toolbar>
       </AppBar>

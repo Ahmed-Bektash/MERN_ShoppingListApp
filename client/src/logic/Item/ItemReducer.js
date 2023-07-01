@@ -1,8 +1,9 @@
 
 
-const  reducer= (state,action)=>{
+const  ItemReducer= (state,action)=>{
 
     if(action.type === 'CLEAR_CART'){
+        console.log("in clear cart")
         return ({...state,ItemsArray:[]});
     }
     if(action.type === 'REMOVE_ITEM'){
@@ -58,15 +59,9 @@ const  reducer= (state,action)=>{
                 return {...state}
             }
     }
-    if(action.type === 'LOADING'){
-        return {...state,loading:true}
-    }
+    
     if(action.type === 'DISPLAY'){
         return {...state,ItemsArray:action.payload,loading:false}
-    }
-
-    if(action.type === 'DARK'){
-        return {...state,darkMode:action.payload}
     }
 
 
@@ -87,4 +82,4 @@ const  reducer= (state,action)=>{
 
 
 
-export default reducer;
+export default ItemReducer;

@@ -32,7 +32,6 @@ app.use(json());
 async function ConnectDBs(){  
     try {
         const db = process.env.MONGO_URI;
-        
         connect(db,{
             useNewUrlParser: true, 
             // useCreateIndex: true,
@@ -52,6 +51,7 @@ async function ConnectDBs(){
 
     //middleware for all apis to make sure all routes with this url will go to a routing handler.
 app.use('/api/items',items);
+// app.use('/api/items',lists);
 app.use('/api/users',users);
 
 //serve the static assets here if we are in production (there is a post build script that will serve them)

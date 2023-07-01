@@ -3,5 +3,6 @@
 [OK] connect cookies
 [OK] connect logic to backend
 [OK] extend darkmode time
-[] add shopping list title to the DB
+[] add shopping list title to FrontEnd
 [] adjust font in theme
+[] add error infrastructure in utils
