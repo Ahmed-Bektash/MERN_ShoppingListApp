@@ -32,3 +32,6 @@ function getWindowDimensions() {
   
     return windowDimensions;
   }
+
+
+  export const isAuthenticated = () => !!localStorage.token;

@@ -1,32 +1,51 @@
-import React,{useContext} from 'react';
+import React, { Suspense } from 'react';
 import './App.css';
-import ShoppingList from './components/ShoppingList'
-import { Context } from './logic/DataProvider';
-import NavBar from './components/Navbar';
-import Typography from '@mui/material/Typography';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import { Link } from '@mui/material';
+
 import {Provider} from './logic/DataProvider'
 import Layout from './Theme.js'
+import MainPage from './layout/MainPage';
+import { router } from './routes';
+import Loading from './components/Loading';
+import { isAuthenticated } from './logic/utils';
+import {RouterProvider } from 'react-router-dom'
+
+// const RenderRoute = (route) => {
+//   const history = useHistory();
+
+//   document.title = route.title || "Lists App";
+//   if (route.needsAuth && !isAuthenticated()) {
+//     history.push("/user/login");
+//   }
+//   return (
+//     <Route
+//       path={route.path}
+//       exact
+//       render={(props) => <route.component {...props} />}
+//     ></Route>
+//   );
+// };
 
 function App() {
 
-// @TODO: Add layout folder then include this as a component in the app structure  
-  // if(GlobalState.loading){
-  //   return(
-  //     <div style ={{display:'flex',justifyContent:'center', alignItems:'center',marginTop:'10rem'}}><h1>Loading items please wait...</h1></div>
-  //   )
-  // }
   
   return (
 
      <Provider>
       <Layout>
-        <NavBar/>
-        <ShoppingList />
-        <Typography variant="body2" component="div" sx={{ mt: 2, textAlign:'center', color:'inherit'}}>
-            Developed by A.B @ <Link sx={{color:'inherit'}} target= '_' href = 'https://github.com/Ahmed-Bektash/MERN_ShoppingListApp'> <GitHubIcon sx={{height:'1.2rem'}}/> </Link>
-        </Typography>
+        <RouterProvider router={router} />
+        {/* <Router>
+          <Suspense fallback={Loading}>
+            <Switch>
+              {
+                routes.map((route,index)=>{
+                  <RenderRoute {...route} key={index} />
+                })
+              }
+            </Switch>
+          </Suspense>
+            </Router> */}
+
+        
       </Layout>
     </Provider>
     

@@ -62,7 +62,7 @@ const theme = createTheme({
             MuiDrawer:{
               styleOverrides:{
                 paper:{
-                  backgroundColor:colourPalette.CHARCOAL
+                  backgroundImage:'none'
                 }
               }
             }

@@ -6,3 +6,6 @@
 [] add shopping list title to FrontEnd
 [] adjust font in theme
 [] add error infrastructure in utils
+[] if i press enter after typing the list item, the modal should go away
+[] add a delete list button
+[] add a refresh list button to restart to its original state
