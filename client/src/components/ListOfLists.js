@@ -5,7 +5,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { Link } from "react-router-dom";
-import {Collapse} from '@mui/material';
 
 function ListOfLists({lists,toggleDrawer,anchor}) {
     const theme = useTheme();
@@ -14,16 +13,16 @@ function ListOfLists({lists,toggleDrawer,anchor}) {
   return (
     <List>
         {lists.map((list, index) => (
-                    <ListItem key={list.name} disablePadding>
-                            <ListItemButton 
-                            onClick={toggleDrawer(anchor, false)}
-                            onKeyDown={toggleDrawer(anchor, false)}
-                            >
-                                <Link to={`lists/${list.category.toLowerCase()}/${index}`} style={{textDecoration:'none'}}>
-                                    <ListItemText primary={list.name} sx={{color:theme.palette.primary.light}} />
-                                </Link>
-                            </ListItemButton>
-                    </ListItem>
+                    <Link key={list.name} to={`lists/${list.category.toLowerCase()}/${index}`} style={{textDecoration:'none'}}>
+                      <ListItem disablePadding>
+                              <ListItemButton 
+                              onClick={toggleDrawer(anchor, false)}
+                              onKeyDown={toggleDrawer(anchor, false)}
+                              >
+                                      <ListItemText primary={list.name} sx={{color:theme.palette.primary.light}} />
+                              </ListItemButton>
+                      </ListItem>
+                    </Link>
                 ))}
     </List>
   )

@@ -3,9 +3,13 @@
 [OK] connect cookies
 [OK] connect logic to backend
 [OK] extend darkmode time
-[] add shopping list title to FrontEnd
+[] add shopping list title to FrontEnd in navbar instead of number of items and make number of items instead of title in the shopping list header
 [] adjust font in theme
 [] add error infrastructure in utils
 [] if i press enter after typing the list item, the modal should go away
-[] add a delete list button
 [] add a refresh list button to restart to its original state
+[] text field form border disappears when selected...fix it
+
+
+Next Task:
+[] add a delete list button next to clear list button and adjust all colours

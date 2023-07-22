@@ -24,6 +24,11 @@ const ItemSchema = new Schema({
         ref:'list',
         required:false //make true when you add it in the front end
     },
+    user:{
+        type:SchemaTypes.ObjectId,
+        ref: 'User',
+        required:true
+    },
     date:{
         type: Date, //capital D
         default: Date.now //current date of creation

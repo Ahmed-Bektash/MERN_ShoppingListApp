@@ -9,6 +9,7 @@ import { ErrorResponse, ErrorTypes } from './utils/utils.js';
 //requiring the routes: it's kept in a separate folder to be clean.
 import items from './routes/api/items.js';
 import users from './routes/api/users.js';
+import lists from './routes/api/lists.js';
 
 //initialize the app
 const app = express();
@@ -51,7 +52,7 @@ async function ConnectDBs(){
 
     //middleware for all apis to make sure all routes with this url will go to a routing handler.
 app.use('/api/items',items);
-// app.use('/api/items',lists);
+app.use('/api/lists',lists);
 app.use('/api/users',users);
 
 //serve the static assets here if we are in production (there is a post build script that will serve them)

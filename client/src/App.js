@@ -32,20 +32,7 @@ function App() {
 
      <Provider>
       <Layout>
-        <RouterProvider router={router} />
-        {/* <Router>
-          <Suspense fallback={Loading}>
-            <Switch>
-              {
-                routes.map((route,index)=>{
-                  <RenderRoute {...route} key={index} />
-                })
-              }
-            </Switch>
-          </Suspense>
-            </Router> */}
-
-        
+        <RouterProvider router={router} />     
       </Layout>
     </Provider>
     

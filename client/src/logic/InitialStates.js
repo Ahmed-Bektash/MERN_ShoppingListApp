@@ -4,6 +4,7 @@ export const init_item = {
 
  export const init_lists = {
     ListsArray:[],
+    loading:false
  }
 
  export const init_user = {

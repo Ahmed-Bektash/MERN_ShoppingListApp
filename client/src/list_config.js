@@ -28,7 +28,7 @@ export const list_categories = [
     }
 ]
 
-const list_types = ['shopping', //has shopping features like inc/dec ..etc
+export const list_types = ['shopping', //has shopping features like inc/dec ..etc
                     'notes', //checklist with notes
                     'checklist' //simple checklist
                     ]

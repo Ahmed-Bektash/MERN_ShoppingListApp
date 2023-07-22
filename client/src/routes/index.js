@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
     //     title: "Dashboard",
     //     needsAuth: true,
     //   },
-    {
+      {
         path: "/lists/:category/:id",
         element: <ShoppingList />,
         errorElement: <ErrorPage />,

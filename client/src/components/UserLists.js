@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Accordion from '@mui/material/Accordion';
@@ -7,13 +7,16 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ListOfLists from './ListOfLists';
 import { list_categories, list_names } from '../list_config';
+import {Context} from '../logic/DataProvider';
 
 function UserLists({anchor,toggleDrawer}) {
   const theme = useTheme();
+  const {ListState} = useContext(Context);
+
   const [expandList,setExpandList] = useState(false);
 
   const filter_lists = (category)=>{
-        return list_names.filter((list)=>list.category === category)
+        return ListState.ListsArray.filter((list)=>list.category === category)
   }
   
   const handleChange = (panel) => (event, isExpanded) => {

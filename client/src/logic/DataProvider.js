@@ -5,7 +5,9 @@ import useWindowDimensions from './utils'
 import Cookies from 'js-cookie';
 import GlobalReducer from './GlobalReducer';
 import { fetchItems } from './Item/ItemProvider';
-import { init_globState, init_item } from './InitialStates';
+import { init_globState, init_item, init_lists } from './InitialStates';
+import ListReducer from './List/ListReducer';
+import { fetchLists } from './List/ListProvider';
 
 export const Context = createContext();
  
@@ -17,6 +19,7 @@ export const Provider = ({children}) =>{
 
     const [GlobalState,GlobalDispatch] = useReducer(GlobalReducer,init_globState);
     const [ItemState,ItemDispatch] = useReducer(ItemReducer,init_item); //looks for reducer function and initial state
+    const [ListState,ListDispatch] = useReducer(ListReducer,init_lists); 
     // const {WindowWidth} = useWindowDimensions();
 
     // const loc_isMobile = (WindowWidth <= 700 ? true : false);
@@ -27,12 +30,12 @@ export const Provider = ({children}) =>{
     const client_cookies= Cookies.get();
     GlobalDispatch({type: 'DARK',payload:client_cookies['darkMode'] === 'ON'? true : false});
     fetchItems(ItemDispatch);
-
+    fetchLists(ListDispatch);
    },[]);
     
     return(
 
-    <Context.Provider value={{ItemState,ItemDispatch,GlobalState,GlobalDispatch}}>
+    <Context.Provider value={{ListState,ListDispatch,ItemState,ItemDispatch,GlobalState,GlobalDispatch}}>
         {children}
     </Context.Provider>
     );

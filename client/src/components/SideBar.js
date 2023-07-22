@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import { Typography } from '@mui/material';
 import UserLists from './UserLists.js';
+import ListAddition from './ListAddition.js';
 
 
 export default function SideBar(props) {
@@ -47,18 +48,19 @@ export default function SideBar(props) {
         onClose={toggleDrawer(anchor, false)}
         sx={drawerStyles}
         >
-          <IconButton
-            size="large"
-            edge="start"
-            aria-label="menu"
-            sx={{color:theme.palette.secondary.main,alignSelf:'self-start',ml:'0.5rem'}}
-            onClick ={toggleDrawer(anchor, false)}
-          >
-            <MenuIcon />
-        </IconButton>
+              <IconButton
+                size="large"
+                edge="start"
+                aria-label="menu"
+                sx={{color:theme.palette.secondary.main,alignSelf:'self-start',ml:'0.5rem'}}
+                onClick ={toggleDrawer(anchor, false)}
+              >
+                <MenuIcon />
+            </IconButton>
             <Typography variant="h5" padding='1rem' color={theme.palette.primary.light}>
                 Your lists
             </Typography>
+            <ListAddition />
             <UserLists anchor={anchor} toggleDrawer={toggleDrawer} />
         </Drawer>
     </React.Fragment>

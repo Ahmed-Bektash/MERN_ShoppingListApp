@@ -8,19 +8,19 @@ const ListSchema = new Schema({
         type:String,
         required: true
     },
-    items:[{
-        type: SchemaTypes.ObjectId,
-        ref:'item',
-        required:true
-    }],
     type:{
         type:String,
-        enum:['shopping','checklist'] //add others when necessary
+        enum:['shopping','notes','checklist'], //add others when necessary
+        required:true
+    },
+    category:{
+        type:String,
+        required: true
     },
     user:{
         type:SchemaTypes.ObjectId,
         ref: 'User',
-        required:true
+        required:false
     },
     date:{
         type: Date, //capital D
