@@ -1,9 +1,11 @@
 import React, {useContext,useEffect,useState} from 'react';
+import {useNavigate } from 'react-router-dom'
 import {Context} from '../logic/DataProvider';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container, Typography,Button } from '@mui/material';
 import ShoppingListTable from './ShoppingListTable';
 import ShoppingListControlls from './ShoppingListControlls';
 import ItemModal from './ItemModal';
+import ConfirmDeleteList from './ConfirmDeleteList';
 
 //The following rows are for DEV testing only
 // function createData(id,name,amount,notAvailable,found) {
@@ -22,6 +24,7 @@ function ShoppingList (){
     const {ItemState,GlobalState} = useContext(Context);
     const [foundArray,setFoundArray] = useState([]);
     const [mainCart,setMainCart] = useState([]);
+    const [confirmDeleteList,setConfirmDeleteList] = useState(false);
 
     useEffect(() => {
         // console.log(ItemsArray)
@@ -49,7 +52,16 @@ function ShoppingList (){
             <Box>
                 <Container sx={{mt:4, display:"flex", flexDirection:"column",justifyContent:"center", alignItems:"center"}}>
                     <Typography variant='h2'>The cart is empty</Typography>
-                    <ItemModal />
+                    
+                    <Container sx={{mt:1, display:"flex",justifyContent:"center", alignItems:"center"}}>
+                        <ItemModal />
+                        <Button onClick={()=>setConfirmDeleteList(!confirmDeleteList)} variant='outlined' sx={{backgroundColor:theme=>theme.palette.error.main,ml:'1rem'}}>
+                            <Typography variant='button' sx={{color:'primary.light'}}>
+                                Delete List
+                            </Typography>
+                        </Button>
+                        <ConfirmDeleteList listId={GlobalState.curr_list._id} confirmDelete={confirmDeleteList} setConfirmDelete={setConfirmDeleteList}/>
+                    </Container>
                 </Container>
             </Box>
         )

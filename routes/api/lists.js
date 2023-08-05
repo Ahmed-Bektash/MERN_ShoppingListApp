@@ -42,7 +42,7 @@ lists.post('/',(req,res)=>{
 //@desc     delete a list
 //@access   private
 lists.delete('/:id',(req,res)=>{
-    // console.log("delete");
+    console.log("delete list with id:",req.params.id);
     List.findByIdAndRemove(req.params.id)
     .then(()=>res.json({success:true}))
     .catch(err =>res.status(404).json({success:false}));

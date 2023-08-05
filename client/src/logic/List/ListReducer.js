@@ -15,8 +15,10 @@ const  ListReducer= (state,action)=>{
            //     console.log("please enter an item");
                 return {...state}
             }
-        case listActions.DISPLAY_LISTS:
+        case listActions.DISPLAY_LISTS:            
             return {...state,ListsArray:action.payload,loading:false}
+        case listActions.REMOVE_LIST:            
+            return {...state,ListsArray:state.ListsArray.filter((list) => list._id !== action.payload)};
         case listActions.LOADING:
             return {...state,loading:true}
     

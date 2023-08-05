@@ -2,19 +2,7 @@ import axios from 'axios';
 import { listActions } from './ListActions';
 
 
-// export const ClearCart = (ItemDispatch)=>{
-//     axios.delete(`/api/items`).then(res =>{
-//         // console.log("success");
-//         ItemDispatch({type:'CLEAR_CART'});
-//     })
-//     // ItemDispatch({type:'CLEAR_CART'});
-// }
 
-// export const removeItem = (ItemDispatch,id)=>{
-//     axios.delete(`/api/items/${id}`).then(res =>{ 
-//         ItemDispatch({type:'REMOVE_ITEM', payload:id}); 
-//     })
-// }
 
 // export const increaseItem = (ItemDispatch,id)=>{
 //     axios.put(`/api/items/${id}`,{'action':'INC'}).then(res =>{
@@ -45,6 +33,22 @@ import { listActions } from './ListActions';
 //     })
 // }
 
+export const fetchLists = async(ListDispatch)=>{
+ 
+  ListDispatch({type:listActions.LOADING});
+  const response = await fetch('/api/lists', {
+   method: 'GET', // *GET is default anyway
+   mode: 'cors', // no-cors, *cors, same-origin
+   cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+   credentials: 'same-origin', // include, *same-origin, omit
+   headers: {
+     'Content-Type': 'application/json'
+   }});
+  const userLists = await response.json();
+  ListDispatch({type:listActions.DISPLAY_LISTS,payload:userLists});
+
+}
+
 export const AddList = (ListDispatch,name,category,type)=>{
     
     axios.post('/api/lists',{name:name,category:category,type:type}).then(res =>{
@@ -55,18 +59,8 @@ export const AddList = (ListDispatch,name,category,type)=>{
     
 }
 
-export const fetchLists = async(ListDispatch)=>{
- 
-   ListDispatch({type:listActions.LOADING});
-   const response = await fetch('/api/lists', {
-    method: 'GET', // *GET is default anyway
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json'
-    }});
-   const cartArray = await response.json();
-   ListDispatch({type:listActions.DISPLAY_LISTS,payload:cartArray});
-
+export const RemoveList = (ListDispatch,id)=>{
+  axios.delete(`/api/lists/${id}`).then(res =>{ 
+    ListDispatch({type:listActions.REMOVE_LIST, payload:id}); 
+  })
 }

@@ -15,11 +15,16 @@ export const init_item = {
  }
 
  export const init_globState = {
-    //  ItemsArray:[],
      loading:false,
      darkMode:false,
      isMobile: false,
-    //  userLoggedIn:true, //later get it from cookies,
+     curr_list:{
+      // _id: '64bbbb115d262b05270722da',
+      // name:"Groceries",
+      // type:"shopping",
+      // category:"Shopping"
+     },
+     //  userLoggedIn:true, //later get it from cookies,
     // userInfo: Cookies.get('userInfo')
     //   ? JSON.parse(Cookies.get('userInfo'))
     //   : null,

@@ -1,5 +1,4 @@
 import React,{useState,useContext} from 'react'
-// import {Button,Modal,ModalHeader,ModalBody,Form,FormGroup,Label,Input} from 'reactstrap';
 import {Context} from '../logic/DataProvider'
 import Box from '@mui/material/Box';
 import Backdrop from '@mui/material/Backdrop';

@@ -1,16 +1,18 @@
 import axios from 'axios';
+import { GlobalStateActions } from '../GlobalStateActions';
+import { ItemActions } from './ItemActions';
 
 
-export const ClearCart = (ItemDispatch)=>{
-    axios.delete(`/api/items`).then(res =>{
+export const ClearCart = (ItemDispatch,listID)=>{
+    axios.delete(`/api/items/list/${listID}`).then(res =>{
         // console.log("success");
-        ItemDispatch({type:'CLEAR_CART'});
+        ItemDispatch({type:ItemActions.CLEAR_CART});
     })
     // ItemDispatch({type:'CLEAR_CART'});
 }
 
 export const removeItem = (ItemDispatch,id)=>{
-    axios.delete(`/api/items/${id}`).then(res =>{ 
+    axios.delete(`/api/items/:${id}`).then(res =>{ 
         ItemDispatch({type:'REMOVE_ITEM', payload:id}); 
     })
 }
@@ -44,11 +46,11 @@ export const toggleFound = (ItemDispatch,id,found)=>{
     })
 }
 
-export const AddItem = (ItemDispatch,name,amount)=>{
+export const AddItem = (ItemDispatch,name,amount,listID,userID)=>{
     
-    axios.post('/api/items',{name:name,amount:amount}).then(res =>{
-    // console.log(res.data,'from ItemDispatcher');
-    ItemDispatch({type:'ADD_ITEM', payload:res.data});
+    // console.log(listID,'from AddItem');
+    axios.post('/api/items',{name:name,amount:amount,list:listID,userID:userID}).then(res =>{
+    ItemDispatch({type:ItemActions.ADD_ITEM, payload:res.data});
     });
 
     /**************************METHOD 2******************************/
@@ -84,10 +86,9 @@ export const AddItem = (ItemDispatch,name,amount)=>{
     
 }
 
-export const fetchItems = async(ItemDispatch)=>{
- 
-   ItemDispatch({type:'LOADING'});
-   const response = await fetch('/api/items', {
+export const fetchItems = async(ItemDispatch,list_id)=>{
+   ItemDispatch({type:GlobalStateActions.LOADING});
+   const response = await fetch(`/api/items/${list_id}`, {
     method: 'GET', // *GET is default anyway
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -96,6 +97,6 @@ export const fetchItems = async(ItemDispatch)=>{
       'Content-Type': 'application/json'
     }});
    const cartArray = await response.json();
-   ItemDispatch({type:'DISPLAY',payload:cartArray});
+   ItemDispatch({type:ItemActions.DISPLAY,payload:cartArray});
 
 }

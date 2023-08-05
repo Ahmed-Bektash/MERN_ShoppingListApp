@@ -1,17 +1,22 @@
+import { GlobalStateActions } from "./GlobalStateActions";
 
 
 const  GlobalReducer= (state,action)=>{
 
-    if(action.type === 'LOADING'){
+    if(action.type === GlobalStateActions.LOADING){
         return {...state,loading:true}
     }
 
-    if(action.type === 'DARK'){
+    if(action.type === GlobalStateActions.DARK){
         return {...state,darkMode:action.payload}
     }
 
-    if(action.type === 'IS_MOBILE'){
+    if(action.type === GlobalStateActions.IS_MOBILE){
         return {...state,isMobile:action.payload}
+    }
+
+    if(action.type === GlobalStateActions.UPDATE_CURR_LIST){
+        return {...state,curr_list:action.payload}
     }
 
 

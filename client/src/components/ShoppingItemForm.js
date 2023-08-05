@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import {Context} from '../logic/DataProvider'
+
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -8,6 +10,7 @@ import TextFieldWrapper from './Forms/FormTextField';
 
 function ShoppingItemForm(props) {
     const {AddItem,CloseModal,item_dispatch} = props
+    const {GlobalState} = useContext(Context);
     const initialValues={
         name:"",
         amount:1
@@ -33,7 +36,7 @@ function ShoppingItemForm(props) {
 
           if(newItem.name){ 
             //add amount
-            AddItem(item_dispatch,newItem.name,newItem.amount); //maybe await this to make it more robust
+            AddItem(item_dispatch,newItem.name,newItem.amount,GlobalState.curr_list._id,null); //maybe await this to make it more robust
             //close the modal
             CloseModal();
             }
