@@ -6,6 +6,7 @@
 [OK] url of list should be its id not its index
 [OK] in init fetch check why list is not updated in init despite having await
 [OK] add a delete list button next to clear list button and adjust all colours
+[OK] add shopping list title to FrontEnd in navbar instead of number of items and make number of items instead of title in the shopping list header
 [] adjust font in theme
 [] add error infrastructure in utils
 [] if i press enter after typing the list item, the modal should go away
@@ -16,6 +17,5 @@
 [] why is fetch called 9 times on app init?
 [] fix additem to include uer
 [] why is the path url pushed twice to the history per click?
-[] user workflow in frontend
 Next Task:
-[] add shopping list title to FrontEnd in navbar instead of number of items and make number of items instead of title in the shopping list header
+[] user workflow in frontend

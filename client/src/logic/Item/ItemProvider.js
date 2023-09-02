@@ -12,7 +12,7 @@ export const ClearCart = (ItemDispatch,listID)=>{
 }
 
 export const removeItem = (ItemDispatch,id)=>{
-    axios.delete(`/api/items/:${id}`).then(res =>{ 
+    axios.delete(`/api/items/${id}`).then(res =>{ 
         ItemDispatch({type:'REMOVE_ITEM', payload:id}); 
     })
 }

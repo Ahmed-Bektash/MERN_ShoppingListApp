@@ -15,7 +15,7 @@ import SideBar from './SideBar.js';
 
 export default function NavBar() {
   const theme = useTheme();
-  const {ItemState,GlobalState,GlobalDispatch} = useContext(Context);
+  const {GlobalState,GlobalDispatch} = useContext(Context);
   
   const handleDarkMode=()=>{
     ToggleDarkMode(GlobalDispatch,GlobalState.darkMode ? false : true)
@@ -35,7 +35,7 @@ export default function NavBar() {
         <Toolbar>
           <SideBar anchor={GlobalState.isMobile?"bottom":"left"} />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Number of Items = {ItemState.ItemsArray.length}
+            {GlobalState.curr_list.name? GlobalState.curr_list.name: ""}
           </Typography>
           <IconButton
               aria-label="expand row"

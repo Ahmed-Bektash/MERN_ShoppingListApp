@@ -80,7 +80,8 @@ function ShoppingList (){
             </Container>}
             
             <Container sx={{mt:2}}>
-                <ShoppingListTable rows={mainCart} title="Title of shopping list"/>
+                <ShoppingListTable rows={mainCart} title={`Number of Items = ${ItemState.ItemsArray.length}`
+                }/>
             </Container>
 
             {GlobalState.isMobile && 
