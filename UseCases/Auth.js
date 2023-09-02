@@ -8,7 +8,7 @@ export function Authenticate(req,res,next){
     if(!req.session || !req.session.user_ID || !req.session.user_Type){
         // next(new ErrorResponse("user not authenticated",ErrorTypes.NOT_AUTHENTICATED));
     }else{ 
-        next();
+        next(); 
     }
 }
 

@@ -1,5 +1,4 @@
 import React, {useContext,useEffect,useState} from 'react';
-import {useNavigate } from 'react-router-dom'
 import {Context} from '../logic/DataProvider';
 import { Box, Container, Typography,Button } from '@mui/material';
 import ShoppingListTable from './ShoppingListTable';
@@ -44,7 +43,10 @@ function ShoppingList (){
             
         });
 
-    }, [ItemState.ItemsArray])
+    }, [ItemState.ItemsArray,GlobalState.curr_list]);
+
+
+    
     
 
     if(ItemState.ItemsArray.length ===0){

@@ -1,5 +1,4 @@
-import React, {useContext, useState,useEffect} from 'react'
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, {useContext} from 'react'
 import {Context} from '../logic/DataProvider';
 import { Button, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -8,34 +7,21 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import { RemoveList } from '../logic/List/ListProvider';
 import { GlobalStateActions } from '../logic/GlobalStateActions';
+import {useNavigate } from 'react-router-dom'
 
 function ConfirmDeleteList({listId,confirmDelete,setConfirmDelete}) {
     
     const {GlobalState,GlobalDispatch,ListState,ListDispatch} = useContext(Context);
-    const [lastLocation,setLastLocation] = useState('');
-    const location = useLocation();
     const navigate = useNavigate();
+    
 
     const DeleteListHandler = ()=>{
         setConfirmDelete(!confirmDelete);
-        // RemoveList(ListDispatch,listId);
+        RemoveList(ListDispatch,listId);
         GlobalDispatch({type:GlobalStateActions.UPDATE_CURR_LIST,payload:ListState.ListsArray[0]});
-        navigate(`/lists/${GlobalState.curr_list.category}/${GlobalState.curr_list._id}`);
+        navigate(`/lists/${GlobalState.curr_list.category.toLowerCase()}/${GlobalState.curr_list._id}`);
+        window.location.reload(); 
     }
-
-    // useEffect(() => {
-    //   console.log("location changed",location)
-    //   const currPathname = location.pathname;
-    //   if(lastLocation != currPathname){
-    //     console.log("new location")
-    //     setLastLocation(location.pathname)
-    //     console.log(ListState.ListsArray)
-    //     const nextList = ListState.ListsArray.find((list)=>(list?list._id:'') === currPathname.split('/')[-1])
-    //     GlobalDispatch({type:GlobalStateActions.UPDATE_CURR_LIST,payload:nextList});
-    //   }
-
-
-    // }, [location])
     
 
     const ConfirmDeleteListstyle = {
