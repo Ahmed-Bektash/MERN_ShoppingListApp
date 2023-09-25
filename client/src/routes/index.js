@@ -7,7 +7,7 @@ import ShoppingList from '.././components/ShoppingList'
 
 export const router = createBrowserRouter([
     {
-      path: "/user/register",
+      path: "/register",
       element: <Signup />,
       errorElement: <ErrorPage />,
       title: "Register",
@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
     },
   
     {
-      path: "/user/login",
+      path: "/login",
       element: <Login />,
       errorElement: <ErrorPage />,
       title: "Login",

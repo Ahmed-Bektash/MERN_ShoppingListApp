@@ -20,7 +20,7 @@ const ListSchema = new Schema({
     user:{
         type:SchemaTypes.ObjectId,
         ref: 'User',
-        required:false
+        required:true
     },
     date:{
         type: Date, //capital D

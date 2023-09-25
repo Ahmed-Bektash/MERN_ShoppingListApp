@@ -1,95 +1,63 @@
 import User from '../models/User.js';
+import bcrypt from 'bcrypt'
+import { VERIFY_BY } from '../utils/types.js';
 
 
+/**
+ * 
+ * @param {1} user from request
+ * @param {2} verifyby option to check DB for
+ * @returns either undefined/null or a user object or throws an error
+ */
 export async function DB_verifyUser(user,verifyby){
    
     let existingUser;
-
-    if(verifyby === "password"){
         
-        try{
-            await User.findOne({email:user.email},function(err,foundUser){
-                if(err){
-                    console.log('user not found'); //maybe throw error
+    try{
+        switch (verifyby) {
+            case VERIFY_BY.EMAIL:
+                existingUser = await User.findOne({email:user.email});
+                
+                break;
+            case VERIFY_BY.PASSWORD:
+                existingUser = await User.findOne({email:user.email});
+                if(!existingUser)
+                {
+                    throw new Error("User does not exist");
                 }
-                else{
-                     existingUser = foundUser;
+                
+                const correctPassword = await bcrypt.compare(user.password,existingUser.password);
+                if(!correctPassword )
+                { 
+                    throw new Error("Password is not the same");   
                 }
-            })
+    
+                break;
 
-        }catch(err){
-           console.log(`an error occured when finding user by password`,err.message);
+            case VERIFY_BY.ID:
+                existingUser = await User.findOne({_id:user.id});
+                break;
+
+            case VERIFY_BY.TOKEN:
+                existingUser = await User.findOne({reset_password_token:user.reset_password_token})
+                if(parseInt(existingUser.reset_password_expire_time) <= Date.now()){
+                    throw new Error("Token expired please renew");   
+                }
+                break;
+            
+            default:
+                throw new Error("Verification option is not valid");   
         }
+
+        return existingUser;
         
 
-        if(bcrypt.compareSync(user.password,existingUser.password)){ 
-            return existingUser;
-        }else{
-            console.log(`Password is not the same`); //throw an error
-        }
-    
+        
+    }catch(err){
+        existingUser = null;
+        throw new Error(err.message);
     }
-    else if(verifyby === "email"){
-        try{
-            await User.findOne({email:user.email},function(err,foundUser){
-                if(err){
-                    console.log('user not found'); //maybe throw error
-                }
-                else{
-                     existingUser = foundUser;
-                }
-            })
-            return existingUser;
-
-        }catch(err){
-           console.log(`an error occured when finding user by email`,err.message);
-        }
-    
-    }
-    else if(verifyby === "id"){
-        try{
-            await User.findOne({_id:user.id},function(err,foundUser){
-                if(err){
-                    console.log('user not found'); //maybe throw error
-                }
-                else{
-                     existingUser = foundUser;
-                }
-            })
-            return existingUser;
-
-        }catch(err){
-           console.log(`an error occured when finding user by ID`,err.message);
-        }
-    }
-    else if (verifyby === "token"){
-        try{
-             
-            await User.findOne({reset_password_token:user.reset_password_token},function(err,foundUser){
-                if(err){
-                    console.log('user not found'); //maybe throw error
-                }
-                else{
-                        existingUser = foundUser;
-                }
-            })
-
-            if(parseInt(existingUser.reset_password_expire_time) > Date.now()){
-                return existingUser
-            }else{
-                return
-            }
-           
-
-        }catch(err){
-            // user does not exist or token expired
-            console.log(`user does not exist or token expired`,err.message);
-
-        }
-
-    }else{
-        return
-    }
+        
 
 
 }

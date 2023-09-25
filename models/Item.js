@@ -27,7 +27,7 @@ const ItemSchema = new Schema({
     user:{
         type:SchemaTypes.ObjectId,
         ref: 'User',
-        required:false //make true when connecting frontend
+        required:true //make true when connecting frontend
     },
     date:{
         type: Date, //capital D

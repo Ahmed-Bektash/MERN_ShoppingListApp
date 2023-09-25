@@ -7,15 +7,21 @@
 [OK] in init fetch check why list is not updated in init despite having await
 [OK] add a delete list button next to clear list button and adjust all colours
 [OK] add shopping list title to FrontEnd in navbar instead of number of items and make number of items instead of title in the shopping list header
+[OK] fill in the list actions file
+[OK] in models make user required for lists and items
 [] adjust font in theme
 [] add error infrastructure in utils
 [] if i press enter after typing the list item, the modal should go away
 [] change form colors in light mode for adding a list
 [] add a refresh list button to restart to its original state
 [] text field form border disappears when selected...fix it
-[] fill in the list actions file
 [] why is fetch called 9 times on app init?
-[] fix additem to include uer
-[] why is the path url pushed twice to the history per click?
+[] add a feature to copy from list to list either full list or an item
+[] add logic to update list config: type/category...etc
+[] add logic for different kinds of lists: shopping, todo, notes...etc
 Next Task:
+[] fix additem to include user
 [] user workflow in frontend
+[] during auth make sure the access to req.user.id is not req.user._id
+[] add authentication condition in navbar to show items for when user is signed in or signed out
+[] dim passwords in input field of signup/login 

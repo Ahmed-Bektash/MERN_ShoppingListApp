@@ -1,20 +1,22 @@
 import { Router } from 'express';
+import bcrypt from 'bcrypt';
+import jsonwebtoken from 'jsonwebtoken';
 import {Authenticate,Authorize} from '../../UseCases/Auth.js';
 import { DB_verifyUser } from '../../UseCases/VerifyUser.js';
 import Forgot_Password from '../../UseCases/ForgotPassword.js';
 import Reset_Password from '../../UseCases/ResetPassword.js';
 import Delete from '../../UseCases/DeleteUser.js';
 import User from '../../models/User.js';
-import { USER_ROLES,Page_Type } from '../../utils/types.js';
+import { USER_ROLES,Page_Type, VERIFY_BY } from '../../utils/types.js';
 
 const users = Router();
 
 //@route    GET api/users
-//@desc     Get all users, should only be iing user is admin
+//@desc     Get all users, should only be called if user is admin
 //@access   private
-users.get('/',(req,res)=>{
+users.get('/',(req,res)=>{ //TODO: Add autherization
 
-    User.find()     //get all users only from admins
+    User.find()     //get all users only for admins
     .sort({date: -1}) //-1 is descending and 1 is ascending
     .then(users => res.json(users)) 
     .catch(err => console.log(err));
@@ -24,91 +26,128 @@ users.get('/',(req,res)=>{
 
 //@route    POST api/users
 //@desc     Create a user
-//@access   private
+//@access   public
 users.post('/register',async(req,res)=>{
     
     //check first that they don't exist
     try {
         const user_to_verify= {
-            username:req.body.name,
+            name:req.body.name,
             email:req.body.email,
-            paid: req.body.role,
+            role: req.body.role,
             password: req.body.password
           };
-        await DB_verifyUser(user_to_verify,"email");
+            
+        const existingUser =  await DB_verifyUser(user_to_verify,VERIFY_BY.EMAIL);
+        if(existingUser)
+        {
+          throw new Error("user already exists in DB!");
+        }
+        //encrypt password
+        const salt = 10;
+        const HashedPassword = await bcrypt.hash(req.body.password,salt);
+        user_to_verify.password = HashedPassword;
+        const userInfo= new User(user_to_verify);
+        userInfo = await userInfo.save();
+        const response = {
+          success: true,
+          message: {
+            id:userInfo._id,
+            name:userInfo.name,
+            email:userInfo.email,
+            max_lists: userInfo.max_lists,
+            max_items_in_list: userInfo.max_items_in_list,
+            role: userInfo.role,
+            lists: userInfo.Lists,
+            token:generateToken(userInfo._id),
+          },
+          error: null
+        }
+        res.status(201).json(response);
+        
+            
     } catch (error) {
-        //error happened in verification
+        const response = {
+          success: false,
+          message: "User registration failed",
+          error: error.message,
+        }
+        res.status(400).json(response);
     }
-
-    //encrypt password
-    const salt = 10;
-    const HashedPasswords = await bcrypt.hashSync(req.body.password, salt);
-    const userInfo= new User({
-        username:req.body.name,
-        email:req.body.email,
-        paid: req.body.role,
-        password: HashedPasswords
-      });
-
-      //save user and session
-    userInfo.save()       
-    .then((user)=>{
-        res.json(user)
-        // response.session={
-        //     uid:AddedUser!.id,
-        //     role: AddedUser!.type
-        // }
-    }) 
-    .catch(err=> console.log(err));
-    
 
 }); 
 
    
-   users.post('/login',async(req,res,next)=>{
-     try {
-       
-        const userInfo={
-            username:req.body.username,
-            email:req.body.email,
-            paid: req.body.isPaidAccount,
-            password: req.body.password,
-            type: req.body.type
-          }
-          const LoggedInUser =  await DB_verifyUser(userInfo,"password");
-          res.body = LoggedInUser;
-        //   res.session={
-        //         uid:LoggedInUser.id,
-        //         role: LoggedInUser.type
-        //     }
+users.post('/login',async(req,res,next)=>{
+  try {
+    
+    const userInfo={
+        name:req.body.name,
+        email:req.body.email,
+        password: req.body.password,
+      }
+      
+      const LoggedInUser =  await DB_verifyUser(userInfo,VERIFY_BY.PASSWORD);
 
-   } catch (error) {
-    //  next(new ErrorResponse(error.message,error.type));
-   }
-   });
-   
-   users.post('/logout',Authenticate,async(req,res,next)=>{
-    try {
-        const userInfo={
-            id:req.body.id
-          }
-        const verifiedUser =  await DB_verifyUser(userInfo,"ID");
-        let isLoggedOut=  verifiedUser?true:false;
-         
-        //   res.session={
-        //       loggedout:isLoggedOut
-        //   }
-
-        res.body={
-            success:true,
-            message: 'you have logged out'
+      if(LoggedInUser)
+      {
+        const response = {
+          success: true,
+          message: {
+            id: LoggedInUser._id,
+            name: LoggedInUser.name,
+            max_lists: LoggedInUser.max_lists,
+            max_items_in_list: LoggedInUser.max_items_in_list,
+            role: LoggedInUser.role,
+            lists: LoggedInUser.Lists,
+            token:generateToken(LoggedInUser._id),
+          },
+          error: null,
         }
-          
-        return res;   
-   } catch (error) {
-    //  next(new ErrorResponse(error.message,error.type));
-   }
-   });
+        res.status(201).json(response);
+      }
+      else
+      {
+        throw new Error("The user does not exist");
+      }
+
+
+  } catch (error) {
+    const response = {
+      success: false,
+      message: "LogIn Failed: Email or password incorrect",
+      error: error.message,
+    }
+    res.status(400).json(response);
+  }
+});
+
+users.post('/logout',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res,next)=>{
+    try {
+   
+      if(req.user)
+      {
+        const response = {
+          success: true,
+          message: "You have logged out but I hope you come back again...",
+          error: null,
+        }
+        res.status(200).json(response);
+      }
+      else
+      {
+        throw new Error("User does not exist. How can you log out when you did not register?")
+      }
+        
+    } catch (error) {
+      const response = {
+              success: false,
+              message: "Failed to log out.",
+              error: error.message,
+            }
+      res.status(400).json(response); 
+    }
+});
    
    users.post('/forgotpassword',Authenticate,async(req,res,next)=>{
     try {
@@ -173,16 +212,29 @@ users.post('/register',async(req,res)=>{
    
    });
    
-
-   
-   
-   
    //test diffferent roles
-   
-   users.get('/dashboard',Authenticate,Authorize(USER_ROLES.UNDEFINED,Page_Type.PRIVATE),async(req,res)=>{
-     // console.log(req.headers) 
-     console.log('session:',req.session)
-     res.send('Dashboard!')
+   users.get('/me',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
+      const response = {
+        success: true,
+        message: {
+          id: req.user.id,
+          name: req.user.name,
+          max_lists: req.user.max_lists,
+          max_items_in_list: req.user.max_items_in_list,
+          role: req.user.role,
+          lists: req.user.Lists,
+        },
+        error: null,
+      }
+      res.status(201).json(response);
    });
 
+
+   //Generating a token:
+  const generateToken = (id) =>{
+    const token = jsonwebtoken.sign({id},process.env.JWT_SECRET,{
+      expiresIn:'1w',
+    });
+    return token;
+  }
 export default users;

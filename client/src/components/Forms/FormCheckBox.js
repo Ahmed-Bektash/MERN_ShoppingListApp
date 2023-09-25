@@ -17,7 +17,7 @@ const CheckBoxWrapper = (props) => {
   return (
     <>
         <InputLabel id="checkbox-label">
-            <Checkbox {...field} {...props} checked={field.checked} value={field.value} onChange={handleChange}/>      
+            <Checkbox {...field} {...props} checked={field.checked} value={field.value} onChange={handleChange} sx={{color:theme=>theme.palette.secondary.main}} />      
             {props.label}
         </InputLabel>
         <br />
@@ -32,7 +32,7 @@ const CheckBoxWrapper = (props) => {
 {/* <CheckBoxWrapper label='your label' name='your checkboxname'/> */}
 
 CheckBoxWrapper.propTypes = {
-    value: PropTypes.string.isRequired(),
+    value: PropTypes.string.isRequired,
     label:PropTypes.string,
   };
 

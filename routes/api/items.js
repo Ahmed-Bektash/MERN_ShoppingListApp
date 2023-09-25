@@ -4,135 +4,196 @@ const items = Router();
 
 //item model import so that we can edit the database
 import Item from '../../models/Item.js';
+import {Authenticate,Authorize} from '../../UseCases/Auth.js';
+import { USER_ROLES } from '../../utils/types.js';
 
 //@route    GET api/items
 //@desc     Get all items
-//@access   Public
-items.get('/:listId',(req,res)=>{
-    Item.find({ list: req.params.listId })     //from the Item model we will find all items (find is an function in mongoose)
-    .sort({date: -1}) //-1 is descending and 1 is ascending
-    .then(items => res.json(items)) //it's a promise so we take the resolve of items and Json-ify it to be parsed by react later.
-    .catch(err => console.log(err));
-    //test using PostMan
+//@access   private
+items.get('/:listId',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
+    try {
+        const items = await Item.find({
+             list: req.params.listId,
+             user: req.user.id //maybe needs to be _id
+             }).sort({date: -1}) //-1 is descending and 1 is ascending
+        
+             if(items) //TODO: maybe we need to check that if list is empty it is not undefined
+             {
+                 const response = {
+                     success: true,
+                     message: items,
+                     error: null,
+                 }
+                 res.status(200).json(response);
+             }
+             else{
+                 throw new Error(`items are undefined or empty: ${items}`)
+             }
+        } catch (error) {
+            const response = {
+                success: false,
+                message: `There are no items for this user: ${req.user.name} for this list: ${ req.params.listId}`,
+                error: error.message,
+            }
+            res.status(404).json(response);
+            
+        }
 });
 
 
 
 //@route    POST api/items
 //@desc     Create an item
-//@access   Public (private if there is auth)
-items.post('/',(req,res)=>{
+//@access   Private
+items.post('/', Authenticate, Authorize(USER_ROLES.NORMAL), async(req,res)=>{
     //create a variable that you will create in the database
-    const newItem = new Item({
-        name: req.body.name,       // you can put back ticks because you should enforce a string to match model if you have used the fetch api,In this case we want the name because that is what we defined in our schema. The body parser allows access to req.body
-        found:false,
-        notAvailable:false,
-        amount:req.body.amount?req.body.amount:1,
-        list:req.body.list,
-        user:req.body.user
-    }); 
-    // console.log(newItem,' from server');
-    //instance of your model
-    // console.log(newItem.name);
-     newItem.save()       //saves it in the DB
-    .then(item=>res.json(item)) //it's a promise that when resolved will return the item you saved, you now want to pass it to res in order to process with react later
-    .catch(err=> console.log(err));
-    //test using PostMan
+    try
+    {
+
+        const newItem = new Item({
+            name: req.body.name,
+            found:false,
+            notAvailable:false,
+            amount:req.body.amount?req.body.amount:1,
+            list:req.body.list,
+            user:req.user.id
+        }); 
+        
+        const item = newItem.save()       //saves it in the DB
+        if(item)
+        {
+            const response = {
+                success: true,
+                message: item,
+                error: null,
+            }
+            res.status(200).json(response);
+        }
+        else{
+            throw new Error(`The item could not be saved`)
+        }
+    } catch (error) {
+        const response = {
+            success: false,
+            message: `failed to save item for: ${req.user.name}`,
+            error: error.message,
+        }
+        res.status(500).json(response);
+    }
 }); 
 
 //@route    DELETE api/items/:id
 //@desc     delete an item
 //@access   Public (private if there is auth)
-items.delete('/:id',(req,res)=>{
+items.delete('/:id',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
     // console.log("delete");
-    Item.findByIdAndRemove(req.params.id)
-    .then(()=>res.json({success:true}))
-    .catch(err =>res.status(404).json({success:false}));
+    try {
+        const item_to_del = await Item.findById(req.params.id);
+        
+        if(!item_to_del)
+        {
+            throw new Error("This item does not exist to be deleted...");
+        }
 
-                        /*ANOTHER WAY*/ 
-//    Item.findById(req.params.id) //test with FindByIDAndDelete/remove
-//    .then(item=>item.remove().then(()=>res.json({success:true}))) // FindbyID returns a promise and remove returns a promise, you can then add a success flag
-//     .catch(err =>res.status(404).json({success:false})); //you need catch here in case the ID was not found and then set the status
-//      //test using PostMan
+        if((req.user.id != item_to_del.user.toString()) || (req.user.role != USER_ROLES.ADMIN))
+        {
+            throw new Error("This user cannot delete this item because they are neither admin nor the owner of the item");
+        }
+        await Item.findByIdAndRemove(req.params.id);
+        const response = {
+            success: true,
+            message: `Item with id: ${req.params.id} has been removed`,
+            error: null,
+        }
+        res.status(200).json(response);
+    } catch (error) {
+        const response = {
+            success: false,
+            message: `Item with id: ${req.params.id} Could not be removed`,
+            error: error.message,
+        }
+        res.status(500).json(response);
+        
+    }
  });
 
  //@route    DELETE api/items/
 //@desc     delete all items
-//@access   Public (private if there is auth)
-items.delete('/list/:id',(req,res)=>{
-    Item.deleteMany({list:req.params.id}) //you can also use remove but it is being deprecated
+//@access   Private
+items.delete('/list/:id',Authenticate,Authorize(USER_ROLES.NORMAL),(req,res)=>{
+    Item.deleteMany({
+        list:req.params.id,
+        user:req.user.id
+    }) //you can also use remove but it is being deprecated
     .then(()=>res.json({success:true}))
     .catch(err =>{res.status(404).json({success:false})});
 
-                        /*ANOTHER WAY*/ 
-//    Item.findById(req.params.id) //test with FindByIDAndDelete/remove
-//    .then(item=>item.remove().then(()=>res.json({success:true}))) // FindbyID returns a promise and remove returns a promise, you can then add a success flag
-//     .catch(err =>res.status(404).json({success:false})); //you need catch here in case the ID was not found and then set the status
-//      //test using PostMan
  });
 
  //@route    PUT api/items
 //@desc     update an items status or amount
 //@access   Public (private if there is auth)
-items.put('/:id',(req,res)=>{
+items.put('/:id',Authenticate,Authorize(USER_ROLES.NORMAL), async(req,res)=>{
     let oldAmount;
-                        /*********************INCREASE*******************/
-    if(req.body.action === 'INC'){
-        console.log('increase request');
+    try {
         
-        Item.findOne({_id:req.params.id},function(err,item){
-            if(err){
-                res.status(404).send('item not found'); 
-            }else{
-                 oldAmount = item.amount;
-                 Item.findOneAndUpdate({_id:req.params.id},{amount:oldAmount+1},{upsert:true})
-                   .then(()=>res.json({success:true}))
-                   .catch(err =>res.json({success:false}));
-                 
+        const item_to_update = await Item.findOne({_id:req.params.id,});
+            
+        if(!item_to_update)
+        {
+            throw new Error("This item does not exist to be updated...");
+        }
+
+        if((req.user.id != item_to_update.user.toString()) || (req.user.role != USER_ROLES.ADMIN))
+        {
+            throw new Error("This user cannot update this item because they are neither admin nor the owner of the item");
+        }
+                            /*********************INCREASE*******************/
+        if(req.body.action === 'INC'){
+            console.log('increase request');
+            
+            oldAmount = item_to_update.amount;
+           await  Item.findOneAndUpdate({_id:req.params.id},{amount:oldAmount+1},{upsert:true});
+            
+                                /*********************DECREASE*******************/
+        }else if (req.body.action === 'DEC'){
+            console.log('decrease request');
+            oldAmount = item_to_update.amount;
+            if(oldAmount>1){
+                Item.findOneAndUpdate({_id:req.params.id},{amount:oldAmount-1},{upsert:true});                     
             }
-        })
-                            /*********************DECREASE*******************/
-    }else if (req.body.action === 'DEC'){
-        console.log('decrease request');
-        Item.findOne({_id:req.params.id},function(err,item){
-            if(err){
-                res.status(404).send('item not found'); 
-            }else{
-                 oldAmount = item.amount;
-                 if(oldAmount>1){
-                    Item.findOneAndUpdate({_id:req.params.id},{amount:oldAmount-1},{upsert:true})
-                       .then(()=>res.json({success:true}))
-                       .catch(err =>res.json({success:false}));                     
-                 }else{
-                     //do nothing
-                     res.json({success:true});
-                    //  console.log('nothing to do');
-                 }
-            }
-        })    
-                            /*********************NOT AVAILABLE*******************/
-    }else if (req.body.action === 'NA'){ 
-        console.log('Not available request');
-        Item.findOneAndUpdate({_id:req.params.id},{notAvailable:!req.body.notAvailable},{upsert:true})
-          .then(()=>res.json({success:true}))
-          .catch(err =>res.json({success:false}));
-    }
-                            /*********************STATUS*******************/
-    else if (req.body.action === 'DONE'){ 
-        console.log('toggle done request');
-        Item.findOneAndUpdate({_id:req.params.id},{found:!req.body.found},{upsert:true})
-          .then(()=>res.json({success:true}))
-          .catch(err =>res.json({success:false}));
-    }
-    else {
-        //do nothing
-        res.status(400).json({success:false}); //bad request
+              
+                                /*********************NOT AVAILABLE*******************/
+        }else if (req.body.action === 'NA'){ 
+            console.log('Not available request');
+            Item.findOneAndUpdate({_id:req.params.id,},{notAvailable:!req.body.notAvailable},{upsert:true});
+        }
+                                /*********************STATUS*******************/
+        else if (req.body.action === 'DONE'){ 
+            console.log('toggle done request');
+            Item.findOneAndUpdate({_id:req.params.id,},{found:!req.body.found},{upsert:true});
+        }
+        else {
+            //do nothing
+            throw new Error("The request action is invalid");
+        }
+
+        const response = {
+            success: true,
+            message: `Item updated for request ${req.body.action}!`,
+            error: null,
+        }
+        res.status(200).json(response);
+
+    } catch (error) {
+        const response = {
+            success: false,
+            message: `Item with id: ${req.params.id} Could not be updated`,
+            error: error.message,
+        }
+        res.status(500).json(response);
     }
 
-  
-  
-  
-     //test using PostMan
  });
 
 export default items;

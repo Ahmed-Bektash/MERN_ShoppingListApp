@@ -1,5 +1,5 @@
 import express, { json } from 'express';
-import { connect } from 'mongoose';
+import { connect, mongoose } from 'mongoose';
 import { resolve } from 'path';
 import dotenv from 'dotenv'
 
@@ -33,6 +33,7 @@ app.use(json());
 async function ConnectDBs(){  
     try {
         const db = process.env.MONGO_URI;
+        mongoose.set('strictQuery', true); //solves a deprecation warning in V7
         connect(db,{
             useNewUrlParser: true, 
             // useCreateIndex: true,
@@ -66,7 +67,7 @@ if(process.env.NODE_ENV === 'production'){
 //set up ports and server init
 const port = process.env.PORT || 5000;
 
-app.listen(port, async()=>{
+const server = app.listen(port, async()=>{
     console.log(`server started on port ${port}`);
     await ConnectDBs();
 }); 

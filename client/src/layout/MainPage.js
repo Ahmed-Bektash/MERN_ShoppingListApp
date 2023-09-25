@@ -26,7 +26,6 @@ function MainPage() {
        <div className='selected_list'>
             <Outlet />
        </div>
-        {/* <ShoppingList /> */}
         <Footer />
         
     </>
