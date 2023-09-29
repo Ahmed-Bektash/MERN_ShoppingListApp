@@ -26,7 +26,6 @@ function ShoppingList (){
     const [confirmDeleteList,setConfirmDeleteList] = useState(false);
 
     useEffect(() => {
-        // console.log(ItemsArray)
         setFoundArray(()=>[]);
         setMainCart(()=>[]);
         ItemState.ItemsArray.forEach(element => {

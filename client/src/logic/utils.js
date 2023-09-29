@@ -34,4 +34,11 @@ function getWindowDimensions() {
   }
 
 
-  export const isAuthenticated = () => !!localStorage.token;
+  export const isAuthenticated = () => !!localStorage.getItem("token");
+
+  
+export const headersConfig = {
+  headers:{
+    'authorization': `Bearer ${localStorage.getItem("token")}`
+  }
+};

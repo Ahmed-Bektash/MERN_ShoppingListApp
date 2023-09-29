@@ -59,7 +59,7 @@ items.post('/', Authenticate, Authorize(USER_ROLES.NORMAL), async(req,res)=>{
             user:req.user.id
         }); 
         
-        const item = newItem.save()       //saves it in the DB
+        const item = await newItem.save()       //saves it in the DB
         if(item)
         {
             const response = {

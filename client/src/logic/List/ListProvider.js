@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { listActions } from './ListActions';
-
+import { headersConfig } from '../utils';
 
 
 
@@ -42,25 +42,26 @@ export const fetchLists = async(ListDispatch)=>{
    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
    credentials: 'same-origin', // include, *same-origin, omit
    headers: {
-     'Content-Type': 'application/json'
+     'Content-Type': 'application/json',
+     'authorization': `Bearer ${localStorage.getItem("token")}`
    }});
   const userLists = await response.json();
-  ListDispatch({type:listActions.DISPLAY_LISTS,payload:userLists});
+  ListDispatch({type:listActions.DISPLAY_LISTS,payload:userLists.message});
 
 }
 
 export const AddList = (ListDispatch,name,category,type)=>{
     
-    axios.post('/api/lists',{name:name,category:category,type:type}).then(res =>{
+    axios.post('/api/lists',{name:name,category:category,type:type},headersConfig).then(res =>{
     // console.log(res.data,'from ListDispatcher');
-    ListDispatch({type:listActions.ADD_LIST, payload:res.data});
+    ListDispatch({type:listActions.ADD_LIST, payload:res.data.message});
     });
   
     
 }
 
 export const RemoveList = (ListDispatch,id)=>{
-  axios.delete(`/api/lists/${id}`).then(res =>{ 
+  axios.delete(`/api/lists/${id}`,headersConfig).then(res =>{ 
     ListDispatch({type:listActions.REMOVE_LIST, payload:id}); 
   })
 }

@@ -41,13 +41,13 @@ users.post('/register',async(req,res)=>{
         const existingUser =  await DB_verifyUser(user_to_verify,VERIFY_BY.EMAIL);
         if(existingUser)
         {
-          throw new Error("user already exists in DB!");
+          throw new Error("user already exists!");
         }
         //encrypt password
         const salt = 10;
         const HashedPassword = await bcrypt.hash(req.body.password,salt);
         user_to_verify.password = HashedPassword;
-        const userInfo= new User(user_to_verify);
+        let userInfo= new User(user_to_verify);
         userInfo = await userInfo.save();
         const response = {
           success: true,
@@ -64,6 +64,7 @@ users.post('/register',async(req,res)=>{
           error: null
         }
         res.status(201).json(response);
+        console.log("successfully added a user",req.body.name)
         
             
     } catch (error) {
@@ -72,6 +73,7 @@ users.post('/register',async(req,res)=>{
           message: "User registration failed",
           error: error.message,
         }
+        console.log(response)
         res.status(400).json(response);
     }
 

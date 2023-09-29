@@ -6,6 +6,7 @@ const lists = Router();
 import List from '../../models/List.js';
 import {Authenticate,Authorize} from '../../UseCases/Auth.js';
 import { USER_ROLES } from '../../utils/types.js';
+import User from '../../models/User.js';
 
 //@route    GET api/lists
 //@desc     Get all lists
@@ -54,6 +55,7 @@ lists.post('/',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
             }); 
         //instance of your model
         // console.log(newList.name);
+        await User.findOneAndUpdate({_id:req.user.id},{"$push": { "Lists": newList._id }},{upsert:true})
         const list = await newList.save();     //saves it in the DB
         if(list)
         {
@@ -81,7 +83,7 @@ lists.post('/',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
 //@desc     delete a list
 //@access   private
 lists.delete('/:id',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
-    // console.log("delete list with id:",req.params.id);
+    console.log("delete list with id:",req.params.id);
     try {
         const list_to_del = await List.findById(req.params.id);
         
@@ -89,11 +91,11 @@ lists.delete('/:id',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
         {
             throw new Error("This list does not exist to be deleted...");
         }
-
-        if((req.user.id != list_to_del.user.toString()) || (req.user.role != USER_ROLES.ADMIN))
+        if((req.user.id != list_to_del.user.toString()) && (req.user.role != USER_ROLES.ADMIN))
         {
             throw new Error("This user cannot delete this list because they are neither admin nor the owner of the list");
         }
+        await User.findOneAndUpdate({_id:req.user.id},{"$pull": { "Lists": {"$in": [req.params.id]}}})
         await List.findByIdAndRemove(req.params.id);
         const response = {
             success: true,
@@ -116,11 +118,28 @@ lists.delete('/:id',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
  //@route    DELETE api/lists/
 //@desc     delete all lists
 //@access   private
-lists.delete('/',Authenticate,Authorize(USER_ROLES.NORMAL),(req,res)=>{
+lists.delete('/',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
     // console.log(req);
-    List.deleteMany({user:req.user.id})
-    .then(()=>res.json({success:true}))
-    .catch(err =>res.status(404).json({success:false}));
+    try {
+        
+        await User.findOneAndUpdate({_id:req.user.id},{"Lists":[]},{upsert:true});
+        List.deleteMany({user:req.user.id});
+        const response = {
+            success: true,
+            message: `All lists have been deleted`,
+            error: null,
+        }
+        res.status(200).json(response);
+        
+    } catch (error) {
+        const response = {
+            success: false,
+            message: `Could not delete lists`,
+            error: error.message,
+        }
+        res.status(500).json(response);
+    }
+    
  });
 
  //@route    PUT api/lists

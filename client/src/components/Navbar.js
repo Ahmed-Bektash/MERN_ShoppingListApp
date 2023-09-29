@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 
 export default function NavBar() {
   const theme = useTheme();
-  const {GlobalState,GlobalDispatch} = useContext(Context);
+  const {GlobalState,GlobalDispatch,UserState} = useContext(Context);
   
   const handleDarkMode=()=>{
     ToggleDarkMode(GlobalDispatch,GlobalState.darkMode ? false : true)
@@ -32,7 +32,7 @@ export default function NavBar() {
   const DarkModeButton=(props)=> {
     return (props.IsDarkMode ? <LightMode />:<DarkMode />);
   }
-
+// console.log(GlobalState)
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -41,12 +41,22 @@ export default function NavBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {GlobalState.curr_list.name? GlobalState.curr_list.name: ""}
           </Typography>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              {UserState.username?`Hello ${UserState.username}`:""}
+          </Typography>
           <Tooltip title={`${isAuthenticated()?'logout':'login'}`}>
-            <Link to={`${isAuthenticated()?'logout':'login'}`} style={{textDecoration:'none', color:theme.palette.secondary.main}}>
+            <Link to={`${isAuthenticated()?'/':'login'}`} style={{textDecoration:'none', color:theme.palette.secondary.main}}>
               <IconButton
                     aria-label="expand row"
                     size="small"
                     color="inherit"
+                    onClick={()=>{
+                      if(isAuthenticated())
+                      {
+                        localStorage.removeItem("token");
+                        window.location.reload();
+                      }
+                    }}
                     >
                   {isAuthenticated()?<LogoutIcon />:<LoginIcon />}
               </IconButton>

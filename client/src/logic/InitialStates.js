@@ -8,10 +8,12 @@ export const init_item = {
  }
 
  export const init_user = {
-    userLoggedIn:true, //later get it from cookies,
-    // userInfo: Cookies.get('userInfo')
-    //   ? JSON.parse(Cookies.get('userInfo'))
-    //   : null,
+    isAuth:false, //later get it from cookies,
+    token: localStorage.getItem('token')
+      ? localStorage.getItem('token')
+      : null,
+    username: null,
+    lists:[]
  }
 
  export const init_globState = {

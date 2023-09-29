@@ -15,14 +15,15 @@ export async function Authenticate(req,res,next){
       token = req.headers.authorization.split(' ')[1]; //we want the token
 
       // Verify token
-      console.log("about to verify")
+      // console.log("about to verify")
       const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET);
       // Get user from the token
       req.user = await DB_verifyUser(decoded,VERIFY_BY.ID);
+      // console.log("verified user")
 
       next();
     } catch (error) {
-    //   console.log(error)
+      console.log(error.message)
       res.status(401);
       const response = {
         success: false,
@@ -32,8 +33,9 @@ export async function Authenticate(req,res,next){
       res.json(response); 
     }
   }
-
-  if (!token) {
+  if (req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer') &&
+    !token) {
     res.status(401);
     const response = {
         success: false,
@@ -49,7 +51,6 @@ export async function Authenticate(req,res,next){
 export function Authorize(role){ 
     
     // you can also create a permissions folder with specific CRUD permissions based on access types and user IDs but in this architecture it will be handled in useCases
-    
     return(req,res,next)=>{
 
         if(

@@ -19,9 +19,9 @@
 [] add a feature to copy from list to list either full list or an item
 [] add logic to update list config: type/category...etc
 [] add logic for different kinds of lists: shopping, todo, notes...etc
+[] in Dark mode, text field colors are dark, make it light
+[] form fields show errors in front end
 Next Task:
-[] fix additem to include user
 [] user workflow in frontend
-[] during auth make sure the access to req.user.id is not req.user._id
-[] add authentication condition in navbar to show items for when user is signed in or signed out
 [] dim passwords in input field of signup/login 
+[] add toastify alerts

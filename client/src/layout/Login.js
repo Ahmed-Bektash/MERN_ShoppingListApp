@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -14,12 +14,16 @@ import TextFieldWrapper from '../components/Forms/FormTextField';
 // import CheckBoxWrapper from '../components/Forms/FormCheckbox';
 import { useContext } from 'react';
 import {Context, ToggleDarkMode} from '../logic/DataProvider.js'
+import { LoginUser } from '../logic/User/UserProvider';
+import { isAuthenticated } from '../logic/utils';
+import { listActions } from '../logic/List/ListActions';
 
 
 
 export default function Login() {
   const theme = useTheme();
-  const {GlobalState,GlobalDispatch} = useContext(Context);
+  const {GlobalState,UserState,UserDispatch,ListDispatch} = useContext(Context);
+  const navigate = useNavigate();
 
   const style = {
     position: 'absolute',
@@ -48,6 +52,8 @@ export default function Login() {
 
   return (
       <Container component="main" maxWidth="xs">
+
+          {(!isAuthenticated())?
           <Box sx={style}>
           <Avatar sx={{ m: 1, bgcolor: theme.palette.primary.main}}>
             <LockOutlinedIcon />
@@ -60,8 +66,18 @@ export default function Login() {
             validationSchema={validation}
             onSubmit={async (values, actions) => {
                 // console.log(values)
-              alert(JSON.stringify(values, null, 2));
+              // alert(JSON.stringify(values, null, 2));
               actions.setSubmitting(false);
+              const auth = await LoginUser(UserDispatch,values.email,values.password);
+              if(auth)
+              {
+                navigate(`/`);
+                window.location.reload(); 
+              }
+              else
+              {
+                alert("failed to sign in")
+              }
               
             }}
           >
@@ -101,6 +117,9 @@ export default function Login() {
               </Typography>
             </Link>
         </Box>
+        :
+        <>You are already logged in...</>
+        }
       </Container>
   );
 }

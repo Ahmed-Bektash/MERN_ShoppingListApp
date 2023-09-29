@@ -1,7 +1,6 @@
-import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -14,14 +13,16 @@ import TextFieldWrapper from '../components/Forms/FormTextField';
 import CheckBoxWrapper from '../components/Forms/FormCheckBox';
 import { useContext } from 'react';
 import {Context} from '../logic/DataProvider.js'
+import { RegisterUser } from '../logic/User/UserProvider';
+
 
 
 
 
 export default function SignUp() {
   const theme = useTheme();
-  const {GlobalState,GlobalDispatch} = useContext(Context);
-
+  const {GlobalState,GlobalDispatch,UserState,UserDispatch} = useContext(Context);
+  const navigate = useNavigate();
 
   const style = {
     position: 'absolute',
@@ -41,13 +42,13 @@ export default function SignUp() {
     email:'',
     username:'',
     password:'',
-    termsAccepted: false
+    // termsAccepted: false
   }
   const validation = Yup.object({
     email: Yup.string().email().required('Required'),
     username: Yup.string().required('Required'),
     password: Yup.string().required('Required'),
-    termsAccepted:Yup.boolean().isTrue("Please agree to the terms and conditions")
+    // termsAccepted:Yup.boolean().isTrue("Please agree to the terms and conditions")
   })
 
   return (
@@ -64,13 +65,18 @@ export default function SignUp() {
             validationSchema={validation}
             onSubmit={async (values, actions) => {
                 // console.log(values)
-              alert(JSON.stringify(values, null, 2));
               actions.setSubmitting(false);
+              const auth = await RegisterUser(UserDispatch,values.username,values.email,"normal",values.password);
+              if(auth)
+              {
+                navigate(`/`);
+                window.location.reload(); 
+                
+              }
               
             }}
           >
          <Form>
-           
             <Grid item xs={12} sx={{mb: 3 }}>
               <TextFieldWrapper label={'Email'}  name={'email'} />
              </Grid>
@@ -83,9 +89,9 @@ export default function SignUp() {
               <TextFieldWrapper label={'Password'}  name={'password'}/>
              </Grid>
 
-             <Grid item xs={12} sx={{mb: 0 }}>
+             {/* <Grid item xs={12} sx={{mb: 0 }}>
                 <CheckBoxWrapper label='I agree to the terms and conditions'  name='termsAccepted'/>
-             </Grid>
+             </Grid> */}
              
            <Button type='submit' fullWidth variant="contained" sx={{backgroundColor:theme=>theme.palette.secondary.main,mb:2}}>
             <Typography variant='button'>
