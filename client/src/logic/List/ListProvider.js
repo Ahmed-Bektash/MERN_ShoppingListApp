@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { listActions } from './ListActions';
 import { headersConfig } from '../utils';
+import { GlobalStateActions } from '../GlobalStateActions';
 
 
 
@@ -33,20 +34,21 @@ import { headersConfig } from '../utils';
 //     })
 // }
 
-export const fetchLists = async(ListDispatch)=>{
- 
-  ListDispatch({type:listActions.LOADING});
-  const response = await fetch('/api/lists', {
-   method: 'GET', // *GET is default anyway
-   mode: 'cors', // no-cors, *cors, same-origin
-   cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-   credentials: 'same-origin', // include, *same-origin, omit
-   headers: {
-     'Content-Type': 'application/json',
-     'authorization': `Bearer ${localStorage.getItem("token")}`
-   }});
-  const userLists = await response.json();
-  ListDispatch({type:listActions.DISPLAY_LISTS,payload:userLists.message});
+export const fetchLists = async(ListDispatch,GlobalDispatch,user,token)=>{
+ //fetch lists for the user
+ ListDispatch({type:listActions.LOADING});
+ const Listresponse = await fetch('/api/lists', {
+  method: 'GET', // *GET is default anyway
+  mode: 'cors', // no-cors, *cors, same-origin
+  cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+  credentials: 'same-origin', // include, *same-origin, omit
+  headers: {
+    'Content-Type': 'application/json',
+    'authorization': `Bearer ${token}`
+  }});
+  const userLists = await Listresponse.json();
+  
+  return userLists.message;
 
 }
 

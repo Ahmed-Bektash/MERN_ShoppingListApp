@@ -19,7 +19,7 @@ function ConfirmDeleteList({listId,confirmDelete,setConfirmDelete}) {
         setConfirmDelete(!confirmDelete);
         RemoveList(ListDispatch,listId);
         GlobalDispatch({type:GlobalStateActions.UPDATE_CURR_LIST,payload:ListState.ListsArray[0]});
-        navigate(`/lists/${GlobalState.curr_list.category.toLowerCase()}/${GlobalState.curr_list._id}`);
+        navigate(`/user/lists/${GlobalState.curr_list.category.toLowerCase()}/${GlobalState.curr_list._id.toLowerCase()}`);
         window.location.reload(); 
     }
     

@@ -69,7 +69,7 @@ export default function SignUp() {
               const auth = await RegisterUser(UserDispatch,values.username,values.email,"normal",values.password);
               if(auth)
               {
-                navigate(`/`);
+                navigate(`/user`);
                 window.location.reload(); 
                 
               }

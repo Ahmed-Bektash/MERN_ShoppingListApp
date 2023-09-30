@@ -11,14 +11,14 @@ import { fetchItems } from '../logic/Item/ItemProvider';
 
 function ListOfLists({lists,toggleDrawer,anchor}) {
     const theme = useTheme();
-    const {ItemDispatch,GlobalDispatch,ListState} = useContext(Context);
+    const {ItemDispatch,GlobalDispatch,ListState,UserState} = useContext(Context);
   
    const newListHandler = (listID)=>{
       //handle history here
 
       const newList = ListState.ListsArray.find((list)=>list._id === listID);
       GlobalDispatch({type:GlobalStateActions.UPDATE_CURR_LIST,payload:newList});
-      fetchItems(ItemDispatch,newList._id);
+      fetchItems(ItemDispatch,newList._id,UserState.token);
 
     } 
 

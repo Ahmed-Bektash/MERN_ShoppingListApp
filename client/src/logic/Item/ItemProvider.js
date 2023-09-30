@@ -87,7 +87,7 @@ export const AddItem = (ItemDispatch,name,amount,listID,userID)=>{
     
 }
 
-export const fetchItems = async(ItemDispatch,list_id)=>{
+export const fetchItems = async(ItemDispatch,list_id,token)=>{
    ItemDispatch({type:GlobalStateActions.LOADING});
    const response = await fetch(`/api/items/${list_id}`, {
     method: 'GET', // *GET is default anyway
@@ -96,9 +96,9 @@ export const fetchItems = async(ItemDispatch,list_id)=>{
     credentials: 'same-origin', // include, *same-origin, omit
     headers: {
       'Content-Type': 'application/json',
-      'authorization': `Bearer ${localStorage.getItem("token")}`
+      'authorization': `Bearer ${token}`
     }});
    const cartArray = await response.json();
    ItemDispatch({type:ItemActions.DISPLAY,payload:cartArray.message});
-
+   return cartArray.message;
 }

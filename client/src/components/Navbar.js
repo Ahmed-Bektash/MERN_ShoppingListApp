@@ -44,21 +44,21 @@ export default function NavBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               {UserState.username?`Hello ${UserState.username}`:""}
           </Typography>
-          <Tooltip title={`${isAuthenticated()?'logout':'login'}`}>
-            <Link to={`${isAuthenticated()?'/':'login'}`} style={{textDecoration:'none', color:theme.palette.secondary.main}}>
+          <Tooltip title={`${isAuthenticated(UserState)?'logout':'login'}`}>
+            <Link to={`${isAuthenticated(UserState)?'/':'login'}`} style={{textDecoration:'none', color:theme.palette.secondary.main}}>
               <IconButton
                     aria-label="expand row"
                     size="small"
                     color="inherit"
                     onClick={()=>{
-                      if(isAuthenticated())
+                      if(isAuthenticated(UserState))
                       {
                         localStorage.removeItem("token");
                         window.location.reload();
                       }
                     }}
                     >
-                  {isAuthenticated()?<LogoutIcon />:<LoginIcon />}
+                  {isAuthenticated(UserState)?<LogoutIcon />:<LoginIcon />}
               </IconButton>
             </Link>
           </Tooltip>

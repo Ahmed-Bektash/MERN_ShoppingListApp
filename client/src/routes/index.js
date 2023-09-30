@@ -1,5 +1,6 @@
 import Login from "../layout/Login";
 import MainPage from "../layout/MainPage";
+import Dashboard from "../layout/Dashboard";
 import Signup from "../layout/Signup";
 import ErrorPage from "../layout/ErrorPage";
 import {createBrowserRouter } from "react-router-dom";
@@ -22,26 +23,26 @@ export const router = createBrowserRouter([
       needsAuth: false,
     },
     {
+      path: "/user",
+      element: <Dashboard />,
+      errorElement: <ErrorPage />,
+      title: "Dashboard",
+      needsAuth: true,
+      children:[ // use <Outlet /> in the parent component in order to render these children
+        {
+          path: "/user/lists/:category/:id",
+          element: <ShoppingList />,
+          errorElement: <ErrorPage />,
+          title: "Your List",
+          needsAuth: true,
+        },
+      ]
+    },
+    {
       path: "/",
       element: <MainPage />,
       errorElement: <ErrorPage />,
       title: "Home",
-      needsAuth: true,
-      children:[ // use <Outlet /> in the parent component in order to render these children
-    // {
-    //     path: "/user/:id",
-    //     element: <User />,
-    //     errorElement: <ErrorPage />,
-    //     title: "Dashboard",
-    //     needsAuth: true,
-    //   },
-      {
-        path: "/lists/:category/:id",
-        element: <ShoppingList />,
-        errorElement: <ErrorPage />,
-        title: "Shopping List",
-        needsAuth: true,
-      },
-      ]
+      needsAuth: false,
     },
   ]);

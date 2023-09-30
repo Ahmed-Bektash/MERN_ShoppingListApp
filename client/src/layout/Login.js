@@ -22,7 +22,7 @@ import { listActions } from '../logic/List/ListActions';
 
 export default function Login() {
   const theme = useTheme();
-  const {GlobalState,UserState,UserDispatch,ListDispatch} = useContext(Context);
+  const {GlobalState,UserState,UserDispatch} = useContext(Context);
   const navigate = useNavigate();
 
   const style = {
@@ -53,7 +53,7 @@ export default function Login() {
   return (
       <Container component="main" maxWidth="xs">
 
-          {(!isAuthenticated())?
+          {(!isAuthenticated(UserState))?
           <Box sx={style}>
           <Avatar sx={{ m: 1, bgcolor: theme.palette.primary.main}}>
             <LockOutlinedIcon />
@@ -71,7 +71,7 @@ export default function Login() {
               const auth = await LoginUser(UserDispatch,values.email,values.password);
               if(auth)
               {
-                navigate(`/`);
+                navigate(`/user`);
                 window.location.reload(); 
               }
               else
