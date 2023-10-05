@@ -90,3 +90,19 @@ export const list_names = [
                             
                         }
                     ]
+
+
+export const PAGE_REF = {
+    LOGIN: "Login",
+    SIGNUP: "Signup",
+    MAIN: "MainPage",
+    DASHBOARD: "Dashboard",
+    LISTS_NAV: "ListofLists",
+    CONFIRM_DEL: "ConfirmDelete",
+    
+}
+
+export const BUTTON_SHAPE ={
+    ICON: "icon",
+    BLOCK: "block"
+}

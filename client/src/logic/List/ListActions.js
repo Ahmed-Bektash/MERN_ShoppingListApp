@@ -3,4 +3,5 @@ export const listActions = {
     REMOVE_LIST: "REMOVE_LIST",
     DISPLAY_LISTS: "DISPLAY_LISTS",
     LOADING:"LOADING",
+    CLEAR_LIST:"CLEAR_LIST",
 }

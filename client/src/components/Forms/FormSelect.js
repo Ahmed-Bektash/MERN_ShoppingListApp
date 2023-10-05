@@ -45,7 +45,7 @@ const SelectWrapper = (props) => {
 
 
 SelectWrapper.propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     label:PropTypes.string,
     options:PropTypes.arrayOf(PropTypes.string),
     variant:PropTypes.oneOf(["filled" , "standard" , "outlined"]),

@@ -19,7 +19,7 @@ return (
 };
 
 TextFieldWrapper.propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     label:PropTypes.string,
     type:PropTypes.oneOf(["single" , "array"]),
     autoFocus: PropTypes.bool

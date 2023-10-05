@@ -9,6 +9,9 @@
 [OK] add shopping list title to FrontEnd in navbar instead of number of items and make number of items instead of title in the shopping list header
 [OK] fill in the list actions file
 [OK] in models make user required for lists and items
+[OK] handle flicker from moving from login to front page
+[OK] form fields show errors in front end
+[OK] add toastify alerts
 [] adjust font in theme
 [] add error infrastructure in utils
 [] if i press enter after typing the list item, the modal should go away
@@ -20,8 +23,11 @@
 [] add logic to update list config: type/category...etc
 [] add logic for different kinds of lists: shopping, todo, notes...etc
 [] in Dark mode, text field colors are dark, make it light
-[] form fields show errors in front end
+[] make dark mode button a separate component and use it in main page
+[] add a suggestions section in the front page and as a page for the user in their dashboard
 Next Task:
-[] user workflow in frontend
+[] add spinner to loading component
+[] add main page cards when not logged in
+[] user reset password and delete account
 [] dim passwords in input field of signup/login 
-[] add toastify alerts
+[] save curr_list in cookie or local storage and fetch it when updating current list state

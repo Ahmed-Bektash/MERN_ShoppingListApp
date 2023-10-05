@@ -4,7 +4,7 @@ import { UserActions } from "./UserActions";
 const  UserReducer= (state,action)=>{
 
     if(action.type === UserActions.LOADING){
-        return {...state,loading:true}
+        return {...state,loading:action.payload}
     }
 
     if(action.type === UserActions.LOAD_USER){
@@ -16,6 +16,17 @@ const  UserReducer= (state,action)=>{
             lists:action.payload.lists,
             loading:false  
             }
+    }
+
+    if(action.type === UserActions.CLEAR_USER)
+    {
+        return {
+            isAuth:false, //later get it from cookies,
+            token: null,
+            username: null,
+            isLoading:false,
+            lists:[]  
+        }
     }
 
 

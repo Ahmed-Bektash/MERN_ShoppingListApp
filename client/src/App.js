@@ -1,38 +1,32 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import './App.css';
 
 import {Provider} from './logic/DataProvider'
 import Layout from './Theme.js'
-import MainPage from './layout/MainPage';
 import { router } from './routes';
-import Loading from './components/Loading';
-import { isAuthenticated } from './logic/utils';
 import {RouterProvider } from 'react-router-dom'
-
-// const RenderRoute = (route) => {
-//   const history = useHistory();
-
-//   document.title = route.title || "Lists App";
-//   if (route.needsAuth && !isAuthenticated()) {
-//     history.push("/user/login");
-//   }
-//   return (
-//     <Route
-//       path={route.path}
-//       exact
-//       render={(props) => <route.component {...props} />}
-//     ></Route>
-//   );
-// };
+import {ToastContainer } from 'react-toastify';
+import Footer from './components/Footer';
 
 function App() {
 
-  
   return (
 
      <Provider>
       <Layout>
-        <RouterProvider router={router} />     
+        <RouterProvider router={router} /> 
+        <Footer />
+        <ToastContainer 
+          position="top-right"
+          autoClose={1000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          // draggable
+          // pauseOnHover
+      />    
       </Layout>
     </Provider>
     

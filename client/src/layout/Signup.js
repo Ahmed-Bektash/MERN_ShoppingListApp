@@ -1,3 +1,5 @@
+import { useContext, useState, useEffect} from 'react';
+import {Context, fetchUserData} from '../logic/DataProvider.js'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from "react-router-dom";
@@ -10,10 +12,9 @@ import {useTheme } from '@mui/material/styles';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
 import TextFieldWrapper from '../components/Forms/FormTextField';
-import CheckBoxWrapper from '../components/Forms/FormCheckBox';
-import { useContext } from 'react';
-import {Context} from '../logic/DataProvider.js'
+import CheckBoxWrapper from '../components/Forms/FormCheckBox.js';
 import { RegisterUser } from '../logic/User/UserProvider';
+import { PAGE_REF } from '../config.js';
 
 
 
@@ -21,8 +22,18 @@ import { RegisterUser } from '../logic/User/UserProvider';
 
 export default function SignUp() {
   const theme = useTheme();
-  const {GlobalState,GlobalDispatch,UserState,UserDispatch} = useContext(Context);
+  const {GlobalState,GlobalDispatch,UserState,UserDispatch,ListDispatch,ItemDispatch} = useContext(Context);
+  const [signedUp, setSignedUp] = useState(false)
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(signedUp)
+    {
+      fetchUserData(GlobalDispatch,ListDispatch,ItemDispatch,UserDispatch,UserState.token);
+      setSignedUp(false)
+      navigate("/user",{state:{from:PAGE_REF.SIGNUP}}); 
+    }
+  });
 
   const style = {
     position: 'absolute',
@@ -48,7 +59,7 @@ export default function SignUp() {
     email: Yup.string().email().required('Required'),
     username: Yup.string().required('Required'),
     password: Yup.string().required('Required'),
-    // termsAccepted:Yup.boolean().isTrue("Please agree to the terms and conditions")
+    termsAccepted:Yup.boolean().isTrue("Please agree to the terms and conditions")
   })
 
   return (
@@ -69,9 +80,11 @@ export default function SignUp() {
               const auth = await RegisterUser(UserDispatch,values.username,values.email,"normal",values.password);
               if(auth)
               {
-                navigate(`/user`);
-                window.location.reload(); 
-                
+                actions.setSubmitting(false);
+                setSignedUp(true);
+              }
+              else{
+                actions.resetForm();
               }
               
             }}
@@ -89,9 +102,9 @@ export default function SignUp() {
               <TextFieldWrapper label={'Password'}  name={'password'}/>
              </Grid>
 
-             {/* <Grid item xs={12} sx={{mb: 0 }}>
+             <Grid item xs={12} sx={{mb: 0 }}>
                 <CheckBoxWrapper label='I agree to the terms and conditions'  name='termsAccepted'/>
-             </Grid> */}
+             </Grid>
              
            <Button type='submit' fullWidth variant="contained" sx={{backgroundColor:theme=>theme.palette.secondary.main,mb:2}}>
             <Typography variant='button'>
@@ -102,14 +115,22 @@ export default function SignUp() {
        </Formik>
         <Grid container justifyContent="center">
           <Grid item>
-            <Link to={"../login"} style={{textDecoration:"none"}} >
+            <Link 
+            to={"../login"} 
+            style={{textDecoration:"none"}} 
+            state={{ from: PAGE_REF.SIGNUP}}
+            >
               <Typography variant='body1' sx={{color:theme.palette.secondary.main}}>
                 Already have an account? Sign in
               </Typography>
             </Link>
         </Grid>
           </Grid>
-          <Link to={"../"} style={{textDecoration:"none"}} >
+          <Link 
+          to={"../"} 
+          style={{textDecoration:"none"}} 
+          state={{ from: PAGE_REF.SIGNUP}}
+          >
               <Typography variant='body1' sx={{color:theme.palette.secondary.main}}>
                 Go to Home
               </Typography>

@@ -8,6 +8,8 @@ import Fade from '@mui/material/Fade';
 import { RemoveList } from '../logic/List/ListProvider';
 import { GlobalStateActions } from '../logic/GlobalStateActions';
 import {useNavigate } from 'react-router-dom'
+import { PAGE_REF } from '../config';
+import { toast } from 'react-toastify';
 
 function ConfirmDeleteList({listId,confirmDelete,setConfirmDelete}) {
     
@@ -19,8 +21,7 @@ function ConfirmDeleteList({listId,confirmDelete,setConfirmDelete}) {
         setConfirmDelete(!confirmDelete);
         RemoveList(ListDispatch,listId);
         GlobalDispatch({type:GlobalStateActions.UPDATE_CURR_LIST,payload:ListState.ListsArray[0]});
-        navigate(`/user/lists/${GlobalState.curr_list.category.toLowerCase()}/${GlobalState.curr_list._id.toLowerCase()}`);
-        window.location.reload(); 
+        toast.success("List deleted successfully")
     }
     
 

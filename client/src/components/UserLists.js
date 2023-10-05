@@ -6,7 +6,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ListOfLists from './ListOfLists';
-import { list_categories, list_names } from '../list_config';
+import { list_categories, list_names } from '../config';
 import {Context} from '../logic/DataProvider';
 
 function UserLists({anchor,toggleDrawer}) {

@@ -8,6 +8,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { Link } from "react-router-dom";
 import { GlobalStateActions } from '../logic/GlobalStateActions';
 import { fetchItems } from '../logic/Item/ItemProvider';
+import { PAGE_REF } from '../config';
 
 function ListOfLists({lists,toggleDrawer,anchor}) {
     const theme = useTheme();
@@ -27,7 +28,11 @@ function ListOfLists({lists,toggleDrawer,anchor}) {
   return (
     <List>
         {lists.map((list, index) => (
-                <Link key={list.name} to={`lists/${list.category.toLowerCase()}/${list._id}`} style={{textDecoration:'none'}} onClick={()=>newListHandler(list._id)}>
+                <Link key={list.name} 
+                to={`lists/${list.category.toLowerCase()}/${list._id}`} style={{textDecoration:'none'}} 
+                onClick={()=>newListHandler(list._id)}
+                state={{ from: PAGE_REF.LISTS_NAV}}
+                >
                       <ListItem disablePadding>
                               <ListItemButton 
                               onClick={toggleDrawer(anchor, false)}

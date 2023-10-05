@@ -4,7 +4,7 @@ import { GlobalStateActions } from "./GlobalStateActions";
 const  GlobalReducer= (state,action)=>{
 
     if(action.type === GlobalStateActions.LOADING){
-        return {...state,loading:true}
+        return {...state,loading:action.payload}
     }
 
     if(action.type === GlobalStateActions.DARK){

@@ -32,7 +32,7 @@ const CheckBoxWrapper = (props) => {
 {/* <CheckBoxWrapper label='your label' name='your checkboxname'/> */}
 
 CheckBoxWrapper.propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     label:PropTypes.string,
   };
 

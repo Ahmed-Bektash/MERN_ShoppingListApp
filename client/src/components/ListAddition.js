@@ -3,7 +3,7 @@ import {Context} from '../logic/DataProvider';
 import { Button, Container, Typography } from '@mui/material';
 import {Formik,Form} from 'formik';
 import * as Yup from 'yup';
-import { list_categories, list_types } from '../list_config';
+import { list_categories, list_types } from '../config';
 import Grid from '@mui/material/Grid';
 import TextFieldWrapper from './Forms/FormTextField';
 import { AddList } from '../logic/List/ListProvider';

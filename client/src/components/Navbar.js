@@ -5,20 +5,20 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import { useTheme } from '@mui/material/styles';
 import DarkMode from '@mui/icons-material/DarkMode';
 import LightMode from '@mui/icons-material/LightMode';
 import Tooltip from '@mui/material/Tooltip';
-import LoginIcon from '@mui/icons-material/Login';
-import LogoutIcon from '@mui/icons-material/Logout';
 import {Context, ToggleDarkMode} from '../logic/DataProvider.js'
 import SideBar from './SideBar.js';
-import { isAuthenticated } from '../logic/utils.js';
-import { Link } from "react-router-dom";
+import Logout from './Logout.js';
+import { BUTTON_SHAPE } from '../config.js';
+// import { useTheme } from '@mui/material/styles';
+// import { useNavigate } from "react-router-dom";
 
 
 export default function NavBar() {
-  const theme = useTheme();
+  // const theme = useTheme();
+  // const navigate = useNavigate();
   const {GlobalState,GlobalDispatch,UserState} = useContext(Context);
   
   const handleDarkMode=()=>{
@@ -32,7 +32,7 @@ export default function NavBar() {
   const DarkModeButton=(props)=> {
     return (props.IsDarkMode ? <LightMode />:<DarkMode />);
   }
-// console.log(GlobalState)
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -44,24 +44,7 @@ export default function NavBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               {UserState.username?`Hello ${UserState.username}`:""}
           </Typography>
-          <Tooltip title={`${isAuthenticated(UserState)?'logout':'login'}`}>
-            <Link to={`${isAuthenticated(UserState)?'/':'login'}`} style={{textDecoration:'none', color:theme.palette.secondary.main}}>
-              <IconButton
-                    aria-label="expand row"
-                    size="small"
-                    color="inherit"
-                    onClick={()=>{
-                      if(isAuthenticated(UserState))
-                      {
-                        localStorage.removeItem("token");
-                        window.location.reload();
-                      }
-                    }}
-                    >
-                  {isAuthenticated(UserState)?<LogoutIcon />:<LoginIcon />}
-              </IconButton>
-            </Link>
-          </Tooltip>
+          <Logout shape={BUTTON_SHAPE.ICON}/>
           <Tooltip title={`${GlobalState.darkMode?'light mode':'dark mode'}`}>
             <IconButton onClick={handleDarkMode} color='inherit'>
                 <DarkModeButton IsDarkMode={GlobalState.darkMode}/>

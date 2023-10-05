@@ -29,7 +29,7 @@ export async function DB_verifyUser(user,verifyby){
                 const correctPassword = await bcrypt.compare(user.password,existingUser.password);
                 if(!correctPassword )
                 { 
-                    throw new Error("Password is not the same");   
+                    throw new Error("password verification failed");   
                 }
     
                 break;

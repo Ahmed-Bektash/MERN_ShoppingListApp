@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext, useState,useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import { Link,useNavigate } from "react-router-dom";
@@ -11,19 +11,33 @@ import {useTheme } from '@mui/material/styles';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
 import TextFieldWrapper from '../components/Forms/FormTextField';
-// import CheckBoxWrapper from '../components/Forms/FormCheckbox';
-import { useContext } from 'react';
-import {Context, ToggleDarkMode} from '../logic/DataProvider.js'
+import CheckBoxWrapper from '../components/Forms/FormCheckBox';
+import {Context,fetchUserData, ToggleDarkMode} from '../logic/DataProvider.js'
 import { LoginUser } from '../logic/User/UserProvider';
 import { isAuthenticated } from '../logic/utils';
-import { listActions } from '../logic/List/ListActions';
-
+import 'react-toastify/dist/ReactToastify.css';
+import { PAGE_REF } from '../config';
+import Logout from '../components/Logout';
 
 
 export default function Login() {
   const theme = useTheme();
-  const {GlobalState,UserState,UserDispatch} = useContext(Context);
+  const {GlobalState,UserState,UserDispatch,ItemDispatch,ListDispatch,GlobalDispatch} = useContext(Context);
+  const [signedIn, setSignedIn] = useState(false)
   const navigate = useNavigate();
+  
+  
+  useEffect(() => {
+    if(signedIn)
+    {
+      fetchUserData(GlobalDispatch,ListDispatch,ItemDispatch,UserDispatch,UserState.token);
+      setSignedIn(false)
+      navigate("/user",{state:{from:PAGE_REF.LOGIN}}); 
+    }
+  
+    
+  }, [signedIn])
+  
 
   const style = {
     position: 'absolute',
@@ -67,16 +81,14 @@ export default function Login() {
             onSubmit={async (values, actions) => {
                 // console.log(values)
               // alert(JSON.stringify(values, null, 2));
-              actions.setSubmitting(false);
               const auth = await LoginUser(UserDispatch,values.email,values.password);
               if(auth)
               {
-                navigate(`/user`);
-                window.location.reload(); 
+                actions.setSubmitting(false);
+                setSignedIn(true);
               }
-              else
-              {
-                alert("failed to sign in")
+              else{
+                actions.resetForm();
               }
               
             }}
@@ -91,35 +103,68 @@ export default function Login() {
               <TextFieldWrapper label={'Password'}  name={'password'}/>
              </Grid>
 
-             {/* <Grid item xs={12} >
+             <Grid item xs={12} >
                 <CheckBoxWrapper label='Remember me'  name='keepLoggedIn'/>
-             </Grid> */}
+             </Grid>
              
            <Button type='submit' fullWidth variant="contained" sx={{backgroundColor:theme=>theme.palette.secondary.main,mt:3,mb:2}}>
             <Typography variant='button'>
               Submit
             </Typography>
-          </Button>
-         </Form>
-       </Formik>
+            </Button>
+          </Form>
+        </Formik>
         <Grid container justifyContent="center">
           <Grid item>
-            <Link to={"../register"} style={{textDecoration:"none"}} >
+            <Link 
+            to={"../register"} 
+            style={{textDecoration:"none"}} 
+            state={{ from: PAGE_REF.LOGIN}}
+            >
               <Typography variant='body1' sx={{color:theme.palette.secondary.main}}>
                 Don&apos;t have an account? Sign up
               </Typography>
             </Link>
-        </Grid>
           </Grid>
-          <Link to={"../"} style={{textDecoration:"none"}} >
+        </Grid>
+          <Link 
+          to={"../"} 
+          style={{textDecoration:"none"}} 
+          state={{ from: PAGE_REF.LOGIN}}
+          >
               <Typography variant='body1' sx={{color:theme.palette.secondary.main}}>
                 Go to Home
               </Typography>
-            </Link>
+          </Link>
         </Box>
         :
-        <>You are already logged in...</>
-        }
+        <>
+          
+          <Box sx={{display:"flex" , alignItems:"center", justifyContent:"center", flexDirection:"column", height:"80vh"}}>
+
+            <Typography variant='body1'>
+                You are already logged in...
+            </Typography>
+
+            <Container sx={{display:"flex" , alignItems:"center", justifyContent:"center"}}>
+
+              <Link 
+                to={"../"} 
+                style={{textDecoration:"none"}} 
+                state={{ from: PAGE_REF.LOGIN}}
+                >
+                  <Button variant="contained" sx={{backgroundColor:theme=>theme.palette.secondary.main,mb:2}}> Go to Home </Button>
+                </Link>
+              
+                <Logout/>
+              
+              </Container>
+              
+            </Box>
+
+        </>
+      }
+      
       </Container>
   );
 }

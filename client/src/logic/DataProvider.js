@@ -22,6 +22,8 @@ export  const ToggleDarkMode = (dispatch,isDarkModeRequested)=>{
 
 export const fetchUserData = async(GlobalDispatch,ListDispatch,ItemDispatch,UserDispatch,token)=>{
     //fetch user
+    GlobalDispatch({type:GlobalStateActions.LOADING,payload:true});
+
     let user = await AuthUser(UserDispatch,token);    
     if((user) && (user.lists.length > 0))
     {
@@ -33,6 +35,8 @@ export const fetchUserData = async(GlobalDispatch,ListDispatch,ItemDispatch,User
         ListDispatch({type:listActions.DISPLAY_LISTS,payload:userLists});
         await fetchItems(ItemDispatch,newList._id,token);
       }
+    GlobalDispatch({type:GlobalStateActions.LOADING,payload:false});
+
       
     }
     
