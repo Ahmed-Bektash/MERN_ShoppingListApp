@@ -1,7 +1,8 @@
 import React from 'react';
-import { TextField, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import {useField } from 'formik';
 import PropTypes from 'prop-types';
+import { CustomTextField } from './CustomInputs';
 
 const TextFieldWrapper = (props) => {
   const [field, meta] = useField(props); //uses formik context to create a field which has input props and meta which has supporting items like error and touched
@@ -9,7 +10,7 @@ const TextFieldWrapper = (props) => {
 
 return (
     <>
-    <TextField {...field} value={field.value ?? props.value} label={props.label} fullWidth/>
+      <CustomTextField {...field} value={field.value ?? props.value} label={props.label} fullWidth type={props.type} />
     <br />
     {meta && meta.touched && meta.error && <Typography sx={{color:theme=>theme.palette.error.light}}>
         {meta.error}
@@ -21,8 +22,8 @@ return (
 TextFieldWrapper.propTypes = {
     value: PropTypes.string,
     label:PropTypes.string,
-    type:PropTypes.oneOf(["single" , "array"]),
-    autoFocus: PropTypes.bool
+    autoFocus: PropTypes.bool,
+    type: PropTypes.string,
   };
 
 export default TextFieldWrapper;

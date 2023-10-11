@@ -12,22 +12,23 @@
 [OK] handle flicker from moving from login to front page
 [OK] form fields show errors in front end
 [OK] add toastify alerts
-[] adjust font in theme
-[] add error infrastructure in utils
-[] if i press enter after typing the list item, the modal should go away
+[OK] dim passwords in input field of signup/login
+[OK] text field in light mode is dark if it has a dark background, invert it
 [] change form colors in light mode for adding a list
-[] add a refresh list button to restart to its original state
-[] text field form border disappears when selected...fix it
-[] why is fetch called 9 times on app init?
 [] add a feature to copy from list to list either full list or an item
+[] add a refresh list button to restart to its original state
 [] add logic to update list config: type/category...etc
 [] add logic for different kinds of lists: shopping, todo, notes...etc
-[] in Dark mode, text field colors are dark, make it light
-[] make dark mode button a separate component and use it in main page
 [] add a suggestions section in the front page and as a page for the user in their dashboard
-Next Task:
 [] add spinner to loading component
 [] add main page cards when not logged in
 [] user reset password and delete account
-[] dim passwords in input field of signup/login 
-[] save curr_list in cookie or local storage and fetch it when updating current list state
+[] fix warnings in dev console
+
+Next Task:
+[] check if item already exists in the list
+[] when you delete a list, go back to the latest list not the first one in the list of lists
+[] why is fetch called 9 times on app init?
+[] adjust font in theme
+[] make dark mode button a separate component and use it in main page
+[] add error infrastructure in utils

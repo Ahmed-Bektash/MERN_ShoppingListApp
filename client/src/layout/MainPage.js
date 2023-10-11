@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext } from 'react'
+import { Link } from "react-router-dom";
 import { Context } from '../logic/DataProvider';
 import Typography from '@mui/material/Typography';
 import {useTheme } from '@mui/material/styles';

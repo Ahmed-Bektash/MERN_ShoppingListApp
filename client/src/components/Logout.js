@@ -11,7 +11,6 @@ import { isAuthenticated } from '../logic/utils.js';
 
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Button } from '@mui/material';
 
@@ -21,7 +20,17 @@ function Logout(props) {
   const navigate = useNavigate();
   const {UserState,UserDispatch,ListDispatch} = useContext(Context);
   
-  
+  const logOutHandler = ()=>{
+    if(isAuthenticated(UserState))
+    {
+      localStorage.removeItem("token");
+      UserDispatch({type:UserActions.CLEAR_USER});
+      ListDispatch({type:listActions.CLEAR_LIST})
+      toast.success("Signed out!")
+      navigate(`/`,{state:{from:PAGE_REF.DASHBOARD}});
+    }
+  }
+
   return (
     <Tooltip title={`${isAuthenticated(UserState)?'logout':'login'}`}>
             <Link
@@ -29,25 +38,22 @@ function Logout(props) {
              style={{textDecoration:'none', color:theme.palette.secondary.main}}
              state={{ from: PAGE_REF.DASHBOARD}}
              >
-              <IconButton
-                    aria-label="expand row"
-                    size="small"
-                    color="inherit"
-                    onClick={()=>{
-                      if(isAuthenticated(UserState))
-                      {
-                        localStorage.removeItem("token");
-                        UserDispatch({type:UserActions.CLEAR_USER});
-                        ListDispatch({type:listActions.CLEAR_LIST})
-                        toast.success("Signed out!")
-                        navigate(`/`,{state:{from:PAGE_REF.DASHBOARD}});
-                      }
-                    }}
-                    >
-                  
-              
-              {(shape === BUTTON_SHAPE.ICON) ? <LogoutIcon /> : <Button variant="contained" sx={{backgroundColor:theme=>theme.palette.secondary.main,mb:2}}> Logout</Button>}
-              </IconButton>
+
+              {
+                (shape === BUTTON_SHAPE.ICON) ? 
+                
+                  <IconButton aria-label="expand row" size="small" color="inherit" onClick={logOutHandler}>
+                    <LogoutIcon />
+                  </IconButton>
+                : 
+                  <Button
+                  variant="contained" 
+                  sx={{backgroundColor:theme=>theme.palette.secondary.main,mb:2}}
+                  onClick={logOutHandler}
+                  >
+                    Logout
+                  </Button>
+              }
             </Link>
           </Tooltip>
   )

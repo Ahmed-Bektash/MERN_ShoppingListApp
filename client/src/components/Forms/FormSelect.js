@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { MenuItem, Select, Typography, InputLabel } from '@mui/material';
 import {useField, useFormikContext } from 'formik';
+import { CustomSelectField } from './CustomInputs';
 
 
 
@@ -17,14 +18,18 @@ const SelectWrapper = (props) => {
     }
   };
 
+  const labelStyles = {
+    color: '#A0AAB4',
+    mb:'0.5rem'
+  }
 /***NOTE: Previously had {...props} on the select element below but removed it so that i am able to add a function as a prop (stateSet),
  *        if you want to access a prop you have to add it manually now.
  * */
 
   return (
     <>
-      <InputLabel id="select-label">{props.label}</InputLabel>
-      <Select {...field}  onChange={handleChange} value={field.value ?? props.value} labelId='select-label' variant={props.variant} fullWidth={props.fullWidth}>
+      <InputLabel id="select-label" sx={labelStyles}>{props.label}</InputLabel>
+      <CustomSelectField {...field}  onChange={handleChange} value={field.value ?? props.value} labelId='select-label' variant={props.variant} fullWidth={props.fullWidth}>
         {props.options.map((item, pos) => {
           return (
             <MenuItem key={pos} value={item}>
@@ -32,7 +37,7 @@ const SelectWrapper = (props) => {
             </MenuItem>
           )
         })}
-      </Select>
+      </CustomSelectField>
       {meta && meta.touched && meta.error && <Typography sx={{color:theme=>theme.palette.error.main}}>
         {meta.error}
     </Typography>}

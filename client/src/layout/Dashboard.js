@@ -18,7 +18,7 @@ function Dashboard() {
     {
       navigate(`/user/lists/${GlobalState.curr_list.category.toLowerCase()}/${GlobalState.curr_list._id.toLowerCase()}`,{state:{from:PAGE_REF.DASHBOARD}});
       // console.log("fetching items for the current list") //renders twice: tried use call back and use memo to no benefit
-      fetchItems(ItemDispatch,GlobalState.curr_list._id,UserState.token)
+      fetchItems(ItemDispatch,GlobalState.curr_list._id,UserState.token);
     }
     else{
       navigate(`/`,{state:{from:PAGE_REF.DASHBOARD}});

@@ -64,7 +64,7 @@ const initialValues={
                     label='Category' 
                     value={category} 
                     options={list_categories.map(list=>list.name)} 
-                    variant='standard'
+                    // variant='standard'
                     fullWidth={true}
                     stateset={setCategory}
                     name='category'
@@ -76,7 +76,7 @@ const initialValues={
                     label='Type' 
                     value={type} 
                     options={list_types} 
-                    variant='standard'
+                    // variant='standard'
                     fullWidth={true}
                     stateset={setType}
                     name='type'

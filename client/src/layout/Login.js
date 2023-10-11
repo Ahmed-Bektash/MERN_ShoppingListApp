@@ -100,7 +100,7 @@ export default function Login() {
              </Grid>
               
              <Grid item xs={12} sx={{mb: 3}}>
-              <TextFieldWrapper label={'Password'}  name={'password'}/>
+              <TextFieldWrapper label={'Password'}  name={'password'} type={'password'}/>
              </Grid>
 
              <Grid item xs={12} >
