@@ -13,7 +13,8 @@ export const colourPalette={
                             CHARCOAL : '#302E2F',
                             TEAL:'#0A9279',
                             ERROR:'#ff1744',
-                            NOT_FOUND: '#aaaaaa'
+                            NOT_FOUND: '#aaaaaa',
+                            WARNING: '#ec942c',
                           }
 
 
@@ -38,6 +39,7 @@ const theme = createTheme({
             },
             error: {
               main: colourPalette.ERROR,
+              light: colourPalette.WARNING,
             },
           },
           typography:{

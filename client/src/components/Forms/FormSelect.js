@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MenuItem, Select, Typography, InputLabel } from '@mui/material';
+import { MenuItem, Typography, InputLabel } from '@mui/material';
 import {useField, useFormikContext } from 'formik';
 import { CustomSelectField } from './CustomInputs';
 

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {Context} from '../logic/DataProvider'
 
 import Button from '@mui/material/Button';
@@ -7,10 +7,13 @@ import Grid from '@mui/material/Grid';
 import {Formik,Form} from 'formik';
 import * as Yup from 'yup';
 import TextFieldWrapper from './Forms/FormTextField';
+import { toast } from 'react-toastify';
+import { increaseItem } from '../logic/Item/ItemProvider';
 
 function ShoppingItemForm(props) {
     const {AddItem,CloseModal,item_dispatch} = props
-    const {GlobalState} = useContext(Context);
+    const {GlobalState , ItemState} = useContext(Context);
+    // const [itemExists, setItemExists] = useState(false)
     const initialValues={
         name:"",
         amount:1
@@ -35,10 +38,24 @@ function ShoppingItemForm(props) {
           }
 
           if(newItem.name){ 
-            //add amount
-            AddItem(item_dispatch,newItem.name,newItem.amount,GlobalState.curr_list._id,null); //maybe await this to make it more robust
+            const existingItem = ItemState.ItemsArray.find((item)=>(newItem.name===item.name))
+            if(existingItem)
+            {
+              // setItemExists(true);
+              toast.warn("This Item already exists! We just increased it");
+              increaseItem(item_dispatch,existingItem._id);
+            }
+            else
+            {
+              // setItemExists(false);
+              //add amount
+              AddItem(item_dispatch,newItem.name,newItem.amount,GlobalState.curr_list._id,null);
+
+              
+            }
             //close the modal
             CloseModal();
+
             }
         }}
       >
@@ -63,6 +80,9 @@ function ShoppingItemForm(props) {
              Save
            </Typography>
          </Button>
+         {/* {itemExists && <Typography variant='body2' sx={{color:(theme)=>theme.palette.error.light}}>
+             Warning: This Item already exists! you can just add increase it
+        </Typography>} */}
         </Form>
       </Formik>
     

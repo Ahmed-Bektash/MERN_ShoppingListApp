@@ -14,7 +14,8 @@
 [OK] add toastify alerts
 [OK] dim passwords in input field of signup/login
 [OK] text field in light mode is dark if it has a dark background, invert it
-[] change form colors in light mode for adding a list
+[OK] check if item already exists in the list
+[OK] change form colors in light mode for adding a list
 [] add a feature to copy from list to list either full list or an item
 [] add a refresh list button to restart to its original state
 [] add logic to update list config: type/category...etc
@@ -24,11 +25,12 @@
 [] add main page cards when not logged in
 [] user reset password and delete account
 [] fix warnings in dev console
+[] Add an edit list feature
 
 Next Task:
-[] check if item already exists in the list
 [] when you delete a list, go back to the latest list not the first one in the list of lists
 [] why is fetch called 9 times on app init?
 [] adjust font in theme
 [] make dark mode button a separate component and use it in main page
 [] add error infrastructure in utils
+[] When you refresh, the main page renders the link to the login page even though there is a token
