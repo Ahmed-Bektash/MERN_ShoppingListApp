@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext} from 'react'
 import {Context} from '../logic/DataProvider'
 import { useTheme } from '@mui/material/styles';
 import List from '@mui/material/List';
@@ -8,15 +8,16 @@ import ListItemText from '@mui/material/ListItemText';
 import { Link } from "react-router-dom";
 import { GlobalStateActions } from '../logic/GlobalStateActions';
 import { fetchItems } from '../logic/Item/ItemProvider';
-import { PAGE_REF } from '../config';
+import { LOCAL_STORAGE_KEYS, PAGE_REF } from '../config';
 
 function ListOfLists({lists,toggleDrawer,anchor}) {
     const theme = useTheme();
-    const {ItemDispatch,GlobalDispatch,ListState,UserState} = useContext(Context);
+    const {ItemDispatch,GlobalState,GlobalDispatch,ListState,UserState} = useContext(Context);
   
    const newListHandler = (listID)=>{
       //handle history here
 
+      localStorage.setItem(LOCAL_STORAGE_KEYS.PREV_LIST,GlobalState.curr_list._id);
       const newList = ListState.ListsArray.find((list)=>list._id === listID);
       GlobalDispatch({type:GlobalStateActions.UPDATE_CURR_LIST,payload:newList});
       fetchItems(ItemDispatch,newList._id,UserState.token);

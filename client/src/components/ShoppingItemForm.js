@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import {Context} from '../logic/DataProvider'
 
 import Button from '@mui/material/Button';
@@ -8,7 +8,6 @@ import {Formik,Form} from 'formik';
 import * as Yup from 'yup';
 import TextFieldWrapper from './Forms/FormTextField';
 import { toast } from 'react-toastify';
-import { increaseItem } from '../logic/Item/ItemProvider';
 
 function ShoppingItemForm(props) {
     const {AddItem,CloseModal,item_dispatch} = props
@@ -42,8 +41,7 @@ function ShoppingItemForm(props) {
             if(existingItem)
             {
               // setItemExists(true);
-              toast.warn("This Item already exists! We just increased it");
-              increaseItem(item_dispatch,existingItem._id);
+              toast.warn("Note! This Item already exists!");
             }
             else
             {

@@ -16,6 +16,8 @@
 [OK] text field in light mode is dark if it has a dark background, invert it
 [OK] check if item already exists in the list
 [OK] change form colors in light mode for adding a list
+[OK] when you delete a list, go back to the latest list not the first one in the list of lists
+[OK] if i switch users, the list kept in localstorage is user independant so it iwll fetch a list for another user
 [] add a feature to copy from list to list either full list or an item
 [] add a refresh list button to restart to its original state
 [] add logic to update list config: type/category...etc
@@ -28,9 +30,13 @@
 [] Add an edit list feature
 
 Next Task:
-[] when you delete a list, go back to the latest list not the first one in the list of lists
 [] why is fetch called 9 times on app init?
 [] adjust font in theme
 [] make dark mode button a separate component and use it in main page
-[] add error infrastructure in utils
 [] When you refresh, the main page renders the link to the login page even though there is a token
+[] update mobile view as the display is mashed
+[] the back button does not work
+
+
+Optional Enhancements:
+[] instead of saving prev_list in client local storage, update it in DB to be client independant.

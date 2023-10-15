@@ -13,6 +13,7 @@ import { UserActions } from './User/UserActions';
 import { AuthUser } from './User/UserProvider';
 import { fetchLists } from './List/ListProvider';
 import { fetchItems } from './Item/ItemProvider';
+import { LOCAL_STORAGE_KEYS } from '../config';
 
 export const Context = createContext();
  
@@ -28,14 +29,17 @@ export const fetchUserData = async(GlobalDispatch,ListDispatch,ItemDispatch,User
     if((user) && (user.lists.length > 0))
     {
       const userLists = await fetchLists(ListDispatch,GlobalDispatch,user,token);
-      const newList = userLists.find((list)=>list._id === user.lists[0]); //make it last curr_list
+      const saved_list = localStorage.getItem(LOCAL_STORAGE_KEYS.PREV_LIST);
+      const list_exists_for_user = userLists.find((list)=>list._id === saved_list);
+      const display_list = list_exists_for_user?list_exists_for_user: user.lists[0];
+      const newList = userLists.find((list)=>list._id === display_list); //make it last curr_list
       if(newList)
       {
         GlobalDispatch({type:GlobalStateActions.UPDATE_CURR_LIST,payload:newList});
         ListDispatch({type:listActions.DISPLAY_LISTS,payload:userLists});
         await fetchItems(ItemDispatch,newList._id,token);
       }
-    GlobalDispatch({type:GlobalStateActions.LOADING,payload:false});
+      GlobalDispatch({type:GlobalStateActions.LOADING,payload:false});
 
       
     }

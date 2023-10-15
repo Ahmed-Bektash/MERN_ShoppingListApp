@@ -106,3 +106,9 @@ export const BUTTON_SHAPE ={
     ICON: "icon",
     BLOCK: "block"
 }
+
+
+export const LOCAL_STORAGE_KEYS = {
+    TOKEN: "token",
+    PREV_LIST : "prev_list",
+}

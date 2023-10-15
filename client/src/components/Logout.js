@@ -1,7 +1,7 @@
 import {useContext}from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Link } from "react-router-dom";
-import { BUTTON_SHAPE, PAGE_REF } from '../config.js';
+import { BUTTON_SHAPE, LOCAL_STORAGE_KEYS, PAGE_REF } from '../config.js';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { UserActions } from '../logic/User/UserActions.js';
@@ -18,12 +18,13 @@ function Logout(props) {
   const {shape} = props
   const theme = useTheme();
   const navigate = useNavigate();
-  const {UserState,UserDispatch,ListDispatch} = useContext(Context);
+  const {GlobalState,UserState,UserDispatch,ListDispatch} = useContext(Context);
   
   const logOutHandler = ()=>{
     if(isAuthenticated(UserState))
     {
       localStorage.removeItem("token");
+      localStorage.setItem(LOCAL_STORAGE_KEYS.PREV_LIST,GlobalState.curr_list._id);
       UserDispatch({type:UserActions.CLEAR_USER});
       ListDispatch({type:listActions.CLEAR_LIST})
       toast.success("Signed out!")

@@ -7,20 +7,20 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import { RemoveList } from '../logic/List/ListProvider';
 import { GlobalStateActions } from '../logic/GlobalStateActions';
-import {useNavigate } from 'react-router-dom'
-import { PAGE_REF } from '../config';
+import { LOCAL_STORAGE_KEYS } from '../config';
 import { toast } from 'react-toastify';
 
 function ConfirmDeleteList({listId,confirmDelete,setConfirmDelete}) {
     
     const {GlobalState,GlobalDispatch,ListState,ListDispatch} = useContext(Context);
-    const navigate = useNavigate();
     
 
     const DeleteListHandler = ()=>{
         setConfirmDelete(!confirmDelete);
         RemoveList(ListDispatch,listId);
-        GlobalDispatch({type:GlobalStateActions.UPDATE_CURR_LIST,payload:ListState.ListsArray[0]});
+        const display_list = localStorage.getItem(LOCAL_STORAGE_KEYS.PREV_LIST);
+        const newList = ListState.ListsArray.find((list)=>list._id === display_list); //make it last curr_list
+        GlobalDispatch({type:GlobalStateActions.UPDATE_CURR_LIST,payload:newList});
         toast.success("List deleted successfully")
     }
     
