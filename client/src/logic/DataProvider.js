@@ -24,7 +24,6 @@ export  const ToggleDarkMode = (dispatch,isDarkModeRequested)=>{
 export const fetchUserData = async(GlobalDispatch,ListDispatch,ItemDispatch,UserDispatch,token)=>{
     //fetch user
     GlobalDispatch({type:GlobalStateActions.LOADING,payload:true});
-
     let user = await AuthUser(UserDispatch,token);    
     if((user) && (user.lists.length > 0))
     {
@@ -52,10 +51,15 @@ export const Provider = ({children}) =>{
     const [ItemState,ItemDispatch]      = useReducer(ItemReducer,init_item); 
     const [ListState,ListDispatch]      = useReducer(ListReducer,init_lists); 
     const [UserState,UserDispatch]      = useReducer(UserReducer,init_user); 
-    // const {WindowWidth} = useWindowDimensions();
+    const {WindowWidth} = useWindowDimensions();
 
-    // const loc_isMobile = (WindowWidth <= 700 ? true : false);
-    // GlobalDispatch({type:GlobalStateActions.IS_MOBILE,payload:loc_isMobile});
+    useEffect(() => {
+    
+      const loc_isMobile = (WindowWidth <= 700 ? true : false);
+      GlobalDispatch({type:GlobalStateActions.IS_MOBILE,payload:loc_isMobile});
+    
+      
+    }, [WindowWidth])
     
 
    useEffect(()=>{ //get color mode and user

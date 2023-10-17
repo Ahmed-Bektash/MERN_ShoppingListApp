@@ -9,7 +9,7 @@ import Fade from '@mui/material/Fade';
 import ShoppingItemForm from './ShoppingItemForm';
 import { AddItem } from '../logic/Item/ItemProvider';
 
- function ItemModal(){
+ function AddItemButton(){
     const {GlobalState,ItemDispatch} = useContext(Context);
     const [IsModalOpen,SetIsModalOpen] = useState(false);
     function toggle(){
@@ -59,4 +59,4 @@ return(
 
 }
 
-export default ItemModal;
+export default AddItemButton;

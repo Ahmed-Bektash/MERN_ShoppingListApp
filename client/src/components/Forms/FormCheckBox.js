@@ -21,7 +21,7 @@ const CheckBoxWrapper = (props) => {
             {props.label}
         </InputLabel>
         <br />
-        {meta && meta.touched && meta.error && <Typography sx={{color:theme=>theme.palette.error.light}}>
+        {meta && meta.touched && meta.error && <Typography sx={{color:theme=>theme.palette.error.main}}>
             {meta.error}
         </Typography>}
     </>

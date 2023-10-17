@@ -68,7 +68,7 @@ export default function ShoppingListTable(props) {
       };
   
     return (
-      <Box sx={{width:"90%"}}>
+      <Box sx={{width:"100%"}}>
         <Paper sx={{mb:2}}>
           <Typography
             sx={{ flex: '1 1 100%' }}

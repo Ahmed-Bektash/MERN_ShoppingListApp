@@ -27,7 +27,7 @@ function Logout(props) {
       localStorage.setItem(LOCAL_STORAGE_KEYS.PREV_LIST,GlobalState.curr_list._id);
       UserDispatch({type:UserActions.CLEAR_USER});
       ListDispatch({type:listActions.CLEAR_LIST})
-      toast.success("Signed out!")
+      toast.success(`${UserState.username} has signed out!`)
       navigate(`/`,{state:{from:PAGE_REF.DASHBOARD}});
     }
   }

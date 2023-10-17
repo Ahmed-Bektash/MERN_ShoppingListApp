@@ -3,7 +3,7 @@ import {Context} from '../logic/DataProvider';
 import { Box, Container, Typography,Button } from '@mui/material';
 import ShoppingListTable from './ShoppingListTable';
 import ShoppingListControlls from './ShoppingListControlls';
-import ItemModal from './ItemModal';
+import AddItemButton from './AddItemButton';
 import ConfirmDeleteList from './ConfirmDeleteList';
 
 //The following rows are for DEV testing only
@@ -55,7 +55,7 @@ function ShoppingList (){
                     <Typography variant='h2'>The cart is empty</Typography>
                     
                     <Container sx={{mt:1, display:"flex",justifyContent:"center", alignItems:"center"}}>
-                        <ItemModal />
+                        <AddItemButton />
                         <Button onClick={()=>setConfirmDeleteList(!confirmDeleteList)} variant='outlined' sx={{backgroundColor:theme=>theme.palette.error.main,ml:'1rem'}}>
                             <Typography variant='button' sx={{color:'primary.light'}}>
                                 Delete List

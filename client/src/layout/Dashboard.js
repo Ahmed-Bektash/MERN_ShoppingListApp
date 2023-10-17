@@ -30,7 +30,7 @@ function Dashboard() {
   useEffect(() => {
       if((location.state.from === PAGE_REF.LOGIN) || (location.state.from === PAGE_REF.SIGNUP))
       {
-        toast.success("Signed in successfully!")
+        toast.success(`Welcome back ${UserState.username}! you are now signed in.`)
       }
 
   },[location.state])

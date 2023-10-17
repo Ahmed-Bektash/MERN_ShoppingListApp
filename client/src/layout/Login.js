@@ -1,10 +1,8 @@
 import { useContext, useState,useEffect } from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import { Link,useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {useTheme } from '@mui/material/styles';
@@ -12,13 +10,13 @@ import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
 import TextFieldWrapper from '../components/Forms/FormTextField';
 import CheckBoxWrapper from '../components/Forms/FormCheckBox';
-import {Context,fetchUserData, ToggleDarkMode} from '../logic/DataProvider.js'
+import {Context,fetchUserData} from '../logic/DataProvider.js'
 import { LoginUser } from '../logic/User/UserProvider';
 import { isAuthenticated } from '../logic/utils';
 import 'react-toastify/dist/ReactToastify.css';
 import { PAGE_REF } from '../config';
 import Logout from '../components/Logout';
-
+import DarkModeButton from '../components/DarkModeButton'
 
 export default function Login() {
   const theme = useTheme();
@@ -69,9 +67,9 @@ export default function Login() {
 
           {(!isAuthenticated(UserState))?
           <Box sx={style}>
-          <Avatar sx={{ m: 1, bgcolor: theme.palette.primary.main}}>
-            <LockOutlinedIcon />
-          </Avatar>
+            <Container sx={{display:'flex',justifyContent:'center'}}>
+              <DarkModeButton />
+            </Container>
           <Typography component="h1" variant="h5" align='center' mb={3}>
             Log In
           </Typography>

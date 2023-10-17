@@ -1,11 +1,9 @@
 import { useContext, useState, useEffect} from 'react';
 import {Context, fetchUserData} from '../logic/DataProvider.js'
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {useTheme } from '@mui/material/styles';
@@ -15,6 +13,7 @@ import TextFieldWrapper from '../components/Forms/FormTextField';
 import CheckBoxWrapper from '../components/Forms/FormCheckBox.js';
 import { RegisterUser } from '../logic/User/UserProvider';
 import { PAGE_REF } from '../config.js';
+import DarkModeButton from '../components/DarkModeButton'
 
 
 
@@ -26,6 +25,7 @@ export default function SignUp() {
   const [signedUp, setSignedUp] = useState(false)
   const navigate = useNavigate();
 
+    
   useEffect(() => {
     if(signedUp)
     {
@@ -33,7 +33,7 @@ export default function SignUp() {
       setSignedUp(false)
       navigate("/user",{state:{from:PAGE_REF.SIGNUP}}); 
     }
-  });
+  },[signedUp]);
 
   const style = {
     position: 'absolute',
@@ -65,9 +65,9 @@ export default function SignUp() {
   return (
       <Container component="main" maxWidth="xs">
           <Box sx={style}>
-          <Avatar sx={{ m: 1, bgcolor: theme.palette.primary.main}}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <Container sx={{display:'flex',justifyContent:'center'}}>
+              <DarkModeButton />
+            </Container>
           <Typography component="h1" variant="h5" align='center' mb={3}>
             Sign up
           </Typography>

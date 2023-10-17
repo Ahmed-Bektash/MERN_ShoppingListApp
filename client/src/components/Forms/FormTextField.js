@@ -12,7 +12,7 @@ return (
     <>
       <CustomTextField {...field} value={field.value ?? props.value} label={props.label} fullWidth type={props.type} />
     <br />
-    {meta && meta.touched && meta.error && <Typography sx={{color:theme=>theme.palette.error.light}}>
+    {meta && meta.touched && meta.error && <Typography sx={{color:theme=>theme.palette.error.main}}>
         {meta.error}
     </Typography>}
     </>
