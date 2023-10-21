@@ -21,9 +21,9 @@
 [OK] why is fetch called 9 times on app init?, fixed by reorganising logic in provider
 [OK] make dark mode button a separate component and use it in login/signup page
 [OK] update mobile view as the display is mashed
-[] add a feature to copy from list to list either full list or an item
+[OK] add spinner to loading component
+[OK] create the error page properly
 [] add a refresh list button to restart to its original state
-[] add logic for different kinds of lists: shopping, todo, notes...etc
 [] add a suggestions section in the front page and as a page for the user in their dashboard
 [] add main page cards when not logged in
 [] user reset password and delete account
@@ -31,8 +31,8 @@
 [] Add an edit list feature
 
 Next Task:
-[] add spinner to loading component
-[] create the error page properly
+[] add a feature to copy from list to list either full list or an item
+[] add logic for different kinds of lists: shopping, todo, notes...etc
 [] adjust font in theme
 [] When you refresh, the main page renders the link to the login page even though there is a token
 [] the back button does not work

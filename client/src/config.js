@@ -99,6 +99,7 @@ export const PAGE_REF = {
     DASHBOARD: "Dashboard",
     LISTS_NAV: "ListofLists",
     CONFIRM_DEL: "ConfirmDelete",
+    ERROR:"Error Page"
     
 }
 
