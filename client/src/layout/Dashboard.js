@@ -1,39 +1,47 @@
-import React, {useContext,useEffect, useState} from 'react'
+import React, {useContext,useEffect, useCallback} from 'react'
 import { Context } from '../logic/DataProvider';
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import NavBar from '.././components/Navbar';
 import Loading from '../components/Loading';
-import { toast } from 'react-toastify';
 import { PAGE_REF } from '../config';
 import { fetchItems } from '../logic/Item/ItemProvider';
-import { headersConfig } from '../logic/utils';
+import { NOTIFICATION_TYPE, NotifyUser } from '../logic/Notification';
 
 function Dashboard() {
   const {GlobalState,UserState,ItemDispatch} = useContext(Context);
 
   const navigate = useNavigate();
   const location = useLocation();
+  const getItems =  useCallback(
+      () => {
+        navigate(`/user/lists/${GlobalState.curr_list.category.toLowerCase()}/${GlobalState.curr_list._id.toLowerCase()}`,{state:{from:PAGE_REF.DASHBOARD}});
+      // console.log("fetching items for the current list") //renders twice: tried use call back and use memo to no benefit
+        fetchItems(ItemDispatch,GlobalState.curr_list._id,UserState.token);
+
+      },
+      [GlobalState.curr_list,ItemDispatch,UserState,navigate],
+    )
+ 
+  
   useEffect(() => {
     if(GlobalState.curr_list._id)
     {
-      navigate(`/user/lists/${GlobalState.curr_list.category.toLowerCase()}/${GlobalState.curr_list._id.toLowerCase()}`,{state:{from:PAGE_REF.DASHBOARD}});
-      // console.log("fetching items for the current list") //renders twice: tried use call back and use memo to no benefit
-      fetchItems(ItemDispatch,GlobalState.curr_list._id,UserState.token);
+      getItems();
     }
     else{
       navigate(`/`,{state:{from:PAGE_REF.DASHBOARD}});
 
     }
     
-  }, [GlobalState.curr_list])
+  }, [GlobalState.curr_list,getItems,navigate])
 
   useEffect(() => {
       if((location.state.from === PAGE_REF.LOGIN) || (location.state.from === PAGE_REF.SIGNUP))
       {
-        toast.success(`Welcome back ${UserState.username}! you are now signed in.`)
+        NotifyUser(NOTIFICATION_TYPE.SUCCESS,`Welcome back ${UserState.username}!`)
       }
 
-  },[location.state])
+  },[location.state,UserState.username])
   
   
   return (

@@ -112,4 +112,16 @@ export const BUTTON_SHAPE ={
 export const LOCAL_STORAGE_KEYS = {
     TOKEN: "token",
     PREV_LIST : "prev_list",
+    CURR_LIST: "curr_list",
+}
+
+export const ICONS = {
+    COPY: 'copy',
+    DEL:'delete',
+    INCREASE: 'increase',
+    DECREASE: 'decrease',
+    DONE: 'done',
+    NA:'not_available',
+
+
 }

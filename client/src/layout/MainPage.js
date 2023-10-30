@@ -7,6 +7,7 @@ import { isAuthenticated } from '../logic/utils';
 import Dashboard from './Dashboard';
 import { Button, Container } from '@mui/material';
 import { PAGE_REF } from '../config';
+import Loading from '../components/Loading';
 
 
 
@@ -34,7 +35,7 @@ function MainPage() {
           </Link>
        </Container>
      :
-        <div>Loading user, please wait ...</div>
+        <Loading/>
       }
         
     </>

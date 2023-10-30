@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import {Formik,Form} from 'formik';
 import * as Yup from 'yup';
 import TextFieldWrapper from './Forms/FormTextField';
-import { toast } from 'react-toastify';
+import { NOTIFICATION_TYPE, NotifyUser } from '../logic/Notification';
 
 function ShoppingItemForm(props) {
     const {AddItem,CloseModal,item_dispatch} = props
@@ -37,15 +37,13 @@ function ShoppingItemForm(props) {
           }
 
           if(newItem.name){ 
-            const existingItem = ItemState.ItemsArray.find((item)=>(newItem.name===item.name))
+            const existingItem = ItemState.ItemsArray.find((item)=>(newItem.name.toLowerCase()===item.name.toLowerCase()))
             if(existingItem)
             {
-              // setItemExists(true);
-              toast.warn("Note! This Item already exists!");
+              NotifyUser(NOTIFICATION_TYPE.WARN,"Note! This Item already exists! we did not add it but you can update it");
             }
             else
             {
-              // setItemExists(false);
               //add amount
               AddItem(item_dispatch,newItem.name,newItem.amount,GlobalState.curr_list._id,null);
 
@@ -78,9 +76,6 @@ function ShoppingItemForm(props) {
              Save
            </Typography>
          </Button>
-         {/* {itemExists && <Typography variant='body2' sx={{color:(theme)=>theme.palette.error.light}}>
-             Warning: This Item already exists! you can just add increase it
-        </Typography>} */}
         </Form>
       </Formik>
     

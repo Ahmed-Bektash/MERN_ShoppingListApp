@@ -1,16 +1,17 @@
+import { ItemActions } from "./ItemActions";
 
 
 const  ItemReducer= (state,action)=>{
 
-    if(action.type === 'CLEAR_CART'){
-        console.log("in clear cart")
+    if(action.type === ItemActions.CLEAR_CART){
+        // console.log("in clear cart")
         return ({...state,ItemsArray:[]});
     }
-    if(action.type === 'REMOVE_ITEM'){
+    if(action.type === ItemActions.REMOVE_ITEM){
         return ({...state,ItemsArray:state.ItemsArray.filter((item) => item._id !== action.payload)});
     }
   //can be added to one function with a trigger but i prefer to keep it separate for now
-    if(action.type === 'INCREASE'){
+    if(action.type === ItemActions.INCREASE){
         let tempCartItems= state.ItemsArray.map((item)=>{
             if(item._id === action.payload){
                 return {...item,amount:item.amount + 1}
@@ -19,7 +20,7 @@ const  ItemReducer= (state,action)=>{
         })
         return {...state,ItemsArray:tempCartItems}
     }
-    if(action.type === 'DECREASE'){
+    if(action.type === ItemActions.DECREASE){
         let tempCartItems= state.ItemsArray.map((item)=>{
             if((item._id === action.payload) && (item.amount>1)){
                 return {...item,amount:item.amount - 1}
@@ -29,7 +30,7 @@ const  ItemReducer= (state,action)=>{
         return {...state,ItemsArray:tempCartItems}
  
     }
-    if(action.type === 'NOT_FOUND'){
+    if(action.type === ItemActions.NOT_FOUND){
         let tempCartItems= state.ItemsArray.map((item)=>{
             if(item._id === action.payload){
                 return {...item,notAvailable:!item.notAvailable}
@@ -39,7 +40,7 @@ const  ItemReducer= (state,action)=>{
         return {...state,ItemsArray:tempCartItems}
     }
 
-    if(action.type === 'DONE'){
+    if(action.type === ItemActions.FOUND){
         let tempCartItems= state.ItemsArray.map((item)=>{
             if(item._id === action.payload){
                 return {...item,found:!item.found}
@@ -49,7 +50,7 @@ const  ItemReducer= (state,action)=>{
         return {...state,ItemsArray:tempCartItems}
     }
     
-    if(action.type === 'ADD_ITEM'){
+    if(action.type === ItemActions.ADD_ITEM){
         let newArray = state.ItemsArray
             if(action.payload!==''){
                 newArray = [...newArray,{_id:action.payload._id,name:action.payload.name,notAvailable: action.payload.notAvailable, amount:action.payload.amount}];
@@ -60,7 +61,7 @@ const  ItemReducer= (state,action)=>{
             }
     }
     
-    if(action.type === 'DISPLAY'){
+    if(action.type === ItemActions.DISPLAY){
         return {...state,ItemsArray:action.payload,loading:false}
     }
 

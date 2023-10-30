@@ -7,15 +7,11 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { useTheme } from '@emotion/react';
 import { decreaseItem, increaseItem,toggleNotAvailable, removeItem } from '../logic/Item/ItemProvider';
-
+import CopyButton from './CopyButton'
+import {ICONS} from '../config'
+import CustomButton from './CustomButton';
 
 function ControlsRow(props) {
     const {row} = props;
@@ -34,38 +30,50 @@ function ControlsRow(props) {
                         <TableCell padding='none'>Inc</TableCell>
                         <TableCell padding='none'>N/A</TableCell>
                         <TableCell padding='none'>Del</TableCell>
+                        <TableCell padding='none'>Copy</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     <TableRow>
                         <TableCell padding="none">
-                        < IconButton onClick={() => row.foundHandler()}>
-                            <CheckCircleIcon sx={{color:theme.palette.secondary.main}}  />  
-                        </IconButton>
+                        <CustomButton 
+                            clickHandler={() => row.foundHandler()}
+                            icon={ICONS.DONE}
+                            buttonStyles={{color:theme.palette.secondary.main}}
+                        />
                         </TableCell>    
 
                         <TableCell padding="none">
-                            < IconButton onClick={()=>decreaseItem(ItemDispatch,row.id)}>
-                                <RemoveCircleOutlineIcon/>
-                            </IconButton>
+                            <CustomButton 
+                                clickHandler={()=>decreaseItem(ItemDispatch,row.id)}
+                                icon={ICONS.DECREASE}
+                            />
                         </TableCell>
                         
                         <TableCell padding="none">
-                            < IconButton onClick={()=>increaseItem(ItemDispatch,row.id)}>
-                                <AddCircleOutlineIcon/>
-                            </IconButton>
+                            <CustomButton 
+                                clickHandler={()=>increaseItem(ItemDispatch,row.id)}
+                                icon={ICONS.INCREASE}
+                            />
                         </TableCell>
 
                         <TableCell padding="none">
-                            <IconButton  onClick={()=>toggleNotAvailable(ItemDispatch,row.id,row.notAvailable)}>
-                                <ErrorOutlineIcon sx={{color:theme.palette.error.main}} />
-                            </IconButton>
+                            <CustomButton 
+                                clickHandler={()=>toggleNotAvailable(ItemDispatch,row.id,row.notAvailable)}
+                                icon={ICONS.NA}
+                                buttonStyles={{color:theme.palette.error.main}}
+                            />
                         </TableCell>
 
                         <TableCell padding="none">
-                            <IconButton onClick={()=>removeItem(ItemDispatch,row.id)}>
-                                <DeleteIcon />
-                            </IconButton>
+                            <CustomButton 
+                                clickHandler={()=>removeItem(ItemDispatch,row.id)}
+                                icon={ICONS.DEL}
+                            />
+                        </TableCell> 
+
+                        <TableCell padding="none">
+                            <CopyButton items={[row]} copyIcon={ICONS.COPY}/>
                         </TableCell> 
                     </TableRow>
                 </TableBody>

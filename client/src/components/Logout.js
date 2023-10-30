@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Button } from '@mui/material';
+import { NOTIFICATION_TYPE, NotifyUser } from '../logic/Notification.js';
 
 function Logout(props) {
   const {shape} = props
@@ -24,10 +25,11 @@ function Logout(props) {
     if(isAuthenticated(UserState))
     {
       localStorage.removeItem("token");
-      localStorage.setItem(LOCAL_STORAGE_KEYS.PREV_LIST,GlobalState.curr_list._id);
+      localStorage.setItem(LOCAL_STORAGE_KEYS.CURR_LIST,GlobalState.curr_list._id);
+
       UserDispatch({type:UserActions.CLEAR_USER});
-      ListDispatch({type:listActions.CLEAR_LIST})
-      toast.success(`${UserState.username} has signed out!`)
+      ListDispatch({type:listActions.CLEAR_LIST});
+      NotifyUser(NOTIFICATION_TYPE.SUCCESS,`${UserState.username} has signed out!`);
       navigate(`/`,{state:{from:PAGE_REF.DASHBOARD}});
     }
   }

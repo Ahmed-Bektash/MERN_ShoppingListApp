@@ -7,9 +7,7 @@ import { init_globState, init_item, init_lists, init_user } from './InitialState
 import ListReducer from './List/ListReducer';
 import { GlobalStateActions } from './GlobalStateActions';
 import { listActions } from './List/ListActions';
-import { ItemActions } from './Item/ItemActions';
 import UserReducer from './User/UserReducer';
-import { UserActions } from './User/UserActions';
 import { AuthUser } from './User/UserProvider';
 import { fetchLists } from './List/ListProvider';
 import { fetchItems } from './Item/ItemProvider';
@@ -28,18 +26,17 @@ export const fetchUserData = async(GlobalDispatch,ListDispatch,ItemDispatch,User
     if((user) && (user.lists.length > 0))
     {
       const userLists = await fetchLists(ListDispatch,GlobalDispatch,user,token);
-      const saved_list = localStorage.getItem(LOCAL_STORAGE_KEYS.PREV_LIST);
+      const saved_list = localStorage.getItem(LOCAL_STORAGE_KEYS.CURR_LIST);
       const list_exists_for_user = userLists.find((list)=>list._id === saved_list);
       const display_list = list_exists_for_user?list_exists_for_user: user.lists[0];
-      const newList = userLists.find((list)=>list._id === display_list); //make it last curr_list
-      if(newList)
+      
+      if(display_list)
       {
-        GlobalDispatch({type:GlobalStateActions.UPDATE_CURR_LIST,payload:newList});
+        GlobalDispatch({type:GlobalStateActions.UPDATE_CURR_LIST,payload:display_list});
         ListDispatch({type:listActions.DISPLAY_LISTS,payload:userLists});
-        await fetchItems(ItemDispatch,newList._id,token);
+        await fetchItems(ItemDispatch,display_list._id,token);
       }
       GlobalDispatch({type:GlobalStateActions.LOADING,payload:false});
-
       
     }
     

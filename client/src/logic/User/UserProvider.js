@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { UserActions } from './UserActions';
-import { toast } from 'react-toastify';
+import { NOTIFICATION_TYPE, NotifyUser } from '../Notification';
 
 
 
@@ -23,7 +23,7 @@ export const RegisterUser = async(UserDispatch,name,email,role,password)=>{
             }
            UserDispatch({type:UserActions.LOAD_USER, payload:userPayload});
       } else {
-        toast.error("Sorry, Could not register you at this time.");
+        NotifyUser(NOTIFICATION_TYPE.ERR,"Sorry, Could not register you at this time.");
       }
     
       return true;
@@ -39,7 +39,7 @@ export const RegisterUser = async(UserDispatch,name,email,role,password)=>{
     else{// Error on setting up the request
         console.log('Error', error.message);
         }
-    toast.error(error.response.data.error);
+        NotifyUser(NOTIFICATION_TYPE.ERR,error.response.data.error);
    }
 
   return false;
@@ -65,7 +65,7 @@ export const LoginUser = async(UserDispatch,email,password)=>{
             }
             UserDispatch({type:UserActions.LOAD_USER, payload:userPayload});
         } else {
-         toast.error(res.data.error);
+            NotifyUser(NOTIFICATION_TYPE.ERR,res.data.error);
         }
      
        return true;
@@ -81,8 +81,8 @@ export const LoginUser = async(UserDispatch,email,password)=>{
      else{// Error on setting up the request
          console.log('Error', error.message);
          }
-    toast.error(error.response.data.error);
-    
+         
+    NotifyUser(NOTIFICATION_TYPE.ERR,error.response.data.error);    
     }
  
    return false;

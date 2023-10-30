@@ -1,10 +1,10 @@
 import React, {useContext,useEffect,useState} from 'react';
 import {Context} from '../logic/DataProvider';
-import { Box, Container, Typography,Button } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import ShoppingListTable from './ShoppingListTable';
 import ShoppingListControlls from './ShoppingListControlls';
 import AddItemButton from './AddItemButton';
-import ConfirmDeleteList from './ConfirmDeleteList';
+import DeleteListButton from './DeleteListButton';
 
 //The following rows are for DEV testing only
 // function createData(id,name,amount,notAvailable,found) {
@@ -54,14 +54,9 @@ function ShoppingList (){
                 <Container sx={{mt:4, display:"flex", flexDirection:"column",justifyContent:"center", alignItems:"center"}}>
                     <Typography variant='h2'>The cart is empty</Typography>
                     
-                    <Container sx={{mt:1, display:"flex",justifyContent:"center", alignItems:"center"}}>
+                    <Container sx={{mt:1,gap:1, display:"flex",justifyContent:"center", alignItems:"center"}}>
                         <AddItemButton />
-                        <Button onClick={()=>setConfirmDeleteList(!confirmDeleteList)} variant='outlined' sx={{backgroundColor:theme=>theme.palette.error.main,ml:'1rem'}}>
-                            <Typography variant='button' sx={{color:'primary.light'}}>
-                                Delete List
-                            </Typography>
-                        </Button>
-                        <ConfirmDeleteList listId={GlobalState.curr_list._id} confirmDelete={confirmDeleteList} setConfirmDelete={setConfirmDeleteList}/>
+                        <DeleteListButton listId={GlobalState.curr_list._id} confirmDelete={confirmDeleteList} setConfirmDelete={setConfirmDeleteList}/>
                     </Container>
                 </Container>
             </Box>
@@ -79,8 +74,7 @@ function ShoppingList (){
             </Container>}
             
             <Container sx={{mt:2}}>
-                <ShoppingListTable rows={mainCart} title={`Number of Items = ${ItemState.ItemsArray.length}`
-                }/>
+                <ShoppingListTable rows={mainCart} title={`Number of Items = ${ItemState.ItemsArray.length}`}/>
             </Container>
 
             {GlobalState.isMobile && 

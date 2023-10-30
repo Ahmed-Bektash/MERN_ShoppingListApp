@@ -18,6 +18,7 @@ function ListOfLists({lists,toggleDrawer,anchor}) {
       //handle history here
 
       localStorage.setItem(LOCAL_STORAGE_KEYS.PREV_LIST,GlobalState.curr_list._id);
+      localStorage.setItem(LOCAL_STORAGE_KEYS.CURR_LIST,listID);
       const newList = ListState.ListsArray.find((list)=>list._id === listID);
       GlobalDispatch({type:GlobalStateActions.UPDATE_CURR_LIST,payload:newList});
       fetchItems(ItemDispatch,newList._id,UserState.token);

@@ -2,7 +2,17 @@ import axios from 'axios';
 import { GlobalStateActions } from '../GlobalStateActions';
 import { ItemActions } from './ItemActions';
 import { headersConfig } from '../utils';
+import { NOTIFICATION_TYPE, NotifyUser } from '../Notification';
 
+
+export const CopyItems = (dest_id,items,GlobalDispatch)=>{
+    GlobalDispatch({type:GlobalStateActions.LOADING,payload:true});
+    axios.post('/api/items/copy',{items:items,destination:dest_id},headersConfig).then(res =>{
+        GlobalDispatch({type:GlobalStateActions.LOADING,payload:false});
+        NotifyUser(NOTIFICATION_TYPE.SUCCESS,"Copied unique items successfully!");
+    });
+
+}
 
 export const ClearCart = (ItemDispatch,listID)=>{
     axios.delete(`/api/items/list/${listID}`,headersConfig).then(res =>{
@@ -14,36 +24,37 @@ export const ClearCart = (ItemDispatch,listID)=>{
 
 export const removeItem = (ItemDispatch,id)=>{
     axios.delete(`/api/items/${id}`,headersConfig).then(res =>{ 
-        ItemDispatch({type:'REMOVE_ITEM', payload:id}); 
+        ItemDispatch({type:ItemActions.REMOVE_ITEM, payload:id}); 
     })
 }
 
 export const increaseItem = (ItemDispatch,id)=>{
-    axios.put(`/api/items/${id}`,{'action':'INC'},headersConfig).then(res =>{
+    axios.put(`/api/items/${id}`,{'action':ItemActions.INCREASE},headersConfig).then(res =>{
       
-        ItemDispatch({type:'INCREASE', payload:id});
+        ItemDispatch({type:ItemActions.INCREASE, payload:id});
     })
 }
 
 export const decreaseItem = (ItemDispatch,id)=>{ 
-    axios.put(`/api/items/${id}`,{'action':'DEC'},headersConfig).then(res =>{
+    axios.put(`/api/items/${id}`,{'action':ItemActions.DECREASE},headersConfig).then(res =>{
       
-        ItemDispatch({type:'DECREASE', payload:id});
+        ItemDispatch({type:ItemActions.DECREASE, payload:id});
     })
 }
 
 export const toggleNotAvailable = (ItemDispatch,id,notAvailable)=>{
     
-    axios.put(`/api/items/${id}`,{notAvailable,'action':'NA'},headersConfig).then(res =>{ 
+    axios.put(`/api/items/${id}`,{notAvailable,'action':ItemActions.NOT_FOUND},headersConfig).then(res =>{ 
         // console.log(notAvailable)
-        ItemDispatch({type:'NOT_FOUND', payload:id}); 
+        ItemDispatch({type:ItemActions.NOT_FOUND, payload:id}); 
     })
 }
 
 export const toggleFound = (ItemDispatch,id,found)=>{
 
-    axios.put(`/api/items/${id}`,{found,'action':'DONE'},headersConfig).then(res =>{ 
-        ItemDispatch({type:'DONE', payload:id}); 
+    axios.put(`/api/items/${id}`,{found,'action':ItemActions.FOUND},headersConfig).then(res =>{ 
+        ItemDispatch({type:ItemActions.FOUND, payload:id}); 
+
     })
 }
 

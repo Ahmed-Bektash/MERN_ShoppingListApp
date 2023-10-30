@@ -1,38 +1,10 @@
 import axios from 'axios';
 import { listActions } from './ListActions';
 import { headersConfig } from '../utils';
-import { GlobalStateActions } from '../GlobalStateActions';
+// import { GlobalStateActions } from '../GlobalStateActions';
 
 
 
-// export const increaseItem = (ItemDispatch,id)=>{
-//     axios.put(`/api/items/${id}`,{'action':'INC'}).then(res =>{
-      
-//         ItemDispatch({type:'INCREASE', payload:id});
-//     })
-// }
-
-// export const decreaseItem = (ItemDispatch,id)=>{ 
-//     axios.put(`/api/items/${id}`,{'action':'DEC'}).then(res =>{
-      
-//         ItemDispatch({type:'DECREASE', payload:id});
-//     })
-// }
-
-// export const toggleNotAvailable = (ItemDispatch,id,notAvailable)=>{
-    
-//     axios.put(`/api/items/${id}`,{notAvailable,'action':'NA'}).then(res =>{ 
-//         // console.log(notAvailable)
-//         ItemDispatch({type:'NOT_FOUND', payload:id}); 
-//     })
-// }
-
-// export const toggleFound = (ItemDispatch,id,found)=>{
-
-//     axios.put(`/api/items/${id}`,{found,'action':'DONE'}).then(res =>{ 
-//         ItemDispatch({type:'DONE', payload:id}); 
-//     })
-// }
 
 export const fetchLists = async(ListDispatch,GlobalDispatch,user,token)=>{
  //fetch lists for the user

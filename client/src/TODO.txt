@@ -23,7 +23,10 @@
 [OK] update mobile view as the display is mashed
 [OK] add spinner to loading component
 [OK] create the error page properly
-[] add a refresh list button to restart to its original state
+[OK] fix the Button and modal situation in front end
+[OK] some times state is lost so dashboard is loaded without content
+[OK] cancel copy feature
+[OK] add a feature to copy from list to list either full list or an item
 [] add a suggestions section in the front page and as a page for the user in their dashboard
 [] add main page cards when not logged in
 [] user reset password and delete account
@@ -31,7 +34,7 @@
 [] Add an edit list feature
 
 Next Task:
-[] add a feature to copy from list to list either full list or an item
+[] a user cannot create two lists with the same name
 [] add logic for different kinds of lists: shopping, todo, notes...etc
 [] adjust font in theme
 [] When you refresh, the main page renders the link to the login page even though there is a token

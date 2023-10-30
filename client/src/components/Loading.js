@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Context } from '../logic/DataProvider';
+// import React, { useContext } from 'react'
+// import { Context } from '../logic/DataProvider';
 import ClipLoader from "react-spinners/ClipLoader";
 import {useTheme } from '@mui/material/styles';
 import { Container, Typography } from '@mui/material';

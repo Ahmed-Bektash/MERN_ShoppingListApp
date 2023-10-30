@@ -6,6 +6,7 @@ const items = Router();
 import Item from '../../models/Item.js';
 import {Authenticate,Authorize} from '../../UseCases/Auth.js';
 import { USER_ROLES } from '../../utils/types.js';
+import mongoose from 'mongoose';
 
 //@route    GET api/items
 //@desc     Get all items
@@ -149,14 +150,14 @@ items.put('/:id',Authenticate,Authorize(USER_ROLES.NORMAL), async(req,res)=>{
             throw new Error("This user cannot update this item because they are neither admin nor the owner of the item");
         }
                             /*********************INCREASE*******************/
-        if(req.body.action === 'INC'){
+        if(req.body.action === 'INCREASE'){
             console.log('increase request');
             
             oldAmount = item_to_update.amount;
            await  Item.findOneAndUpdate({_id:req.params.id},{amount:oldAmount+1},{upsert:true});
             
                                 /*********************DECREASE*******************/
-        }else if (req.body.action === 'DEC'){
+        }else if (req.body.action === 'DECREASE'){
             console.log('decrease request');
             oldAmount = item_to_update.amount;
             if(oldAmount>1){
@@ -164,12 +165,12 @@ items.put('/:id',Authenticate,Authorize(USER_ROLES.NORMAL), async(req,res)=>{
             }
               
                                 /*********************NOT AVAILABLE*******************/
-        }else if (req.body.action === 'NA'){ 
+        }else if (req.body.action === 'NOT_FOUND'){ 
             console.log('Not available request');
             Item.findOneAndUpdate({_id:req.params.id,},{notAvailable:!req.body.notAvailable},{upsert:true});
         }
                                 /*********************STATUS*******************/
-        else if (req.body.action === 'DONE'){ 
+        else if (req.body.action === 'FOUND'){ 
             console.log('toggle done request');
             Item.findOneAndUpdate({_id:req.params.id,},{found:!req.body.found},{upsert:true});
         }
@@ -196,4 +197,61 @@ items.put('/:id',Authenticate,Authorize(USER_ROLES.NORMAL), async(req,res)=>{
 
  });
 
+
+//@route    POST api/items
+//@desc     Create many
+//@access   Private
+items.post('/copy', Authenticate, Authorize(USER_ROLES.NORMAL), async(req,res)=>{
+    try
+    {
+        if(!(req.body.items) || !(req.body.destination))
+        {
+
+            throw new Error(`There is no list to copy`);
+        }
+        
+        const items = await Item.find({list: req.body.destination,}).sort({date: -1}) //-1 is descending and 1 is ascending
+
+        const item_names = items.map(item=> item.name);
+
+        req.body.items.forEach(async(cpy_item) => {
+        
+        if(!item_names.find(name => name === cpy_item.name))
+        {
+            const newItem = new Item({
+                name: cpy_item.name,
+                found:false,
+                notAvailable:false,
+                amount:cpy_item.amount,
+                list:req.body.destination,
+                user:req.user.id
+            }); 
+
+            const item = await newItem.save();
+            if(!item)
+            {
+                throw new Error(`The item ${cpy_item.name} could not be saved`);
+            }
+        }
+
+        });
+        
+        
+        const response = {
+            success: true,
+            message: req.body.items,
+            error: null,
+        }
+        res.status(200).json(response);
+        
+    } catch (error) {
+        
+        const response = {
+            success: false,
+            message: `failed to copy list for: ${req.user.name}`,
+            error: error.message,
+        }
+        res.status(500).json(response);
+    }
+}); 
 export default items;

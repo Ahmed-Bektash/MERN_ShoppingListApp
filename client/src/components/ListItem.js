@@ -17,6 +17,7 @@ function ShoppingListItem(props) {
     const theme = useTheme();
     
     function foundHandler(){
+        console.log(row)
         if(row.notAvailable){
             toggleNotAvailable(ItemDispatch,row._id,row.notAvailable);
         }
