@@ -40,10 +40,10 @@ const  ItemReducer= (state,action)=>{
         return {...state,ItemsArray:tempCartItems}
     }
 
-    if(action.type === ItemActions.FOUND){
+    if(action.type === ItemActions.DONE){
         let tempCartItems= state.ItemsArray.map((item)=>{
             if(item._id === action.payload){
-                return {...item,found:!item.found}
+                return {...item,done:!item.done}
             }
             return item;
         })
@@ -53,7 +53,7 @@ const  ItemReducer= (state,action)=>{
     if(action.type === ItemActions.ADD_ITEM){
         let newArray = state.ItemsArray
             if(action.payload!==''){
-                newArray = [...newArray,{_id:action.payload._id,name:action.payload.name,notAvailable: action.payload.notAvailable, amount:action.payload.amount}];
+                newArray = [...newArray,{_id:action.payload._id,name:action.payload.name,notAvailable: action.payload.notAvailable, amount:action.payload.amount,type:action.payload.type,description: action.payload.description}];
                 return {...state, ItemsArray:newArray}
             }else{
            //     console.log("please enter an item");

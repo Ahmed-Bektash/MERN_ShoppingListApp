@@ -1,4 +1,5 @@
 import { Schema as _Schema, model,SchemaTypes } from 'mongoose';
+import { ITEM_TYPES } from '../utils/types.js';
 const Schema = _Schema; //capital S
 
 //creating schema basically means what the data should look like when saved.
@@ -15,9 +16,18 @@ const ItemSchema = new Schema({
         type:Number,
         required: false
     },
-    found:{
+    done:{
         type:Boolean,
         require:false
+    },
+    type:{
+        type:String,
+        enum:[ITEM_TYPES.CHECKLIST,ITEM_TYPES.NOTES,ITEM_TYPES.SHOPPING], //add others when necessary
+        required:true
+    },
+    description:{
+        type:String,
+        required:false,
     },
     list:{
         type: SchemaTypes.ObjectId,

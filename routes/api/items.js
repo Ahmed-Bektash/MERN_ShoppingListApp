@@ -52,14 +52,15 @@ items.post('/', Authenticate, Authorize(USER_ROLES.NORMAL), async(req,res)=>{
     {
 
         const newItem = new Item({
-            name: req.body.name,
-            found:false,
+            name: req.body.req_body.name,
+            type: req.body.req_body.type,
+            description: req.body.req_body.description,
+            done:false,
             notAvailable:false,
-            amount:req.body.amount?req.body.amount:1,
-            list:req.body.list,
+            amount:req.body.req_body.amount?req.body.req_body.amount:1,
+            list:req.body.req_body.list,
             user:req.user.id
         }); 
-        
         const item = await newItem.save()       //saves it in the DB
         if(item)
         {
@@ -79,6 +80,7 @@ items.post('/', Authenticate, Authorize(USER_ROLES.NORMAL), async(req,res)=>{
             message: `failed to save item for: ${req.user.name}`,
             error: error.message,
         }
+        console.log(error.message)
         res.status(500).json(response);
     }
 }); 
@@ -170,9 +172,9 @@ items.put('/:id',Authenticate,Authorize(USER_ROLES.NORMAL), async(req,res)=>{
             Item.findOneAndUpdate({_id:req.params.id,},{notAvailable:!req.body.notAvailable},{upsert:true});
         }
                                 /*********************STATUS*******************/
-        else if (req.body.action === 'FOUND'){ 
+        else if (req.body.action === 'DONE'){ 
             console.log('toggle done request');
-            Item.findOneAndUpdate({_id:req.params.id,},{found:!req.body.found},{upsert:true});
+            Item.findOneAndUpdate({_id:req.params.id,},{done:!req.body.done},{upsert:true});
         }
         else {
             //do nothing
@@ -220,7 +222,7 @@ items.post('/copy', Authenticate, Authorize(USER_ROLES.NORMAL), async(req,res)=>
         {
             const newItem = new Item({
                 name: cpy_item.name,
-                found:false,
+                done:false,
                 notAvailable:false,
                 amount:cpy_item.amount,
                 list:req.body.destination,

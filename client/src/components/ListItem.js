@@ -7,7 +7,7 @@ import {Collapse} from '@mui/material';
 import ControlsRow from './ControlsRow';
 import DataRow from './DataRow';
 import {Context} from '../logic/DataProvider'
-import { toggleFound, toggleNotAvailable } from '../logic/Item/ItemProvider';
+import { toggleDone, toggleNotAvailable } from '../logic/Item/ItemProvider';
 
 function ShoppingListItem(props) {
     const {row} = props;
@@ -16,19 +16,19 @@ function ShoppingListItem(props) {
     const {ItemDispatch} = React.useContext(Context);
     const theme = useTheme();
     
-    function foundHandler(){
+    function doneHandler(){
         console.log(row)
         if(row.notAvailable){
             toggleNotAvailable(ItemDispatch,row._id,row.notAvailable);
         }
-       toggleFound(ItemDispatch,row._id,row.found);
+       toggleDone(ItemDispatch,row._id,row.done);
        setRowShow(!rowShow);
        setOpen(!open);
    } 
 
    function setColor(){
     let color= '';
-    if(row.found){
+    if(row.done){
         color=  theme.palette.secondary.main;
     }else if(row.notAvailable){
         color = theme.palette.secondary.light;
@@ -43,11 +43,13 @@ function ShoppingListItem(props) {
         name:row.name,
         notAvailable:row.notAvailable,
         amount:row.amount,
-        found:row.found,
+        type:row.type,
+        description:row.description,
+        done:row.done,
         date:row.date,
         open:open,
         setOpen:setOpen,
-        foundHandler:foundHandler
+        foundHandler:doneHandler
     }
   
     

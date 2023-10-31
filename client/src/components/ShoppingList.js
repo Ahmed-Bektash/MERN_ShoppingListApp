@@ -21,18 +21,18 @@ import DeleteListButton from './DeleteListButton';
 
 function ShoppingList (){
     const {ItemState,GlobalState} = useContext(Context);
-    const [foundArray,setFoundArray] = useState([]);
+    const [doneArray,setDoneArray] = useState([]);
     const [mainCart,setMainCart] = useState([]);
     const [confirmDeleteList,setConfirmDeleteList] = useState(false);
 
     useEffect(() => {
-        setFoundArray(()=>[]);
+        setDoneArray(()=>[]);
         setMainCart(()=>[]);
         ItemState.ItemsArray.forEach(element => {
-            if(element.found === true)
+            if(element.done === true)
             {
-                //add it to found array
-                setFoundArray(arr=>[...arr,element]);
+                //add it to done array
+                setDoneArray(arr=>[...arr,element]);
             }
             else
             {
@@ -74,7 +74,7 @@ function ShoppingList (){
             </Container>}
             
             <Container sx={{mt:2}}>
-                <ShoppingListTable rows={mainCart} title={`Number of Items = ${ItemState.ItemsArray.length}`}/>
+                <ShoppingListTable rows={mainCart} title={`Number of Items = ${ItemState.ItemsArray.length}`} curr_list={GlobalState.curr_list}/>
             </Container>
 
             {GlobalState.isMobile && 
@@ -83,7 +83,7 @@ function ShoppingList (){
             </Container>} 
 
             <Container sx={{mt:10}}>
-                <ShoppingListTable rows={foundArray} title="Found List"/>
+                <ShoppingListTable rows={doneArray} title="Done List" curr_list={GlobalState.curr_list}/>
             </Container>
         </Box>
         

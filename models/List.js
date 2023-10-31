@@ -8,11 +8,6 @@ const ListSchema = new Schema({
         type:String,
         required: true
     },
-    type:{
-        type:String,
-        enum:['shopping','notes','checklist'], //add others when necessary
-        required:true
-    },
     category:{
         type:String,
         required: true

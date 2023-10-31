@@ -10,14 +10,14 @@ import Collapse from '@mui/material/Collapse';
 import { useTheme } from '@emotion/react';
 import { decreaseItem, increaseItem,toggleNotAvailable, removeItem } from '../logic/Item/ItemProvider';
 import CopyButton from './CopyButton'
-import {ICONS} from '../config'
+import {ICONS, ITEM_TYPES} from '../config'
 import CustomButton from './CustomButton';
+import { Typography } from '@mui/material';
 
 function ControlsRow(props) {
     const {row} = props;
     const theme = useTheme();
     const {ItemDispatch} = useContext(Context);
-    
 
   return (
     <Collapse in={row.open} timeout="auto" unmountOnExit sx={{width:"100%"}}>
@@ -25,10 +25,14 @@ function ControlsRow(props) {
             <Table size="small" aria-label="controls">
                 <TableHead>
                     <TableRow>
-                        <TableCell padding='none'>Found</TableCell>
-                        <TableCell padding='none'>Dec</TableCell>
-                        <TableCell padding='none'>Inc</TableCell>
-                        <TableCell padding='none'>N/A</TableCell>
+                        <TableCell padding='none'>Done</TableCell>
+                        { (row.type === ITEM_TYPES.SHOPPING) &&
+                        <>
+                            <TableCell padding='none'>Dec</TableCell>
+                            <TableCell padding='none'>Inc</TableCell>
+                            <TableCell padding='none'>N/A</TableCell>
+                        </>
+                        }
                         <TableCell padding='none'>Del</TableCell>
                         <TableCell padding='none'>Copy</TableCell>
                     </TableRow>
@@ -42,7 +46,8 @@ function ControlsRow(props) {
                             buttonStyles={{color:theme.palette.secondary.main}}
                         />
                         </TableCell>    
-
+                        { (row.type === ITEM_TYPES.SHOPPING) &&
+                            <>
                         <TableCell padding="none">
                             <CustomButton 
                                 clickHandler={()=>decreaseItem(ItemDispatch,row.id)}
@@ -64,7 +69,8 @@ function ControlsRow(props) {
                                 buttonStyles={{color:theme.palette.error.main}}
                             />
                         </TableCell>
-
+                        </>
+                        }
                         <TableCell padding="none">
                             <CustomButton 
                                 clickHandler={()=>removeItem(ItemDispatch,row.id)}
@@ -76,6 +82,23 @@ function ControlsRow(props) {
                             <CopyButton items={[row]} copyIcon={ICONS.COPY}/>
                         </TableCell> 
                     </TableRow>
+                    
+                    {row.description &&
+                        <>
+                        <TableRow>
+                            <TableCell padding='none' colSpan={6}>Description</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell padding="none" colSpan={6}>
+                                    {row.description.split("\n").map(line=>
+                                        <Typography variant='body2' key={line} mt={1} mb={1}>
+                                            {line}
+                                        </Typography>
+                                    )}
+                            </TableCell> 
+                        </TableRow>
+                        </>
+                    }
                 </TableBody>
             </Table>
         </Box>

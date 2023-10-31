@@ -7,6 +7,7 @@ import List from '../../models/List.js';
 import {Authenticate,Authorize} from '../../UseCases/Auth.js';
 import { USER_ROLES } from '../../utils/types.js';
 import User from '../../models/User.js';
+import Item from '../../models/Item.js';
 
 //@route    GET api/lists
 //@desc     Get all lists
@@ -49,7 +50,6 @@ lists.post('/',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
     
         const newList = new List({
             name: req.body.name, 
-            type:req.body.type,
             category:req.body.category,
             user:req.user.id
             }); 
@@ -96,6 +96,7 @@ lists.delete('/:id',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
             throw new Error("This user cannot delete this list because they are neither admin nor the owner of the list");
         }
         await User.findOneAndUpdate({_id:req.user.id},{"$pull": { "Lists": {"$in": [req.params.id]}}})
+        await Item.deleteMany({list:req.params.id,}) //you can also use remove but it is being deprecated
         await List.findByIdAndRemove(req.params.id);
         const response = {
             success: true,

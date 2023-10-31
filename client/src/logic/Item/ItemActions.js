@@ -5,6 +5,6 @@ export const ItemActions = {
     INCREASE: "INCREASE",
     DECREASE: "DECREASE",
     NOT_FOUND: "NOT_FOUND",
-    FOUND: "FOUND",
+    DONE: "DONE",
     CLEAR_CART:'CLEAR_CART'
 }

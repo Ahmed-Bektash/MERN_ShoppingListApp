@@ -3,7 +3,7 @@ import {Context} from '../logic/DataProvider';
 import { Button, Container, Typography } from '@mui/material';
 import {Formik,Form} from 'formik';
 import * as Yup from 'yup';
-import { list_categories, list_types } from '../config';
+import { list_categories } from '../config';
 import Grid from '@mui/material/Grid';
 import TextFieldWrapper from './Forms/FormTextField';
 import { AddList } from '../logic/List/ListProvider';
@@ -13,19 +13,16 @@ import { NOTIFICATION_TYPE, NotifyUser } from '../logic/Notification';
 const ListCreationForm = ()=>{
 
   const [category,setCategory] = useState(list_categories[0].name);
-  const [type,setType] = useState(list_types[0]);
   const {ListDispatch, ListState} = useContext(Context);
   
   const initialValues={
       name:"",
       category:"",
-      type:""
     } 
   
     const validation = Yup.object({
       name: Yup.string().required('Required'),
-      category: Yup.string().required('Required').oneOf(list_categories.map(list=>list.name)),
-      type: Yup.string().required('Required').oneOf(list_types),
+      category: Yup.string().required('Required').oneOf(list_categories.map(list=>list.name))
     })
   return(
       <Formik
@@ -38,7 +35,6 @@ const ListCreationForm = ()=>{
         const newList = {
          name:values.name,
          category:values.category,
-         type:values.type,
         }
         const list_exists = ListState.ListsArray.find(list=>((list.name === newList.name)&& (list.category === newList.category)));
         if(list_exists)
@@ -47,7 +43,7 @@ const ListCreationForm = ()=>{
         }
         else if(newList.name){ 
           //add amount
-          AddList(ListDispatch,newList.name,newList.category,newList.type); //maybe await this to make it more robust
+          AddList(ListDispatch,newList.name,newList.category); //maybe await this to make it more robust
           actions.resetForm();
           NotifyUser(NOTIFICATION_TYPE.SUCCESS,"List Added successfully");
 
@@ -69,18 +65,6 @@ const ListCreationForm = ()=>{
               fullWidth={true}
               stateset={setCategory}
               name='category'
-              />
-          </Grid>
-
-          <Grid item xs={12} sx={{mb: 2 }}>
-          <SelectWrapper 
-              label='Type' 
-              value={type} 
-              options={list_types} 
-              // variant='standard'
-              fullWidth={true}
-              stateset={setType}
-              name='type'
               />
           </Grid>
 

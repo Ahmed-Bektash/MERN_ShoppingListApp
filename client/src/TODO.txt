@@ -27,16 +27,17 @@
 [OK] some times state is lost so dashboard is loaded without content
 [OK] cancel copy feature
 [OK] add a feature to copy from list to list either full list or an item
+[OK] a user cannot create two lists with the same name
+[OK] delete all items of this list when you delete the list
+[OK] add logic for different kinds of lists: shopping, todo, notes...etc
 [] add a suggestions section in the front page and as a page for the user in their dashboard
 [] add main page cards when not logged in
-[] user reset password and delete account
 [] fix warnings in dev console
-[] Add an edit list feature
+[] delete/ edit user feature
+    [] user reset password and delete account
 
 Next Task:
-[] a user cannot create two lists with the same name
-[] add logic for different kinds of lists: shopping, todo, notes...etc
-[] adjust font in theme
+[] Add an edit item and list feature
 [] When you refresh, the main page renders the link to the login page even though there is a token
 [] the back button does not work
 [] handle the useEffect has missing dependencies: warnings

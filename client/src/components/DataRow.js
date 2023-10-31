@@ -3,6 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Container, Typography } from '@mui/material';
+import { ITEM_TYPES } from '../config';
 
 function DataRow(props) {
     const { row } = props;
@@ -28,9 +29,11 @@ function DataRow(props) {
                     {row.name}
                 </Typography>
                 
-                <Typography variant="body2" component="div" paddingRight={'2rem'}>
+                { row.type === ITEM_TYPES.SHOPPING &&
+                    <Typography variant="body2" component="div" paddingRight={'2rem'}>
                     {row.amount}    
-                </Typography>    
+                    </Typography>
+                }    
 
         </Container>
 

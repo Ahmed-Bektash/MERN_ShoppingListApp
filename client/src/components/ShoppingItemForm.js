@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {Context} from '../logic/DataProvider'
 
 import Button from '@mui/material/Button';
@@ -8,19 +8,35 @@ import {Formik,Form} from 'formik';
 import * as Yup from 'yup';
 import TextFieldWrapper from './Forms/FormTextField';
 import { NOTIFICATION_TYPE, NotifyUser } from '../logic/Notification';
+import { ITEM_TYPES, LIST_TYPES, item_types_list } from '../config';
+import SelectWrapper from './Forms/FormSelect';
 
 function ShoppingItemForm(props) {
     const {AddItem,CloseModal,item_dispatch} = props
     const {GlobalState , ItemState} = useContext(Context);
-    // const [itemExists, setItemExists] = useState(false)
+  const [type,setType] = useState(ITEM_TYPES.CHECKLIST);
+  // const [itemExists, setItemExists] = useState(false)
+  useEffect(() => {
+    
+    if(GlobalState.curr_list.category === LIST_TYPES.SHOPPING)
+    {
+      setType(ITEM_TYPES.SHOPPING);
+    }
+    
+    }, [GlobalState.curr_list])
+    
     const initialValues={
         name:"",
-        amount:1
+        type:"",
+        description:"",
+        amount:1,
       } 
 
       const validation = Yup.object({
         name: Yup.string().required('Required'),
-        amount: Yup.number().required('Required').positive("Please input positive numbers only").typeError("Please input numbers only here"),
+        type: Yup.string().oneOf(item_types_list),
+        description: Yup.string(),
+        amount: Yup.number().positive("Please input positive numbers only").typeError("Please input numbers only here"),
       })
 
   return (
@@ -33,6 +49,8 @@ function ShoppingItemForm(props) {
           actions.setSubmitting(false);
           const newItem = {
            name:values.name,
+           type: GlobalState.curr_list.category === LIST_TYPES.SHOPPING?ITEM_TYPES.SHOPPING:values.type,
+           description: values.description,
            amount:values.amount,
           }
 
@@ -45,7 +63,7 @@ function ShoppingItemForm(props) {
             else
             {
               //add amount
-              AddItem(item_dispatch,newItem.name,newItem.amount,GlobalState.curr_list._id,null);
+              AddItem(item_dispatch,newItem,GlobalState.curr_list._id,null);
 
               
             }
@@ -67,9 +85,33 @@ function ShoppingItemForm(props) {
              <TextFieldWrapper label="Item name" value="" name={'name'} autoFocus={true}/>
             </Grid>
 
+            {GlobalState.curr_list.category !== LIST_TYPES.SHOPPING &&
+            <Grid item xs={12} sx={{mb: 2 }}>
+              <SelectWrapper 
+                  label='Type' 
+                  value={type} 
+                  options={
+                   (GlobalState.curr_list.category === LIST_TYPES.MEDIA)?item_types_list.filter((type)=>type !== ITEM_TYPES.SHOPPING):item_types_list
+                  } 
+                  // variant='standard'
+                  fullWidth={true}
+                  stateset={setType}
+                  name={'type'}
+                  />
+              </Grid>
+              }
+
+            {type === ITEM_TYPES.SHOPPING &&
+              <Grid item xs={12} sx={{mb: 3 }}>
+                <TextFieldWrapper label="Item amount" value="" name={'amount'} />
+              </Grid>
+            }
+
+            
             <Grid item xs={12} sx={{mb: 3 }}>
-             <TextFieldWrapper label="Item amount" value="" name={'amount'} />
+                <TextFieldWrapper label="Item description" value="" name={'description'} multiline={true} rows={4}/>
             </Grid>
+            
 
           <Button type='submit' fullWidth variant="contained" sx={{backgroundColor:theme=>theme.palette.secondary.main,mt:3,mb:2}}>
            <Typography variant='button'>

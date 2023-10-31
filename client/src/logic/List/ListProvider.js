@@ -24,8 +24,8 @@ export const fetchLists = async(ListDispatch,GlobalDispatch,user,token)=>{
 
 }
 
-export const AddList = (ListDispatch,name,category,type)=>{
-    axios.post('/api/lists',{name:name,category:category,type:type},headersConfig).then(res =>{
+export const AddList = (ListDispatch,name,category)=>{
+    axios.post('/api/lists',{name:name,category:category},headersConfig).then(res =>{
     // console.log(res.data,'from ListDispatcher');
     ListDispatch({type:listActions.ADD_LIST, payload:res.data.message});
     });

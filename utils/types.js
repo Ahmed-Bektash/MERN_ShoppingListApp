@@ -17,3 +17,9 @@ export const VERIFY_BY = {
     TOKEN:"token",
     UNDEFINED:"any"
 }
+
+export const ITEM_TYPES = {
+    CHECKLIST: "checklist",
+    SHOPPING:"shopping",
+    NOTES:"notes",
+}

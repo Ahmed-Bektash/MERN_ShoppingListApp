@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import { ShoppingListItem } from './ListItem';
 import { ShoppingListHead } from './ShoppingListHead';
+import { LIST_TYPES } from '../config';
 
 function descendingComparator(a, b, orderBy) {
     //we only want desc here, so if elment orderBy in object b is < the same in a then a is bigger so return -1 to put it first
@@ -57,7 +58,7 @@ const headCells = [
   
 
 export default function ShoppingListTable(props) {
-    const {rows,title} = props;
+    const {rows,title,curr_list} = props;
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('item');
 
@@ -79,9 +80,9 @@ export default function ShoppingListTable(props) {
           >
             {title}
           </Typography>
-
+          
           {(rows.length > 0) && <ShoppingListHead
-                headTitles={headCells}
+                headTitles={(curr_list.category === LIST_TYPES.SHOPPING)?headCells:headCells.filter((cell)=>cell.id !== 'amount')}
                 order={order}
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}

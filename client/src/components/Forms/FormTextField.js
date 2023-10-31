@@ -10,7 +10,7 @@ const TextFieldWrapper = (props) => {
 
 return (
     <>
-      <CustomTextField {...field} value={field.value ?? props.value} label={props.label} fullWidth type={props.type} />
+      <CustomTextField {...field} value={field.value ?? props.value} label={props.label} fullWidth type={props.type} multiline={props.multiline} rows={props.rows}/>
     <br />
     {meta && meta.touched && meta.error && <Typography sx={{color:theme=>theme.palette.error.main}}>
         {meta.error}
@@ -24,6 +24,8 @@ TextFieldWrapper.propTypes = {
     label:PropTypes.string,
     autoFocus: PropTypes.bool,
     type: PropTypes.string,
+    multiline: PropTypes.bool,
+    rows: PropTypes.number
   };
 
 export default TextFieldWrapper;

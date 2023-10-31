@@ -50,18 +50,27 @@ export const toggleNotAvailable = (ItemDispatch,id,notAvailable)=>{
     })
 }
 
-export const toggleFound = (ItemDispatch,id,found)=>{
+export const toggleDone = (ItemDispatch,id,done)=>{
 
-    axios.put(`/api/items/${id}`,{found,'action':ItemActions.FOUND},headersConfig).then(res =>{ 
-        ItemDispatch({type:ItemActions.FOUND, payload:id}); 
+    axios.put(`/api/items/${id}`,{done,'action':ItemActions.DONE},headersConfig).then(res =>{ 
+        ItemDispatch({type:ItemActions.DONE, payload:id}); 
 
     })
 }
 
-export const AddItem = (ItemDispatch,name,amount,listID,userID)=>{
+export const AddItem = (ItemDispatch,item_details,listID,userID)=>{
+
+    const req_body = {
+        name: item_details.name,
+        type: item_details.type,
+        description: item_details.description,
+        amount: item_details.amount,
+        list: listID,
+        userID:userID,
+    }
     
-    // console.log(listID,'from AddItem');
-    axios.post('/api/items',{name:name,amount:amount,list:listID,userID:userID},headersConfig).then(res =>{
+    // console.log(req_body,'from AddItem');
+    axios.post('/api/items',{req_body},headersConfig).then(res =>{
         ItemDispatch({type:ItemActions.ADD_ITEM, payload:res.data.message});
     });
 
