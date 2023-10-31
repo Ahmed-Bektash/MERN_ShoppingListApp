@@ -8,12 +8,13 @@ import Grid from '@mui/material/Grid';
 import TextFieldWrapper from './Forms/FormTextField';
 import { AddList } from '../logic/List/ListProvider';
 import SelectWrapper from './Forms/FormSelect';
+import { NOTIFICATION_TYPE, NotifyUser } from '../logic/Notification';
 
 const ListCreationForm = ()=>{
 
   const [category,setCategory] = useState(list_categories[0].name);
   const [type,setType] = useState(list_types[0]);
-  const {ListDispatch} = useContext(Context);
+  const {ListDispatch, ListState} = useContext(Context);
   
   const initialValues={
       name:"",
@@ -39,10 +40,17 @@ const ListCreationForm = ()=>{
          category:values.category,
          type:values.type,
         }
-
-        if(newList.name){ 
+        const list_exists = ListState.ListsArray.find(list=>((list.name === newList.name)&& (list.category === newList.category)));
+        if(list_exists)
+        {
+          NotifyUser(NOTIFICATION_TYPE.WARN,"This list already exists for this category, please choose another name or category!");
+        }
+        else if(newList.name){ 
           //add amount
           AddList(ListDispatch,newList.name,newList.category,newList.type); //maybe await this to make it more robust
+          actions.resetForm();
+          NotifyUser(NOTIFICATION_TYPE.SUCCESS,"List Added successfully");
+
           }
       }}
     >
