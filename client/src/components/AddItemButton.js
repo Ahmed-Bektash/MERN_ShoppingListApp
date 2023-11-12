@@ -20,7 +20,8 @@ return(
     toggle={toggle}
     >
         <Typography variant='h2'> What would you like to add? </Typography>
-        <ShoppingItemForm CloseModal={toggle} AddItem={AddItem} item_dispatch={ItemDispatch}/>
+        <ShoppingItemForm CloseModal={toggle} EndPointFunc={AddItem} item_dispatch={ItemDispatch} InitialStateValues={{name:"",type:"",description:"",amount:1}}/>
+       
     </GenericModal>
     );
 

@@ -13,6 +13,7 @@ import CopyButton from './CopyButton'
 import {ICONS, ITEM_TYPES} from '../config'
 import CustomButton from './CustomButton';
 import { Typography } from '@mui/material';
+import EditItemButton from './EditItemButton';
 
 function ControlsRow(props) {
     const {row} = props;
@@ -35,6 +36,7 @@ function ControlsRow(props) {
                         }
                         <TableCell padding='none'>Del</TableCell>
                         <TableCell padding='none'>Copy</TableCell>
+                        <TableCell padding='none'>Edit</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -81,15 +83,19 @@ function ControlsRow(props) {
                         <TableCell padding="none">
                             <CopyButton items={[row]} copyIcon={ICONS.COPY}/>
                         </TableCell> 
+
+                        <TableCell padding="none">
+                            <EditItemButton item={row} EditIcon={ICONS.EDIT}/>
+                        </TableCell> 
                     </TableRow>
                     
                     {row.description &&
                         <>
                         <TableRow>
-                            <TableCell padding='none' colSpan={6}>Description</TableCell>
+                            <TableCell padding='none' colSpan={7} sx={{fontWeight:'bold'}}>Description</TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell padding="none" colSpan={6}>
+                            <TableCell padding="none" colSpan={7}>
                                     {row.description.split("\n").map(line=>
                                         <Typography variant='body2' key={line} mt={1} mb={1}>
                                             {line}

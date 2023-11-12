@@ -65,7 +65,33 @@ const  ItemReducer= (state,action)=>{
         return {...state,ItemsArray:action.payload,loading:false}
     }
 
-
+    if(action.type === ItemActions.EDIT_ITEM){
+            if(action.payload!==''){
+                const newArray = state.ItemsArray.map((item)=>{
+                    let ret_item = {};
+                    if(item._id === action.payload._id)
+                    {
+                        ret_item = {
+                            _id:action.payload._id,
+                            name:action.payload.name,
+                            notAvailable: action.payload.notAvailable,
+                            amount:action.payload.amount,
+                            type:action.payload.type,
+                            description: action.payload.description
+                            }
+                        
+                    }else{
+                        ret_item = item;
+                    }
+                    return ret_item;
+                });
+                
+                return {...state, ItemsArray:newArray}
+            }else{
+           //     console.log("please enter an item");
+                return {...state}
+            }
+    }
     return state;
 }
 

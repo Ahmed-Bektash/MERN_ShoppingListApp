@@ -12,6 +12,8 @@ export const colourPalette={
                             DARK_BCKRND:'#AEAEAE',
                             CHARCOAL : '#302E2F',
                             TEAL:'#0A9279',
+                            BLUE: '#3E8EDE',
+                            LIGHT_GRAY:"#999999",
                             ERROR:'#ff1744',
                             NOT_FOUND: '#aaaaaa',
                             WARNING: '#ec942c',

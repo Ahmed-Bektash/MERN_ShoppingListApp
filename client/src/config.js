@@ -134,6 +134,7 @@ export const ICONS = {
     INCREASE: 'increase',
     DECREASE: 'decrease',
     DONE: 'done',
+    EDIT:'edit',
     NA:'not_available',
 
 

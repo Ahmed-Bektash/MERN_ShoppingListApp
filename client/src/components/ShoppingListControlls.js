@@ -41,6 +41,7 @@ function ShoppingListControlls() {
         <DeleteListButton listId={GlobalState.curr_list._id} confirmDelete={confirmDelete} setConfirmDelete={setConfirmDelete}/>
 
         <CopyButton items={ItemState.ItemsArray}/>
+
         
         
     </Container>

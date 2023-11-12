@@ -12,7 +12,7 @@ import { ITEM_TYPES, LIST_TYPES, item_types_list } from '../config';
 import SelectWrapper from './Forms/FormSelect';
 
 function ShoppingItemForm(props) {
-    const {AddItem,CloseModal,item_dispatch} = props
+    const {EndPointFunc,CloseModal,item_dispatch,InitialStateValues} = props
     const {GlobalState , ItemState} = useContext(Context);
   const [type,setType] = useState(ITEM_TYPES.CHECKLIST);
   // const [itemExists, setItemExists] = useState(false)
@@ -25,12 +25,13 @@ function ShoppingItemForm(props) {
     
     }, [GlobalState.curr_list])
     
-    const initialValues={
-        name:"",
-        type:"",
-        description:"",
-        amount:1,
-      } 
+    const initialValues=InitialStateValues;
+    // {
+    //     name:"",
+    //     type:"",
+    //     description:"",
+    //     amount:1,
+    //   } 
 
       const validation = Yup.object({
         name: Yup.string().required('Required'),
@@ -63,7 +64,7 @@ function ShoppingItemForm(props) {
             else
             {
               //add amount
-              AddItem(item_dispatch,newItem,GlobalState.curr_list._id,null);
+              EndPointFunc(item_dispatch,newItem,GlobalState.curr_list._id,null);
 
               
             }

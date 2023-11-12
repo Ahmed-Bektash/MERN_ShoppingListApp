@@ -7,6 +7,7 @@ import {Formik,Form} from 'formik';
 import * as Yup from 'yup';
 import { Typography } from '@mui/material';
 import GenericModal from './GenericModal';
+import { colourPalette } from '../Theme';
 
 function CopyButton({items,copyIcon=undefined}) {
   const {ListState, GlobalDispatch} = useContext(Context);
@@ -24,7 +25,7 @@ function CopyButton({items,copyIcon=undefined}) {
 
   return (
     <GenericModal 
-      btn_style={{backgroundColor:'blue'}} 
+      btn_style={{backgroundColor:colourPalette.BLUE}} 
       btn_txt={'Copy to'} 
       open={enableSelect} 
       toggle={()=>setEnableSelect(!enableSelect)}
