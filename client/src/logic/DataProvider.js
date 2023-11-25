@@ -25,7 +25,7 @@ export const fetchUserData = async(GlobalDispatch,ListDispatch,ItemDispatch,User
     let user = await AuthUser(UserDispatch,token);    
     if((user) && (user.lists.length > 0))
     {
-      const userLists = await fetchLists(ListDispatch,GlobalDispatch,user,token);
+      const userLists = await fetchLists(ListDispatch,token);
       const saved_list = localStorage.getItem(LOCAL_STORAGE_KEYS.CURR_LIST);
       const list_exists_for_user = userLists.find((list)=>list._id === saved_list);
       const display_list = list_exists_for_user?list_exists_for_user: user.lists[0];

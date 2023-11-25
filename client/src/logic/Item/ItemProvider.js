@@ -127,6 +127,7 @@ export const fetchItems = async(ItemDispatch,list_id,token)=>{
 export const EditItem = (ItemDispatch,item_details,listID,userID)=>{
 
     const req_body = {
+        _id: item_details._id,
         name: item_details.name,
         type: item_details.type,
         description: item_details.description,
@@ -134,11 +135,9 @@ export const EditItem = (ItemDispatch,item_details,listID,userID)=>{
         list: listID,
         userID:userID,
     }
-    
-    // console.log(req_body,'from EditItem');
-    axios.put('/api/items',{req_body},headersConfig).then(res =>{
-        ItemDispatch({type:ItemActions.EDIT_ITEM, payload:res.data.message});
+    axios.put(`/api/items/${item_details._id}`,{'action':ItemActions.EDIT_ITEM,'item':req_body},headersConfig).then(res =>{
+      
+        ItemDispatch({type:ItemActions.EDIT_ITEM, payload:req_body});
     });
-
 
 }

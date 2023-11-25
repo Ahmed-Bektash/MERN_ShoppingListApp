@@ -1,13 +1,13 @@
 import React,{useState,useContext} from 'react'
 import {Context} from '../logic/DataProvider'
 import Typography from '@mui/material/Typography';
-import ShoppingItemForm from './ShoppingItemForm';
-import { EditItem } from '../logic/Item/ItemProvider';
 import GenericModal from './GenericModal';
 import { colourPalette } from '../Theme';
+import { EditList } from '../logic/List/ListProvider';
+import { ListForm } from './ListForm';
 
- function EditItemButton({item,EditIcon=undefined}){
-    const {ItemDispatch} = useContext(Context);
+ function EditListButton({list,EditIcon=undefined}){
+    const {ListDispatch} = useContext(Context);
     const [IsModalOpen,SetIsModalOpen] = useState(false);
     function toggle(){
         SetIsModalOpen(!IsModalOpen);
@@ -16,17 +16,17 @@ import { colourPalette } from '../Theme';
 return(
     <GenericModal 
     btn_style={{backgroundColor:colourPalette.LIGHT_GRAY}} 
-    btn_txt={'Edit Item'} 
+    btn_txt={'Edit List'} 
     open={IsModalOpen} 
     toggle={toggle}
     icon={EditIcon}
     >
-        <Typography variant='h2'> Edit this item </Typography>
-        <ShoppingItemForm CloseModal={toggle} EndPointFunc={EditItem} item_dispatch={ItemDispatch} InitialStateValues={{_id:item.id,name:item.name,type:item.type,description:item.description,amount:item.amount}}/>
+        <Typography variant='h2'> Edit this list </Typography>
+        <ListForm EndPointFunc={EditList} list_dispatch={ListDispatch} InitialValues={{_id:list._id,name:list.name, category:list.category}} closeModal={toggle}/>
        
     </GenericModal>
     );
 
 }
 
-export default EditItemButton;
+export default EditListButton;

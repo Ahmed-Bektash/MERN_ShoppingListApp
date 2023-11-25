@@ -163,21 +163,33 @@ items.put('/:id',Authenticate,Authorize(USER_ROLES.NORMAL), async(req,res)=>{
             console.log('decrease request');
             oldAmount = item_to_update.amount;
             if(oldAmount>1){
-                Item.findOneAndUpdate({_id:req.params.id},{amount:oldAmount-1},{upsert:true});                     
+                await Item.findOneAndUpdate({_id:req.params.id},{amount:oldAmount-1},{upsert:true});                     
             }
               
                                 /*********************NOT AVAILABLE*******************/
         }else if (req.body.action === 'NOT_FOUND'){ 
             console.log('Not available request');
-            Item.findOneAndUpdate({_id:req.params.id,},{notAvailable:!req.body.notAvailable},{upsert:true});
+            await Item.findOneAndUpdate({_id:req.params.id,},{notAvailable:!req.body.notAvailable},{upsert:true});
         }
                                 /*********************STATUS*******************/
         else if (req.body.action === 'DONE'){ 
             console.log('toggle done request');
-            Item.findOneAndUpdate({_id:req.params.id,},{done:!req.body.done},{upsert:true});
+            await Item.findOneAndUpdate({_id:req.params.id,},{done:!req.body.done},{upsert:true});
+        }
+        else if( req.body.action === 'EDIT_ITEM')
+        {
+            console.log('edit item request');
+            await Item.findOneAndUpdate(
+                {_id:req.params.id,},
+                {
+                    name: req.body.item.name,
+                    type: req.body.item.type,
+                    description: req.body.item.description,
+                    amount: req.body.item.amount,
+                },
+            {upsert:true});
         }
         else {
-            //do nothing
             throw new Error("The request action is invalid");
         }
 
@@ -201,7 +213,7 @@ items.put('/:id',Authenticate,Authorize(USER_ROLES.NORMAL), async(req,res)=>{
 
 
 //@route    POST api/items
-//@desc     Create many
+//@desc     Copy many
 //@access   Private
 items.post('/copy', Authenticate, Authorize(USER_ROLES.NORMAL), async(req,res)=>{
     try
@@ -256,4 +268,5 @@ items.post('/copy', Authenticate, Authorize(USER_ROLES.NORMAL), async(req,res)=>
         res.status(500).json(response);
     }
 }); 
+
 export default items;

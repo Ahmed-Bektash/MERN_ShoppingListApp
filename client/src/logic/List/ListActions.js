@@ -4,4 +4,5 @@ export const listActions = {
     DISPLAY_LISTS: "DISPLAY_LISTS",
     LOADING:"LOADING",
     CLEAR_LIST:"CLEAR_LIST",
+    EDIT_LIST:"EDIT_LIST",
 }

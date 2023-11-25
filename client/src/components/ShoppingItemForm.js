@@ -49,6 +49,7 @@ function ShoppingItemForm(props) {
           // alert(JSON.stringify(values, null, 2));
           actions.setSubmitting(false);
           const newItem = {
+           _id: InitialStateValues._id?InitialStateValues._id:null, //will have a value only in edit
            name:values.name,
            type: GlobalState.curr_list.category === LIST_TYPES.SHOPPING?ITEM_TYPES.SHOPPING:values.type,
            description: values.description,
@@ -57,7 +58,7 @@ function ShoppingItemForm(props) {
 
           if(newItem.name){ 
             const existingItem = ItemState.ItemsArray.find((item)=>(newItem.name.toLowerCase()===item.name.toLowerCase()))
-            if(existingItem)
+            if(existingItem && (newItem._id === null))
             {
               NotifyUser(NOTIFICATION_TYPE.WARN,"Note! This Item already exists! we did not add it but you can update it");
             }

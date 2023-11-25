@@ -30,14 +30,17 @@
 [OK] a user cannot create two lists with the same name
 [OK] delete all items of this list when you delete the list
 [OK] add logic for different kinds of lists: shopping, todo, notes...etc
+[OK] Add an edit item and list feature
+    - Check the list edit reducer
+    - fix the add list in side bar: category is dark text
+[OK] add category next to list name in navbar: category --> name
 [] add a suggestions section in the front page and as a page for the user in their dashboard
 [] add main page cards when not logged in
 [] fix warnings in dev console
-[] delete/ edit user feature
-    [] user reset password and delete account
 
 Next Task:
-[] Add an edit item and list feature
+[] delete/ edit user feature
+    [] user reset password and delete account
 [] When you refresh, the main page renders the link to the login page even though there is a token
 [] the back button does not work
 [] handle the useEffect has missing dependencies: warnings

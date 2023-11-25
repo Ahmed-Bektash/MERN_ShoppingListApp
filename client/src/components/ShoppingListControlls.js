@@ -6,6 +6,7 @@ import { Container } from '@mui/material';
 import DeleteListButton from './DeleteListButton';
 import CustomButton from './CustomButton';
 import CopyButton from './CopyButton';
+import EditListButton from './EditListButton';
 
 
 function ShoppingListControlls() {
@@ -41,6 +42,8 @@ function ShoppingListControlls() {
         <DeleteListButton listId={GlobalState.curr_list._id} confirmDelete={confirmDelete} setConfirmDelete={setConfirmDelete}/>
 
         <CopyButton items={ItemState.ItemsArray}/>
+
+        <EditListButton list={GlobalState.curr_list} />
 
         
         

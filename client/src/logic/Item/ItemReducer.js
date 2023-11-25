@@ -66,7 +66,7 @@ const  ItemReducer= (state,action)=>{
     }
 
     if(action.type === ItemActions.EDIT_ITEM){
-            if(action.payload!==''){
+            if(action.payload !== ''){
                 const newArray = state.ItemsArray.map((item)=>{
                     let ret_item = {};
                     if(item._id === action.payload._id)

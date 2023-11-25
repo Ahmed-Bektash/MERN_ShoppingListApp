@@ -144,7 +144,7 @@ export default function Login() {
                 You are already logged in...
             </Typography>
 
-            <Container sx={{display:"flex" , alignItems:"center", justifyContent:"center"}}>
+            <Container sx={{display:"flex" , alignItems:"center", justifyContent:"center", gap: 2, mt: 2}}>
 
               <Link 
                 to={"../"} 

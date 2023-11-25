@@ -5,6 +5,7 @@ import ShoppingListTable from './ShoppingListTable';
 import ShoppingListControlls from './ShoppingListControlls';
 import AddItemButton from './AddItemButton';
 import DeleteListButton from './DeleteListButton';
+import EditListButton from './EditListButton';
 
 //The following rows are for DEV testing only
 // function createData(id,name,amount,notAvailable,found) {
@@ -57,6 +58,8 @@ function ShoppingList (){
                     <Container sx={{mt:1,gap:1, display:"flex",justifyContent:"center", alignItems:"center"}}>
                         <AddItemButton />
                         <DeleteListButton listId={GlobalState.curr_list._id} confirmDelete={confirmDeleteList} setConfirmDelete={setConfirmDeleteList}/>
+                        <EditListButton list={GlobalState.curr_list} />
+
                     </Container>
                 </Container>
             </Box>

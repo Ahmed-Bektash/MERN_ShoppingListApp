@@ -144,13 +144,41 @@ lists.delete('/',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
  });
 
  //@route    PUT api/lists
-//@desc     update a list status
+//@desc     update a list details
 //@access   private
-lists.put('/:id',Authenticate,Authorize(USER_ROLES.NORMAL),(req,res)=>{
+lists.put('/:id',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
+  try {
+    if( req.body.action === 'EDIT_LIST')
+    {
+
+        const updated = await List.findOneAndUpdate(
+            {_id:req.params.id,},
+            {
+                name: req.body.list.name,
+                category: req.body.list.category,
+            },
+        {upsert:true,new:true});
+
+        const response = {
+            success: true,
+            message: updated,
+            error: null,
+        }
+        res.status(200).json(response);
+    }
+    else {
+        throw new Error("The request action is invalid");
+    }
+
+  } catch (error) {
+    const response = {
+        success: false,
+        message: `Could not edit list`,
+        error: error.message,
+    }
+    res.status(500).json(response);
+  }
   
-  //set state to latest
-  
-     //test using PostMan
  });
 
 export default lists;

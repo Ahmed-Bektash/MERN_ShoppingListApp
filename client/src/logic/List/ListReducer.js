@@ -26,6 +26,30 @@ const  ListReducer= (state,action)=>{
                 ListsArray:[],
                 loading:false
             }
+        case listActions.EDIT_LIST:
+            if(action.payload !== ''){
+
+                const newArray = state.ListsArray.map((list)=>{
+                    let ret_list = {};
+                    if(list._id === action.payload._id)
+                    {
+                        ret_list = {
+                            _id:action.payload._id,
+                            name:action.payload.name,
+                            category: action.payload.category,
+                            }
+                        
+                    }else{
+                        ret_list = list;
+                    }
+                    return ret_list;
+                });
+                
+                return {...state, ListsArray:newArray}
+            }else{
+           //     console.log("please enter an item");
+                return {...state}
+            }
     
         default:
             break;

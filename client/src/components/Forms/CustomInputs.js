@@ -29,17 +29,17 @@ export const CustomTextField = styled(TextField)({
   export const CustomSelectField = styled(Select)({
  
     '.MuiOutlinedInput-notchedOutline': {
-      borderColor: '#6F7E8C',
+      borderColor: '#6F7E8C', //mid gray
       
     },
     '&:hover .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#B2BAC2',
+      borderColor: '#B2BAC2', //light gray
     },
     
     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#6F7E8C',
+      borderColor: '#6F7E8C', //dark gray
     },
     '.MuiSelect-icon':{
-      color:'#0A9279'
+      color:'#0A9279' //teal
     }
   })
