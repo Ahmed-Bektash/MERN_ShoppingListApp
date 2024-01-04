@@ -6,7 +6,8 @@ import IconButton from '@mui/material/IconButton';
 import { Typography } from '@mui/material';
 import UserLists from './UserLists.js';
 import ListAddition from './ListAddition.js';
-
+import Divider from '@mui/material/Divider';
+import EditUserDetails from './EditUserDetails.js';
 
 export default function SideBar(props) {
   const theme = useTheme();
@@ -62,6 +63,13 @@ export default function SideBar(props) {
             </Typography>
             <ListAddition />
             <UserLists anchor={anchor} toggleDrawer={toggleDrawer} />
+            
+            {/** USER SECTION**/}
+            <Divider/>
+            <Typography variant="h5" padding='1rem' color={theme.palette.primary.light}>
+                User Details
+            </Typography>
+            <EditUserDetails/>
         </Drawer>
     </React.Fragment>
   );

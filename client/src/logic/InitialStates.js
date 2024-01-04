@@ -13,6 +13,7 @@ export const init_item = {
       ? localStorage.getItem('token')
       : null,
     username: null,
+    email: null,
     isLoading:false,
     lists:[]
  }

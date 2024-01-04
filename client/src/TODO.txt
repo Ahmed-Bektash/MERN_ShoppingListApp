@@ -34,13 +34,16 @@
     - Check the list edit reducer
     - fix the add list in side bar: category is dark text
 [OK] add category next to list name in navbar: category --> name
+[OK] Edit user feature
+    [OK] user reset password and change details (username)
 [] add a suggestions section in the front page and as a page for the user in their dashboard
 [] add main page cards when not logged in
 [] fix warnings in dev console
+[] combine user related components into a user folder, lists adn items as well.
 
 Next Task:
-[] delete/ edit user feature
-    [] user reset password and delete account
+[] Add forgot password to the login page
+[] User delete account feature
 [] When you refresh, the main page renders the link to the login page even though there is a token
 [] the back button does not work
 [] handle the useEffect has missing dependencies: warnings

@@ -5,6 +5,7 @@ import Signup from "../layout/Signup";
 import ErrorPage from "../layout/ErrorPage";
 import {createBrowserRouter } from "react-router-dom";
 import ShoppingList from '.././components/ShoppingList'
+import PasswordReset from "../layout/PasswordReset";
 
 export const router = createBrowserRouter([
     {
@@ -21,6 +22,13 @@ export const router = createBrowserRouter([
       errorElement: <ErrorPage />,
       title: "Login",
       needsAuth: false,
+    },
+    {
+      path: "/passwordreset/:resetToken",
+      element: <PasswordReset />,
+      errorElement: <ErrorPage />,
+      title: "Reset Password",
+      needsAuth: true,
     },
     {
       path: "/user",

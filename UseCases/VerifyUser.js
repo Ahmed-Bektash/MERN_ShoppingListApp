@@ -16,8 +16,7 @@ export async function DB_verifyUser(user,verifyby){
     try{
         switch (verifyby) {
             case VERIFY_BY.EMAIL:
-                existingUser = await User.findOne({email:user.email});
-                
+                existingUser = await User.findOne({email:user.email});                
                 break;
             case VERIFY_BY.PASSWORD:
                 existingUser = await User.findOne({email:user.email});

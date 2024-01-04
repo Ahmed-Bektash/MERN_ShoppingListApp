@@ -13,6 +13,7 @@ const  UserReducer= (state,action)=>{
             isAuth:true,
             token:action.payload.token,
             username: action.payload.username,
+            email: action.payload.email,
             lists:action.payload.lists,
             loading:false  
             }
@@ -29,6 +30,14 @@ const  UserReducer= (state,action)=>{
         }
     }
 
+    if(action.type === UserActions.EDIT_USER){
+        return {
+            ...state,
+            username: action.payload.username,
+            // email: action.payload.email,
+            loading:false  
+            }
+    }
 
     return state;
 }

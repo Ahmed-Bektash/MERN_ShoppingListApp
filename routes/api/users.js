@@ -22,8 +22,6 @@ users.get('/',(req,res)=>{ //TODO: Add autherization
     .catch(err => console.log(err));
 });
 
-
-
 //@route    POST api/users
 //@desc     Create a user
 //@access   public
@@ -98,6 +96,7 @@ users.post('/login',async(req,res,next)=>{
           message: {
             id: LoggedInUser._id,
             name: LoggedInUser.name,
+            email: LoggedInUser.email,
             max_lists: LoggedInUser.max_lists,
             max_items_in_list: LoggedInUser.max_items_in_list,
             role: LoggedInUser.role,
@@ -123,69 +122,32 @@ users.post('/login',async(req,res,next)=>{
     res.status(400).json(response);
   }
 });
-
-users.post('/logout',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res,next)=>{
-    try {
-   
-      if(req.user)
-      {
+  
+users.post('/passwordreset',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res,next)=>{
+  try {
+      const userInfo={
+          email:req.body.email,
+          updateDate: new Date()
+        } 
+        const updateObj =  await Forgot_Password(userInfo);
         const response = {
           success: true,
-          message: "You have logged out but I hope you come back again...",
+          message: updateObj.message,
           error: null,
         }
-        res.status(200).json(response);
-      }
-      else
-      {
-        throw new Error("User does not exist. How can you log out when you did not register?")
-      }
-        
-    } catch (error) {
-      const response = {
-              success: false,
-              message: "Failed to log out.",
-              error: error.message,
-            }
-      res.status(400).json(response); 
+  
+      res.status(200).json(response); 
+
+  } catch (error) {
+    const response = {
+      success: false,
+      message: `Could not update the password`,
+      error: error.message,
     }
+    res.status(500).json(response);
+  }
 });
-   
-   users.post('/forgotpassword',Authenticate,async(req,res,next)=>{
-    try {
-        const userInfo={
-            email:req.body.email,
-            type: req.body.type,
-            updateDate: new Date()
-          } 
-
-          let ForgetPasswordResponse=  await Forgot_Password(userInfo);
-            res.body=ForgetPasswordResponse
-            
-            return res;
-
-   } catch (error) {
-    //  next(new ErrorResponse(error.message,error.type));
-   }
-   });
-   
-   users.put('/passwordreset/:resetToken',Authenticate,async(req,res,next)=>{
-     try {
-       const userInfo={
-        email:req.body.email,
-        password:req.body.password,
-        resetPasswordToken:req.params.resetToken,
-      }
-
-      let passwordResetResponse=  await Reset_Password(userInfo);
-      res.body=passwordResetResponse
-      
-      return response;      
-
-   } catch (error) {
-    //  next(new ErrorResponse(error.message,error.type));
-   }
-   }); 
+ 
    
    users.delete('/',Authenticate,Authorize(USER_ROLES.UNDEFINED,Page_Type.PRIVATE),async(req,res,next)=>{
    
@@ -215,22 +177,111 @@ users.post('/logout',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res,nex
    });
    
    //test diffferent roles
-   users.get('/me',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
+//@route    GET api/users
+//@desc     Authenticate current user by jwt
+//@access   private
+  users.get('/me',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
+    const response = {
+      success: true,
+      message: {
+        id: req.user.id,
+        name: req.user.name,
+        email: req.user.email,
+        max_lists: req.user.max_lists,
+        max_items_in_list: req.user.max_items_in_list,
+        role: req.user.role,
+        lists: req.user.Lists,
+      },
+      error: null,
+    }
+    res.status(201).json(response);
+  });
+
+//@route    GET api/users
+//@desc     Change user name or email
+//@access   private
+  users.put('/details',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res)=>{
+    try {
+      let resMessage = "";
+
+      switch (req.body.type) {
+        case "details":
+           const updated = await User.findOneAndUpdate(
+            {_id:req.user.id,},
+            {
+                name: req.body.user.username,
+                // email: req.body.user.email,
+            },
+            {upsert:true,new:true});
+            if(!updated)
+            {
+              throw new Error("This user was not found");
+            }else{
+              resMessage = "User details updated successfully"
+            }
+          break;
+
+        case "password":
+
+          const userInfo={
+            id: req.body.id,
+            password:req.body.password
+          }
+          const resetResponse =  await Reset_Password(userInfo);
+          resMessage = resetResponse.message;
+          break;
+      
+        default:
+          break;
+      }
+      
       const response = {
         success: true,
-        message: {
-          id: req.user.id,
-          name: req.user.name,
-          max_lists: req.user.max_lists,
-          max_items_in_list: req.user.max_items_in_list,
-          role: req.user.role,
-          lists: req.user.Lists,
-        },
+        message: resMessage,
         error: null,
       }
-      res.status(201).json(response);
-   });
 
+    res.status(200).json(response);
+
+    } catch (error) {
+      const response = {
+          success: false,
+          message: `Could not edit user details`,
+          error: error.message,
+      }
+      res.status(500).json(response);
+    }
+  }); 
+
+
+//@route    GET api/users
+//@desc     Authenticate current user by a token
+//@access   public
+users.get('/verify/:token',async(req,res)=>{
+  
+  try {
+    const user =  {reset_password_token:req.params.token}
+    const verifiedUser = await DB_verifyUser(user,VERIFY_BY.TOKEN);
+    if(!verifiedUser)
+    {
+      throw new Error("token was not verifiable")
+    }
+    const response = {
+      success: true,
+      message: verifiedUser._id,
+      error: null,
+    }
+    res.status(201).json(response);
+  } catch (error) {
+      const response = {
+        success: false,
+        message: `Could not verify token`,
+        error: error.message,
+    }
+    res.status(500).json(response);
+  }
+  
+});
 
    //Generating a token:
   const generateToken = (id) =>{

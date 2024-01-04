@@ -5,7 +5,7 @@ import nodemailer from "nodemailer";
     service: process.env.EMAIL_SERVICE,
     auth: {
       user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
+      pass: process.env.GMAIL_APP_PASSWORD,
     },
   });
 
@@ -18,7 +18,7 @@ import nodemailer from "nodemailer";
 
   transporter.sendMail(mailOptions, function (err, info) {
     if (err) {
-    //   throw new ErrorResponse(`Email could not be sent because ${err.message}`,ErrorTypes.INTERNAL_SERVER_ERROR);
+      throw new Error(`could not send this email to: ${options.EmailTo} with subject: ${options.subject}`)
     } else {
       const returnObject={
         success: true,

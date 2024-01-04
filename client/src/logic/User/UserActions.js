@@ -5,4 +5,5 @@ export const UserActions = {
     DELETE_USER: "DELETE_USER",
     LOADING:"LOADING",
     CLEAR_USER: "CLEAR_USER",
+    EDIT_USER:"EDIT_USER"
 }

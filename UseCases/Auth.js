@@ -33,6 +33,17 @@ export async function Authenticate(req,res,next){
       res.json(response); 
     }
   }
+  else
+  {
+    res.status(401);
+    const response = {
+      success: false,
+      message: "No authentication header provided. This is a private path.",
+      error: `error in path: ${req.path}`,
+      };
+    res.json(response); 
+  }
+
   if (req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer') &&
     !token) {
