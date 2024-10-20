@@ -3,7 +3,6 @@ import { useTheme } from '@mui/material/styles';
 import { Link } from "react-router-dom";
 import { BUTTON_SHAPE, LOCAL_STORAGE_KEYS, PAGE_REF } from '../config.js';
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
 import { UserActions } from '../logic/User/UserActions.js';
 import { listActions } from '../logic/List/ListActions.js';
 import {Context} from '../logic/DataProvider.js'
@@ -29,7 +28,7 @@ function Logout(props) {
 
       UserDispatch({type:UserActions.CLEAR_USER});
       ListDispatch({type:listActions.CLEAR_LIST});
-      NotifyUser(NOTIFICATION_TYPE.SUCCESS,`${UserState.username} has signed out!`);
+      NotifyUser(NOTIFICATION_TYPE.SUCCESS,`See you soon ${UserState.username}!`);
       navigate(`/`,{state:{from:PAGE_REF.DASHBOARD}});
     }
   }

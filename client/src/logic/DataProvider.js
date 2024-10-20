@@ -28,8 +28,7 @@ export const fetchUserData = async(GlobalDispatch,ListDispatch,ItemDispatch,User
       const userLists = await fetchLists(ListDispatch,token);
       const saved_list = localStorage.getItem(LOCAL_STORAGE_KEYS.CURR_LIST);
       const list_exists_for_user = userLists.find((list)=>list._id === saved_list);
-      const display_list = list_exists_for_user?list_exists_for_user: user.lists[0];
-      
+      const display_list = list_exists_for_user?list_exists_for_user: userLists.find((list)=>list._id === user.lists[0]);
       if(display_list)
       {
         GlobalDispatch({type:GlobalStateActions.UPDATE_CURR_LIST,payload:display_list});

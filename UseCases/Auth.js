@@ -15,7 +15,7 @@ export async function Authenticate(req,res,next){
       token = req.headers.authorization.split(' ')[1]; //we want the token
 
       // Verify token
-      // console.log("about to verify")
+      // console.log("about to verify",token)
       const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET);
       // Get user from the token
       req.user = await DB_verifyUser(decoded,VERIFY_BY.ID);

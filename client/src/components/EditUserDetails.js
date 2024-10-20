@@ -40,9 +40,9 @@ function UserEditForm({userName,toggleModal}){
            }
            else if(newUser.name){ 
              EditUser(UserDispatch,newUser);
-             toggleModal();
-            //  actions.resetForm();
-           }
+             //  actions.resetForm();
+            }
+            toggleModal();
           
         }}
       >

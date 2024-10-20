@@ -49,7 +49,7 @@ export const RegisterUser = async(UserDispatch,name,email,role,password)=>{
 
 
 export const LoginUser = async(UserDispatch,email,password)=>{
-    
+    let userPayload = null;
     try {
         localStorage.removeItem("token")
         const res = await axios.post('/api/users/login',
@@ -60,7 +60,7 @@ export const LoginUser = async(UserDispatch,email,password)=>{
         
         if (res.data.message.token) {
             localStorage.setItem("token", res.data.message.token);
-            const userPayload = {
+            userPayload = {
                 username: res.data.message.name,
                 email:res.data.message.email,
                 token: res.data.message.token,
@@ -71,7 +71,7 @@ export const LoginUser = async(UserDispatch,email,password)=>{
             NotifyUser(NOTIFICATION_TYPE.ERR,res.data.error);
         }
      
-       return true;
+       return userPayload;
  
     } catch (error) {
      if (error.response) { // status code out of the range of 2xx
@@ -88,7 +88,7 @@ export const LoginUser = async(UserDispatch,email,password)=>{
     NotifyUser(NOTIFICATION_TYPE.ERR,error.response.data.error);    
     }
  
-   return false;
+   return null;
  }
 
 
@@ -190,7 +190,7 @@ export const LoginUser = async(UserDispatch,email,password)=>{
             },
         type: type
     }
-switch (type) {
+    switch (type) {
         case "verify":
             axios.post(`/api/users/passwordreset`,{'email':req_body.user.email},headersConfig).then(res =>{
                 NotifyUser(NOTIFICATION_TYPE.SUCCESS,"Please check your email");

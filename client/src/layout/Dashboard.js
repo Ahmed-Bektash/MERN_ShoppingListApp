@@ -9,7 +9,6 @@ import { NOTIFICATION_TYPE, NotifyUser } from '../logic/Notification';
 
 function Dashboard() {
   const {GlobalState,UserState,ItemDispatch} = useContext(Context);
-
   const navigate = useNavigate();
   const location = useLocation();
   const getItems =  useCallback(
@@ -38,7 +37,7 @@ function Dashboard() {
   useEffect(() => {
       if((location.state.from === PAGE_REF.LOGIN) || (location.state.from === PAGE_REF.SIGNUP))
       {
-        NotifyUser(NOTIFICATION_TYPE.SUCCESS,`Welcome back ${UserState.username}!`)
+        NotifyUser(NOTIFICATION_TYPE.SUCCESS,`Welcome back ${UserState.username}!`);
       }
 
   },[location.state,UserState.username])
