@@ -123,7 +123,7 @@ users.post('/login',async(req,res,next)=>{
   }
 });
   
-users.post('/passwordreset',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,res,next)=>{
+users.post('/passwordreset',async(req,res,next)=>{
   try {
       const userInfo={
           email:req.body.email,
@@ -252,6 +252,37 @@ users.post('/passwordreset',Authenticate,Authorize(USER_ROLES.NORMAL),async(req,
       res.status(500).json(response);
     }
   }); 
+
+  //@route    GET api/users
+//@desc     Change user name or email
+//@access   public
+users.put('/forgot_password',async(req,res)=>{
+  try {
+    let resMessage = "";
+    const userInfo={
+      id: req.body.user.id,
+      password:req.body.user.password
+    }
+    const resetResponse =  await Reset_Password(userInfo);
+    resMessage = resetResponse.message;
+    
+    const response = {
+      success: true,
+      message: resMessage,
+      error: null,
+    }
+
+  res.status(200).json(response);
+
+  } catch (error) {
+    const response = {
+        success: false,
+        message: `Could not change user password`,
+        error: error.message,
+    }
+    res.status(500).json(response);
+  }
+}); 
 
 
 //@route    GET api/users

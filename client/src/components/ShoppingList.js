@@ -53,7 +53,7 @@ function ShoppingList (){
         return (
             <Box>
                 <Container sx={{mt:4, display:"flex", flexDirection:"column",justifyContent:"center", alignItems:"center"}}>
-                    <Typography variant='h2'>The cart is empty</Typography>
+                    <Typography variant='h2'>The list is empty</Typography>
                     
                     <Container sx={{mt:1,gap:1, display:"flex",justifyContent:"center", alignItems:"center"}}>
                         <AddItemButton />

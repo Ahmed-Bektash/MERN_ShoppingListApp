@@ -52,10 +52,6 @@ function UserEditForm({userName,toggleModal}){
              <TextFieldWrapper label="Name" value="" name={'name'} autoFocus={true}/>
             </Grid>
 
-            {/* <Grid item xs={12} sx={{mb: 2 }}>
-             <TextFieldWrapper label="Email" value="" name={'email'} autoFocus={true}/>
-            </Grid> */}
-
             <Grid item xs={12} sx={{mb: 2}}> 
                 <CustomButton 
                     variant='contained' 

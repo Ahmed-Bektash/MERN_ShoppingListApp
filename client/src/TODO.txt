@@ -36,17 +36,18 @@
 [OK] add category next to list name in navbar: category --> name
 [OK] Edit user feature
     [OK] user reset password and change details (username)
+[OK] fix the errors in the client console on login page
+[OK] Add forgot password to the login page
 [] add a suggestions section in the front page and as a page for the user in their dashboard
 [] add main page cards when not logged in
 [] fix warnings in dev console
 [] combine user related components into a user folder, lists adn items as well.
 
 Next Task:
-[] Add forgot password to the login page
-[] User delete account feature
 [] When you refresh, the main page renders the link to the login page even though there is a token
 [] the back button does not work
 [] handle the useEffect has missing dependencies: warnings
+[] User delete account feature
 
 
 Optional Enhancements:
